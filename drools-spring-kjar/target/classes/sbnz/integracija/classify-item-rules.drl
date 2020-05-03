@@ -1,0 +1,180 @@
+package sbnz.integracija;
+
+
+import com.sbnz.career.adviser.model.*;
+
+
+rule "Traits result"
+	agenda-group "traitsTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target)
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {increment($target);}
+       System.out.println("Univerasl increment called");
+end
+
+rule "Creating mind trait-extraverted"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($extraverted: extraverted, $introverted: introverted, $extraverted >= $introverted)
+	then
+		Trait trait = new Trait("mind", "extroverted");
+		insert(trait);
+		System.out.println("Extroverted inserted");
+	
+end
+
+rule "Creating mind trait-introverted"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($extraverted: extraverted, $introverted: introverted, $extraverted < $introverted)
+	then
+		Trait trait = new Trait("mind", "introverted");
+		insert(trait);
+		System.out.println("Introverted inserted");
+	
+end
+
+rule "Creating mind identity-assertive"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($assertive: assertive, $turbulent: turbulent, $assertive >= $turbulent)
+	then
+		Trait trait = new Trait("identity", "assertive");
+		insert(trait);
+		System.out.println("Assertive inserted");
+end
+
+rule "Creating mind identity-turbulent"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($assertive: assertive, $turbulent: turbulent, $assertive < $turbulent)
+	then
+		Trait trait = new Trait("identity", "turbulent");
+		insert(trait);
+		System.out.println("Turbulent inserted");
+end
+
+rule "Creating mind nature-thinking"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($thinking: thinking, $feeling: feeling, $thinking >= $feeling)
+	then
+		Trait trait = new Trait("nature", "thinking");
+		insert(trait);
+		System.out.println("Thinking inserted");
+end
+
+rule "Creating mind nature-feeling"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($thinking: thinking, $feeling: feeling, $thinking < $feeling)
+	then
+		Trait trait = new Trait("nature", "feeling");
+		insert(trait);
+		System.out.println("Feeling inserted");
+end
+
+rule "Creating mind energy-realist"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($realist: realist, $visionary: visionary, $realist >= $visionary)
+	then
+		Trait trait = new Trait("energy", "realist");
+		insert(trait);
+		System.out.println("Realist inserted");
+end
+
+rule "Creating mind energy-visionary"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($realist: realist, $visionary: visionary, $realist < $visionary)
+	then
+		Trait trait = new Trait("energy", "visionary");
+		insert(trait);
+		System.out.println("Visionary inserted");
+end
+
+
+rule "Creating mind tactics-judging"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($judging: judging, $prospecting: prospecting, $judging >= $prospecting)
+	then
+		Trait trait = new Trait("tactics", "judging");
+		insert(trait);
+		System.out.println("Judging inserted");
+		
+		
+end
+
+rule "Creating mind tactics-prospecting"
+	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	when
+		$traitsResult : TraitsResult($judging: judging, $prospecting: prospecting, $judging < $prospecting)
+		
+	then
+		Trait trait = new Trait("tactics", "prospecting");
+		insert(trait);
+		System.out.println("Prospecting inserted");
+		System.out.println($judging);
+		System.out.println($prospecting);
+end
+
+/*
+rule "Creating personality"
+ 	agenda-group "traitsTest"
+	salience -100
+	no-loop
+	lock-on-active
+    when
+        $traitsResult : TraitsResult()
+    then
+       Personality personality = new Personality($traitsResult);
+       insert(personality);
+       System.out.println("Personality insertedddd");
+end
+
+rule "Printing personality"
+	agenda-group "traitsTest"
+	salience -200
+    when
+       $personality : Personality()
+    then
+       System.out.println($personality.mind);
+       System.out.println($personality.identity);
+       System.out.println($personality.nature);
+       System.out.println($personality.energy);
+       System.out.println($personality.tactics);
+       
+end
+
+*/
+
+
+
+
+
