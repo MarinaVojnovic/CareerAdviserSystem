@@ -23,7 +23,7 @@ rule "Creating mind trait-extraverted"
 	when
 		$traitsResult : TraitsResult($extraverted: extraverted, $introverted: introverted, $extraverted >= $introverted)
 	then
-		Trait trait = new Trait("mind", "extroverted");
+		Trait trait = new Trait("mind", "extraverted");
 		insert(trait);
 		System.out.println("Extroverted inserted");
 	
@@ -143,6 +143,16 @@ rule "Creating mind tactics-prospecting"
 		System.out.println($judging);
 		System.out.println($prospecting);
 end
+
+rule "Grouping traits"
+	agenda-group "traitsTest"
+	salience -200
+	when $list: List() from collect(Trait())
+	then
+		insert($list);
+		System.out.println("Number of traits found: " + $list.size());
+end
+		
 
 /*
 rule "Creating personality"

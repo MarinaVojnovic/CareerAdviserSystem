@@ -1,7 +1,9 @@
 package com.sbnz.career.adviser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -52,18 +54,41 @@ public class Application {
 	}
 	
 	public static void insertingProfessions(KieSession kieSession) {
-	/*
-		Personality per1 = new Personality(MindEnum.EXTRAVERTED, IdentityEnum.ASSERTIVE, NatureEnum.FEELING, EnergyEnum.REALIST, TacticsEnum.JUDGING);
-		Profession prof1 = new Profession(1L, "Administration", null, per1, ProfessionalField.ECNONOMY, "Rad sa papirima", true);
+	
 		
-		Personality per2 = new Personality(MindEnum.INTROVERTED, IdentityEnum.TURBULENT, NatureEnum.FEELING, EnergyEnum.VISIONARY, TacticsEnum.PROSPECTING);
-		Profession prof2 = new Profession(2L, "Programming", null, per2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
 		
-		Personality per3 = new Personality(MindEnum.INTROVERTED, IdentityEnum.TURBULENT, NatureEnum.THINKING, EnergyEnum.VISIONARY, TacticsEnum.PROSPECTING);
-		Profession prof3 = new Profession(3L, "Acting", null, per3, ProfessionalField.ENGINEERING, "Gluma", true);
+		Set<Trait> traits1 = new HashSet<Trait>();
+		traits1.add(new Trait("mind", "extraverted"));
+		traits1.add(new Trait("identity", "assertive"));
+		traits1.add(new Trait("nature", "feeling"));
+		traits1.add(new Trait("energy", "realist"));
+		traits1.add(new Trait("tactics", "judging"));
+		Profession prof1 = new Profession(1L, "Administration", null, traits1, ProfessionalField.ECNONOMY, "Rad sa papirima", true);
 		
-		Personality per4 = new Personality(MindEnum.INTROVERTED, IdentityEnum.TURBULENT, NatureEnum.FEELING, EnergyEnum.REALIST, TacticsEnum.PROSPECTING);
-		Profession prof4 = new Profession(4L, "Programming", null, per4, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
+		
+		Set<Trait> traits2 = new HashSet<Trait>();
+		traits2.add(new Trait("mind", "introverted"));
+		traits2.add(new Trait("identity", "turbulent"));
+		traits2.add(new Trait("nature", "feeling"));
+		traits2.add(new Trait("energy", "visionary"));
+		traits2.add(new Trait("tactics", "prospecting"));
+		Profession prof2 = new Profession(2L, "Programming", null, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
+		
+		Set<Trait> traits3 = new HashSet<Trait>();
+		traits3.add(new Trait("mind", "introverted"));
+		traits3.add(new Trait("identity", "turbulent"));
+		traits3.add(new Trait("nature", "thinking"));
+		traits3.add(new Trait("energy", "visionary"));
+		traits3.add(new Trait("tactics", "prospecting"));
+		Profession prof3 = new Profession(3L, "Acting", null, traits3, ProfessionalField.ENGINEERING, "Gluma", true);
+				
+		Set<Trait> traits4 = new HashSet<Trait>();
+		traits4.add(new Trait("mind", "introverted"));
+		traits4.add(new Trait("identity", "turbulent"));
+		traits4.add(new Trait("nature", "feeling"));
+		traits4.add(new Trait("energy", "realist"));
+		traits4.add(new Trait("tactics", "prospecting"));
+		Profession prof4 = new Profession(4L, "Programming", null, traits4, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
 		
 		kieSession.insert(prof1);
 		kieSession.insert(prof2);
@@ -72,7 +97,7 @@ public class Application {
 		
 		kieSession.getAgenda().getAgendaGroup("professionsTest").setFocus();
 		kieSession.fireAllRules();
-		*/
+		
 		
 	}
 	public static void personalityTest() {
@@ -173,7 +198,7 @@ public class Application {
 		System.out.println("Prospecting"+traitsResult.getProspecting());
 		//kieSession.dispose();
 		
-		//insertingProfessions(kieSession);
+		insertingProfessions(kieSession);
 	}
 	
 

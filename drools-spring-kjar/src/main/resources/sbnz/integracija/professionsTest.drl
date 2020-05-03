@@ -1,5 +1,6 @@
 package sbnz.integracija;
 import java.util.List;
+import java.util.Set;
 import com.sbnz.career.adviser.model.*;
 
 
@@ -15,50 +16,49 @@ query "Bolesti koje sadrze simptome" (List $symptoms)
 end
 */
 
-/*
-query checkIfPossibleProfession (List $traitsValues, List $professionTraits)
-	//$d: Disease( $ds : symptoms )
+
+query checkIfPossibleProfession (List $traitsTarget, Set $professionTraits)
 	$num: Number(intValue >= 3) 
 				from accumulate( 
-					$t : Trait( $value: getValue(), $value memberOf $traitsValues)
+					$t : Trait( $target: getTarget(), $target memberOf $traitsTarget)
 					from $professionTraits;
 					count($t)
 				)
 end
 
-*/
 
 
-/*
+
+
 
 rule "Profession exist test"
 	agenda-group "professionsTest"
 	no-loop
 	lock-on-active
     when
-		$personality : Personality($persTraits: getAllTraits(), $mindValue: getMindTrait().getValue())
-		$profession : Profession (
+		$traitsList : List()
+	
+		$profession : Profession($name : name, $profTraits : traits)
+		//$profession : Profession (
 			//approved($personality) == true
-			$professionTraits: personality.getAllTraits()
-		);
+			//$professionTraits: personality.getAllTraits()
+		//);
 		
-		
-		
-		$theList: List() from accumulate (
-			$trait: Trait() from $persTraits,
-			collectList($trait)
+		$traitsTarget: List() from accumulate (
+			$trait: Trait($target : target) from $traitsList,
+			collectList($target)
 		)
 		
-		//checkIfPossibleProfession($traitsValues, $professionTraits;); 
+		checkIfPossibleProfession($traitsTarget, $profTraits;); 
          
             
     then
-      System.out.println("Profession approved");
-      System.out.println($persTraits);
-      System.out.println($professionTraits);
-      System.out.println($mindValue);
+      System.out.println("Profession approved "+$name);
+      System.out.println($traitsList);
+      System.out.println($traitsTarget);
+      System.out.println($profTraits);
       //System.out.println($traits);
-      System.out.println($theList);
+      //System.out.println($theList);
       //PossibleProfession possible = new PossibleProfession($profession);
       //insert(possible);
 end

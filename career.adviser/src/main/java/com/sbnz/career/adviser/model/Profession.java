@@ -5,11 +5,11 @@ import java.util.Set;
 import com.sbnz.career.enums.ProfessionalField;
 
 public class Profession {
-/*
+
 	Long id;
 	String name;
 	Set<Activity> activities;
-	Personality personality;
+	Set<Trait> traits;
 	ProfessionalField field;
 	String description;
 	Boolean isActive;
@@ -18,13 +18,13 @@ public class Profession {
 		
 	}
 	
-	public Profession(Long id, String name, Set<Activity> activities, Personality personality, ProfessionalField field,
+	public Profession(Long id, String name, Set<Activity> activities, Set<Trait> traits, ProfessionalField field,
 			String description, Boolean isActive) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.activities = activities;
-		this.personality = personality;
+		this.traits = traits;
 		this.field = field;
 		this.description = description;
 		this.isActive = isActive;
@@ -54,12 +54,12 @@ public class Profession {
 		this.activities = activities;
 	}
 
-	public Personality getPersonality() {
-		return personality;
+	public Set<Trait> getTraits() {
+		return traits;
 	}
 
-	public void setPersonality(Personality personality) {
-		this.personality = personality;
+	public void setTraits(Set<Trait> traits) {
+		this.traits = traits;
 	}
 
 	public ProfessionalField getField() {
@@ -86,34 +86,6 @@ public class Profession {
 		this.isActive = isActive;
 	}
 	
-	public boolean approved(Personality personality)
-	{
-		int counter = 0;
-		if (personality.mind.equals(this.personality.mind)) {
-			counter++;
-		}
-		
-		if (personality.identity.equals(this.personality.identity)) {
-			counter++;
-		}
-		
-		if (personality.nature.equals(this.personality.nature)) {
-			counter++;
-		}
-		
-		if (personality.energy.equals(this.personality.energy)) {
-			counter++;
-		}
-		
-		if (personality.tactics.equals(this.personality.tactics)) {
-			counter++;
-		}
-		if (counter >= 3) {
-			return true;
-		}else {
-			return false;
-		}
-		
-	}*/
+	
 	
 }
