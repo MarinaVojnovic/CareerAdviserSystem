@@ -3,64 +3,6 @@ package sbz.integracija
 import com.sbnz.career.adviser.model.*;
 import java.util.List;
 
-
-//list any import classes here.
-
-
-
-//declare any global variables here
-/*
-query checkIfPossibleProfession (Number $num, List $traitsTarget, Set $activities)
-	$num:= Number(intValue >= 1) 
-				from accumulate( 
-					$a : Activity( $target: getTarget(), $target memberOf $traitsTarget)
-					from $activities;
-					count($a)
-				)
-end
-*/
-/*
-rule "Your First Rule"
-
-	agenda-group "preferencesTest"
-    when
-        prefQuestResult : PreferenceQuestionResult(isChecked == true);
-    then
-       	System.out.println("Preference question result found"); 
-
-end
-*/
-/*
-  
-        $theProfession : Profession($name : name, $activities : activities)
-		$profNames: List() from accumulate (
-			$PreferenceQuestionResult: PreferenceQuestionResult($profName : target) from $questPos,
-			collectList($target)
-		)
-		checkIfPossibleProfession($num, $traitsTarget, $profTraits;);
-		
-		
-		$num:= Number(intValue >= 1) 
-			from accumulate( 
-				$a : Activity( this memberOf $allPosActivities)
-				from $activities;
-				count($a)
-			)
-			
-			
-			       $allProfessions : List( size > 0) from collect (Profession())
-       $allProfActivities: List() from accumulate (
-       		$activity : Activity() from accumulate(
-				
-				$profession: Profession($activities : activities) from $allProfessions,
-			collectList($activity)
-		)
-        
-		
-*/
-
-
-
 rule "Calculating number of matching activities"
 	agenda-group "preferencesTest"
 	salience 200
@@ -85,15 +27,17 @@ rule "Calculating number of matching activities"
 			)
 	
 	then
-		
 		modify($possibleProfession) {setNumPref((Long) $num);}
+end
+
+/*
 		System.out.println("Number of preferences matched set on possible profession: " + $num);
 		System.out.println("Professions activities size: " + $activities.size());
 		System.out.println("Previous score: " + $score);
 		System.out.println();
-
-end
-
+*/
+		
+		
 rule "If there are not possible profession, find and insert them"
 	agenda-group "preferencesTest"
 	no-loop
@@ -124,6 +68,25 @@ rule "If there are not possible profession, find and insert them"
  	  	 
 end
 
+//Maximum satisfied
+rule "Rule 0 - preferences test"
+	agenda-group "preferencesTest"
+	salience 100
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numPref
+			) from $l;
+			$max: max($k)
+		)
+		
+		$possibleProfession : PossibleProfession( numPref == $max, $name : profession.name ) from $l
+	then
+		 System.out.println("Rule 0 : 1.0 "+$name);
+		 $possibleProfession.increaseScore(1.5);
+end
 
 //Calculating score for professions where all personality traits are satisfied
 rule "Rule 1 - preferences test"
@@ -131,23 +94,20 @@ rule "Rule 1 - preferences test"
 	salience 100
 	no-loop
 	when
-		$possibleProfession : PossibleProfession(numPref == profession.activities.size(), $name : profession.name)
+		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
+			accumulate(
+				$p : PossibleProfession (
+					$k : numPref
+				) from $l;
+				$max: max($k)
+			)
+		$possibleProfession : PossibleProfession(numPref == profession.activities.size(),numPref != $max, $name : profession.name)
 	then
-		System.out.println("Rule 1 preferences test, everything satisfied "+$name);
+		System.out.println("Rule 1 preferences test, everything satisfied, score : 1.0 "+$name);
 		$possibleProfession.increaseScore(1.0);
-		//modify($possibleProfession) {increaseScore(1.0);}
 end
 
-/*
-accumulate(
-			$p : PossibleProfession (
-				$k : numPref
-			) from $l;
-			$max: max($k)
-		)
-		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref > $max, $name : profession.name)
-	
-*/
+
 
 //Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
 rule "Rule 2"
@@ -166,7 +126,6 @@ rule "Rule 2"
 	
 			
 	then
-		//System.out.println("Rule 2 in preferences test called.");
 		System.out.println("Rule 2 preferences test, not everything satisfied 1.25" + $name);
 		$possibleProfession.increaseScore(1.25);
 end
@@ -184,10 +143,30 @@ rule "Rule 3"
 			) from $l;
 			$min: min($k)
 		)
-		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref < $min, $name : profession.name, $numPref : numPref, $activities : profession.activities)
+		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref <= $min, $name : profession.name, $numPref : numPref, $activities : profession.activities)
 	
 	then
 		 System.out.println("Rule 3 preferences test " + $name);
 		 $possibleProfession.increaseScore((double) $numPref/$activities.size());
+end
+
+rule "Rule 4"
+	agenda-group "preferencesTest"
+	salience 100
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numPref
+			) from $l;
+			$min: min($k),
+			$max: max($k)
+		)
+		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref > $min, numPref <= $max, $name : profession.name)
+		
+	then
+		 System.out.println("Rule 4 : 1.0" + $name);
+		 $possibleProfession.increaseScore(1.0);
 end
 

@@ -68,9 +68,18 @@ public class Application {
 		traits1.add(new Trait("tactics", "prospecting"));
 		*/
 		
-		/*
+		
+		//PRAVILO 2
 		//ovde nije zadovoljeno sve ali je bolje od dva
 		Set<Trait> traits1 = new HashSet<Trait>();
+		/*
+		traits1.add(new Trait("mind", "extraverted"));
+		traits1.add(new Trait("identity", "assertive"));
+		traits1.add(new Trait("nature", "feeling"));
+		traits1.add(new Trait("energy", "visionary"));
+		traits1.add(new Trait("tactics", "judging"));
+		*/
+		//Ovde je sad zad 4/5 i to je nije sve ali je vece od max ->pravilo 2
 		traits1.add(new Trait("mind", "extraverted"));
 		traits1.add(new Trait("identity", "assertive"));
 		traits1.add(new Trait("nature", "feeling"));
@@ -101,27 +110,31 @@ public class Application {
 		PreferenceQuestionResult prefQuestResult2 = new PreferenceQuestionResult(2l, 1l, act2, true);
 		PreferenceQuestionResult prefQuestResult3 = new PreferenceQuestionResult(3l, 1l, act3, true);
 		PreferenceQuestionResult prefQuestResult4 = new PreferenceQuestionResult(4l, 1l, act4, true);
-		PreferenceQuestionResult prefQuestResult5 = new PreferenceQuestionResult(5l, 1l, act5, true);
+		PreferenceQuestionResult prefQuestResult5 = new PreferenceQuestionResult(5l, 1l, act5, false);
 		kieSession.insert(prefQuestResult1);
 		kieSession.insert(prefQuestResult2);
 		kieSession.insert(prefQuestResult3);
 		kieSession.insert(prefQuestResult4);
 		kieSession.insert(prefQuestResult5);
-		*/
 		
 		
+		//PRAVILO 0 ->3/3
 		Set<Trait> traits2 = new HashSet<Trait>();
-		//Ovde je zadovoljeno sve ali samo dva
+		//Ovde je zadovoljeno sve ali samo dva -> 1.0
 		//traits2.add(new Trait("mind", "introverted"));
 		//traits2.add(new Trait("identity", "turbulent"));
+		//max zadovoljenih
+		traits2.add(new Trait("mind", "extraverted"));
 		traits2.add(new Trait("nature", "feeling"));
 		traits2.add(new Trait("energy", "visionary"));
 		//traits2.add(new Trait("tactics", "prospecting"));
 		Activity act21 = new Activity(6l, "Learning on your own", true);
 		Activity act22 = new Activity(7l, "Having no life.", true);
+		Activity act222 = new Activity(100l, "Some activity.", true);
 		Set<Activity> activities2 = new HashSet<Activity>();
 		activities2.add(act21);
 		activities2.add(act22);
+		activities2.add(act222);
 		Profession prof2 = new Profession(2L, "Programming", activities2, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
 		Set<Profession> professions2 = new HashSet<Profession>();
 		professions2.add(prof2);
@@ -129,25 +142,32 @@ public class Application {
 		act22.setProfessions(professions2);
 		PreferenceQuestionResult prefQuestResult21 = new PreferenceQuestionResult(6l, 1l, act21, true);
 		PreferenceQuestionResult prefQuestResult22 = new PreferenceQuestionResult(7l, 1l, act22, true);
+		PreferenceQuestionResult prefQuestResult222 = new PreferenceQuestionResult(100l, 1l, act222, true);
 		kieSession.insert(prefQuestResult21);
 		kieSession.insert(prefQuestResult22);
+		kieSession.insert(prefQuestResult222);
 		
+		
+		//PRAVILO 1
+		//Ovde je zad jedan od pet -> 0.2
 		Set<Trait> traits3 = new HashSet<Trait>();
-		traits3.add(new Trait("mind", "introverted"));
-		traits3.add(new Trait("identity", "turbulent"));
-		traits3.add(new Trait("nature", "thinking"));
-		traits3.add(new Trait("energy", "visionary"));
+		traits3.add(new Trait("mind", "extraverted"));
+		//traits3.add(new Trait("identity", "assertive"));
+		//traits3.add(new Trait("nature", "thinking"));
+		//traits3.add(new Trait("energy", "visionary"));
 		//traits3.add(new Trait("tactics", "prospecting"));
-		traits3.add(new Trait("tactics", "judging"));//manje od max
+		//traits3.add(new Trait("tactics", "judging"));//manje od max
 		Activity act31 = new Activity(8l, "Enjoy drawing something for your own pleasure.", true);
 		Activity act32 = new Activity(9l, "Being able to clearly communicate own but as well understand ideas of others.", true);
 		Activity act33 = new Activity(10l, "Keeping track of world’s trends and modern design achievements..", true);
 		Activity act34 = new Activity(11l, "Eager for constant improvement.", true);
 		Set<Activity> activities3 = new HashSet<Activity>();
 		activities3.add(act31);
+		/*
 		activities3.add(act32);
 		activities3.add(act33);
 		activities3.add(act34);
+		*/
 		Profession prof3 = new Profession(3L, "Graficki dizajn", activities3, traits3, ProfessionalField.ENGINEERING, "Graficki dizajn", true);
 		Set<Profession> professions3 = new HashSet<Profession>();
 		professions3.add(prof3);
@@ -156,20 +176,35 @@ public class Application {
 		act33.setProfessions(professions3);
 		act34.setProfessions(professions3);
 		PreferenceQuestionResult prefQuestResult31 = new PreferenceQuestionResult(8l, 1l, act31, true);
+		/*
 		PreferenceQuestionResult prefQuestResult32 = new PreferenceQuestionResult(9l, 1l, act32, true);
 		PreferenceQuestionResult prefQuestResult33 = new PreferenceQuestionResult(10l, 1l, act33, true);
 		PreferenceQuestionResult prefQuestResult34 = new PreferenceQuestionResult(10l, 1l, act34, false);
+		*/
 		kieSession.insert(prefQuestResult31);
+		/*
 		kieSession.insert(prefQuestResult32);
 		kieSession.insert(prefQuestResult33);
 		kieSession.insert(prefQuestResult34);
+		*/
+		
+		/*
+		Set<Trait> traits1 = new HashSet<Trait>();
+		traits1.add(new Trait("mind", "extraverted"));
+		traits1.add(new Trait("identity", "assertive"));
+		traits1.add(new Trait("nature", "feeling"));
+		traits1.add(new Trait("energy", "visionary"));
+		traits1.add(new Trait("tactics", "prospecting"));
+		*/
 	
+		//Ovde je zad 1/2 -> pravilo 3
+		//PRAVILO 3
 		Set<Trait> traits4 = new HashSet<Trait>();
-		traits4.add(new Trait("mind", "introverted"));
+		traits4.add(new Trait("mind", "extraverted"));
 		traits4.add(new Trait("identity", "turbulent"));
-		traits4.add(new Trait("nature", "feeling"));
-		traits4.add(new Trait("energy", "realist"));
-		traits4.add(new Trait("tactics", "prospecting"));
+		traits4.add(new Trait("nature", "feeling"));//oki
+		//traits4.add(new Trait("energy", "realist"));
+		//traits4.add(new Trait("tactics", "prospecting"));//oki
 		Activity act41 = new Activity(12l, "Would enjoy profession that involves counselling others to solve their problems.", true);
 		Activity act42 = new Activity(13l, "Enjoy listening, observing and studying people.", true);
 		Activity act43 = new Activity(14l, "Would consider yourself as highly emotionally intellectual person.", true);
@@ -190,13 +225,14 @@ public class Application {
 		kieSession.insert(prefQuestResult42);
 		kieSession.insert(prefQuestResult43);
 	
-		//kieSession.insert(prof1);
+		kieSession.insert(prof1);
 		kieSession.insert(prof2);
 		kieSession.insert(prof3);
 		kieSession.insert(prof4);
 		
 		kieSession.getAgenda().getAgendaGroup("traitsTest").setFocus();
 		kieSession.fireAllRules();
+		
 		
 		Criteriums criteriums = new Criteriums(true, true, false, false);
 		kieSession.insert(criteriums);
