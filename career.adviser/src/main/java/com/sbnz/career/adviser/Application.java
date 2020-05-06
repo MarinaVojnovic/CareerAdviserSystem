@@ -16,6 +16,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.sbnz.career.adviser.model.Activity;
+import com.sbnz.career.adviser.model.Criteriums;
+import com.sbnz.career.adviser.model.PreferenceQuestionResult;
 //import com.sbnz.career.adviser.model.Personality;
 import com.sbnz.career.adviser.model.Profession;
 import com.sbnz.career.adviser.model.Trait;
@@ -56,46 +59,148 @@ public class Application {
 	public static void insertingProfessions(KieSession kieSession) {
 	
 		
-		
+		/*
 		Set<Trait> traits1 = new HashSet<Trait>();
 		traits1.add(new Trait("mind", "extraverted"));
 		traits1.add(new Trait("identity", "assertive"));
 		traits1.add(new Trait("nature", "feeling"));
-		traits1.add(new Trait("energy", "realist"));
+		traits1.add(new Trait("energy", "visionary"));
+		traits1.add(new Trait("tactics", "prospecting"));
+		*/
+		
+		/*
+		//ovde nije zadovoljeno sve ali je bolje od dva
+		Set<Trait> traits1 = new HashSet<Trait>();
+		traits1.add(new Trait("mind", "extraverted"));
+		traits1.add(new Trait("identity", "assertive"));
+		traits1.add(new Trait("nature", "feeling"));
+		traits1.add(new Trait("energy", "visionary"));
 		traits1.add(new Trait("tactics", "judging"));
-		Profession prof1 = new Profession(1L, "Administration", null, traits1, ProfessionalField.ECNONOMY, "Rad sa papirima", true);
+
+		Activity act1 = new Activity(1l, "Working on computer", true);
+		Activity act2 = new Activity(2l, "Keeping things in order.", true);
+		Activity act3 = new Activity(3l, "Comparing prices and buying where it is cheaper.", true);
+		Activity act4 = new Activity(4l, "Having order or system in my activities.", true);
+		Activity act5 = new Activity(5l, "Saving money and thinking carefully how to use it. ", true);
+		Set<Activity> activities1 = new HashSet<Activity>();
+		activities1.add(act1);
+		activities1.add(act2);
+		activities1.add(act3);
+		activities1.add(act4);
+		activities1.add(act5);
+		Profession prof1 = new Profession(1L, "Administration", activities1, traits1, ProfessionalField.ECNONOMY, "Rad sa papirima", true);
+		Set<Profession> professions1 = new HashSet<Profession>();
+		professions1.add(prof1);
+		act1.setProfessions(professions1);
+		act2.setProfessions(professions1);
+		act3.setProfessions(professions1);
+		act4.setProfessions(professions1);
+		act5.setProfessions(professions1);
+		//PreferenceQuestionResult(Long id, Long userId, Activity activity, Boolean isChecked)
+		PreferenceQuestionResult prefQuestResult1 = new PreferenceQuestionResult(1l, 1l, act1, true);
+		PreferenceQuestionResult prefQuestResult2 = new PreferenceQuestionResult(2l, 1l, act2, true);
+		PreferenceQuestionResult prefQuestResult3 = new PreferenceQuestionResult(3l, 1l, act3, true);
+		PreferenceQuestionResult prefQuestResult4 = new PreferenceQuestionResult(4l, 1l, act4, true);
+		PreferenceQuestionResult prefQuestResult5 = new PreferenceQuestionResult(5l, 1l, act5, true);
+		kieSession.insert(prefQuestResult1);
+		kieSession.insert(prefQuestResult2);
+		kieSession.insert(prefQuestResult3);
+		kieSession.insert(prefQuestResult4);
+		kieSession.insert(prefQuestResult5);
+		*/
 		
 		
 		Set<Trait> traits2 = new HashSet<Trait>();
-		traits2.add(new Trait("mind", "introverted"));
-		traits2.add(new Trait("identity", "turbulent"));
+		//Ovde je zadovoljeno sve ali samo dva
+		//traits2.add(new Trait("mind", "introverted"));
+		//traits2.add(new Trait("identity", "turbulent"));
 		traits2.add(new Trait("nature", "feeling"));
 		traits2.add(new Trait("energy", "visionary"));
-		traits2.add(new Trait("tactics", "prospecting"));
-		Profession prof2 = new Profession(2L, "Programming", null, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
+		//traits2.add(new Trait("tactics", "prospecting"));
+		Activity act21 = new Activity(6l, "Learning on your own", true);
+		Activity act22 = new Activity(7l, "Having no life.", true);
+		Set<Activity> activities2 = new HashSet<Activity>();
+		activities2.add(act21);
+		activities2.add(act22);
+		Profession prof2 = new Profession(2L, "Programming", activities2, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
+		Set<Profession> professions2 = new HashSet<Profession>();
+		professions2.add(prof2);
+		act21.setProfessions(professions2);
+		act22.setProfessions(professions2);
+		PreferenceQuestionResult prefQuestResult21 = new PreferenceQuestionResult(6l, 1l, act21, true);
+		PreferenceQuestionResult prefQuestResult22 = new PreferenceQuestionResult(7l, 1l, act22, true);
+		kieSession.insert(prefQuestResult21);
+		kieSession.insert(prefQuestResult22);
 		
 		Set<Trait> traits3 = new HashSet<Trait>();
 		traits3.add(new Trait("mind", "introverted"));
 		traits3.add(new Trait("identity", "turbulent"));
 		traits3.add(new Trait("nature", "thinking"));
 		traits3.add(new Trait("energy", "visionary"));
-		traits3.add(new Trait("tactics", "prospecting"));
-		Profession prof3 = new Profession(3L, "Acting", null, traits3, ProfessionalField.ENGINEERING, "Gluma", true);
-				
+		//traits3.add(new Trait("tactics", "prospecting"));
+		traits3.add(new Trait("tactics", "judging"));//manje od max
+		Activity act31 = new Activity(8l, "Enjoy drawing something for your own pleasure.", true);
+		Activity act32 = new Activity(9l, "Being able to clearly communicate own but as well understand ideas of others.", true);
+		Activity act33 = new Activity(10l, "Keeping track of world’s trends and modern design achievements..", true);
+		Activity act34 = new Activity(11l, "Eager for constant improvement.", true);
+		Set<Activity> activities3 = new HashSet<Activity>();
+		activities3.add(act31);
+		activities3.add(act32);
+		activities3.add(act33);
+		activities3.add(act34);
+		Profession prof3 = new Profession(3L, "Graficki dizajn", activities3, traits3, ProfessionalField.ENGINEERING, "Graficki dizajn", true);
+		Set<Profession> professions3 = new HashSet<Profession>();
+		professions3.add(prof3);
+		act31.setProfessions(professions3);
+		act32.setProfessions(professions3);
+		act33.setProfessions(professions3);
+		act34.setProfessions(professions3);
+		PreferenceQuestionResult prefQuestResult31 = new PreferenceQuestionResult(8l, 1l, act31, true);
+		PreferenceQuestionResult prefQuestResult32 = new PreferenceQuestionResult(9l, 1l, act32, true);
+		PreferenceQuestionResult prefQuestResult33 = new PreferenceQuestionResult(10l, 1l, act33, true);
+		PreferenceQuestionResult prefQuestResult34 = new PreferenceQuestionResult(10l, 1l, act34, false);
+		kieSession.insert(prefQuestResult31);
+		kieSession.insert(prefQuestResult32);
+		kieSession.insert(prefQuestResult33);
+		kieSession.insert(prefQuestResult34);
+	
 		Set<Trait> traits4 = new HashSet<Trait>();
 		traits4.add(new Trait("mind", "introverted"));
 		traits4.add(new Trait("identity", "turbulent"));
 		traits4.add(new Trait("nature", "feeling"));
 		traits4.add(new Trait("energy", "realist"));
 		traits4.add(new Trait("tactics", "prospecting"));
-		Profession prof4 = new Profession(4L, "Programming", null, traits4, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
-		
-		kieSession.insert(prof1);
+		Activity act41 = new Activity(12l, "Would enjoy profession that involves counselling others to solve their problems.", true);
+		Activity act42 = new Activity(13l, "Enjoy listening, observing and studying people.", true);
+		Activity act43 = new Activity(14l, "Would consider yourself as highly emotionally intellectual person.", true);
+		Set<Activity> activities4 = new HashSet<Activity>();
+		activities4.add(act41);
+		activities4.add(act42);
+		activities4.add(act43);
+		Profession prof4 = new Profession(4L, "Pshycology", activities4, traits4, ProfessionalField.ENGINEERING, "Psychology", true);
+		Set<Profession> professions4 = new HashSet<Profession>();
+		professions4.add(prof4);
+		act41.setProfessions(professions4);
+		act42.setProfessions(professions4);
+		act43.setProfessions(professions4);
+		PreferenceQuestionResult prefQuestResult41 = new PreferenceQuestionResult(8l, 1l, act41, true);
+		PreferenceQuestionResult prefQuestResult42 = new PreferenceQuestionResult(9l, 1l, act42, false);
+		PreferenceQuestionResult prefQuestResult43 = new PreferenceQuestionResult(10l, 1l, act43, false);
+		kieSession.insert(prefQuestResult41);
+		kieSession.insert(prefQuestResult42);
+		kieSession.insert(prefQuestResult43);
+	
+		//kieSession.insert(prof1);
 		kieSession.insert(prof2);
 		kieSession.insert(prof3);
 		kieSession.insert(prof4);
 		
-		kieSession.getAgenda().getAgendaGroup("professionsTest").setFocus();
+		kieSession.getAgenda().getAgendaGroup("traitsTest").setFocus();
+		kieSession.fireAllRules();
+		
+		Criteriums criteriums = new Criteriums(true, true, false, false);
+		kieSession.insert(criteriums);
+		kieSession.getAgenda().getAgendaGroup("preferencesTest").setFocus();
 		kieSession.fireAllRules();
 		
 		
@@ -183,7 +288,7 @@ public class Application {
 		
 		TraitsResult traitsResult = new TraitsResult();
 		kieSession.insert(traitsResult);
-		kieSession.getAgenda().getAgendaGroup("traitsTest").setFocus();
+		kieSession.getAgenda().getAgendaGroup("personalityTest").setFocus();
 		kieSession.fireAllRules();
 		System.out.println("Traits result");
 		System.out.println("Extroverted" +traitsResult.getExtraverted());

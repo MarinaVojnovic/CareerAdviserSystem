@@ -1,5 +1,6 @@
 package com.sbnz.career.adviser.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Activity {
@@ -18,6 +19,14 @@ public class Activity {
 		this.id = id;
 		this.description = description;
 		this.professions = professions;
+		this.isActive = isActive;
+	}
+	
+	public Activity(Long id, String description, Boolean isActive) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.professions = new HashSet<Profession>();
 		this.isActive = isActive;
 	}
 
