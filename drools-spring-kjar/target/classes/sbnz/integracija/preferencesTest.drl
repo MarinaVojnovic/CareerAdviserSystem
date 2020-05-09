@@ -43,7 +43,7 @@ rule "If there are not possible profession, find and insert them"
 	no-loop
 	lock-on-active
     when
-        $criteriums : Criteriums(personality == false) //znaci da nije kalkulisan possibleProfession
+        $criteriums : Criteriums(personality == false, preferences == true) //znaci da nije kalkulisan possibleProfession
         $questPos : List( size > 0) from collect (PreferenceQuestionResult(isChecked == true))
         
         $allPosActivities: List() from accumulate (

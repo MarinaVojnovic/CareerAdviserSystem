@@ -18,9 +18,11 @@ import org.springframework.context.annotation.Bean;
 
 import com.sbnz.career.adviser.model.Activity;
 import com.sbnz.career.adviser.model.Criteriums;
+import com.sbnz.career.adviser.model.PossibleProfession;
 import com.sbnz.career.adviser.model.PreferenceQuestionResult;
 //import com.sbnz.career.adviser.model.Personality;
 import com.sbnz.career.adviser.model.Profession;
+import com.sbnz.career.adviser.model.RecommendedProfessions;
 import com.sbnz.career.adviser.model.Trait;
 import com.sbnz.career.adviser.model.TraitQuestion;
 import com.sbnz.career.adviser.model.TraitQuestionResult;
@@ -97,7 +99,7 @@ public class Application {
 		activities1.add(act3);
 		activities1.add(act4);
 		activities1.add(act5);
-		Profession prof1 = new Profession(1L, "Administration", activities1, traits1, ProfessionalField.ECNONOMY, "Rad sa papirima", true);
+		Profession prof1 = new Profession(1L, "Administration", activities1, traits1, ProfessionalField.ECNONOMY, "Rad sa papirima", true, 100000, 50);
 		Set<Profession> professions1 = new HashSet<Profession>();
 		professions1.add(prof1);
 		act1.setProfessions(professions1);
@@ -135,7 +137,7 @@ public class Application {
 		activities2.add(act21);
 		activities2.add(act22);
 		activities2.add(act222);
-		Profession prof2 = new Profession(2L, "Programming", activities2, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true);
+		Profession prof2 = new Profession(2L, "Programming", activities2, traits2, ProfessionalField.ENGINEERING, "Rad sa kompom", true, 90000, 40);
 		Set<Profession> professions2 = new HashSet<Profession>();
 		professions2.add(prof2);
 		act21.setProfessions(professions2);
@@ -168,7 +170,7 @@ public class Application {
 		activities3.add(act33);
 		activities3.add(act34);
 		*/
-		Profession prof3 = new Profession(3L, "Graficki dizajn", activities3, traits3, ProfessionalField.ENGINEERING, "Graficki dizajn", true);
+		Profession prof3 = new Profession(3L, "Graficki dizajn", activities3, traits3, ProfessionalField.ENGINEERING, "Graficki dizajn", true, 80000, 30);
 		Set<Profession> professions3 = new HashSet<Profession>();
 		professions3.add(prof3);
 		act31.setProfessions(professions3);
@@ -212,7 +214,7 @@ public class Application {
 		activities4.add(act41);
 		activities4.add(act42);
 		activities4.add(act43);
-		Profession prof4 = new Profession(4L, "Pshycology", activities4, traits4, ProfessionalField.ENGINEERING, "Psychology", true);
+		Profession prof4 = new Profession(4L, "Pshycology", activities4, traits4, ProfessionalField.ENGINEERING, "Psychology", true, 70000, 20);
 		Set<Profession> professions4 = new HashSet<Profession>();
 		professions4.add(prof4);
 		act41.setProfessions(professions4);
@@ -234,11 +236,30 @@ public class Application {
 		kieSession.fireAllRules();
 		
 		
-		Criteriums criteriums = new Criteriums(true, true, false, false);
+		Criteriums criteriums = new Criteriums(true, true, true, true);
 		kieSession.insert(criteriums);
 		kieSession.getAgenda().getAgendaGroup("preferencesTest").setFocus();
 		kieSession.fireAllRules();
 		
+		
+		
+		kieSession.insert(criteriums);
+		kieSession.getAgenda().getAgendaGroup("paymentTest").setFocus();
+		kieSession.fireAllRules();
+		
+		kieSession.getAgenda().getAgendaGroup("employmentTest").setFocus();
+		kieSession.fireAllRules();
+		
+		RecommendedProfessions recommendedProfessions = new RecommendedProfessions();
+		kieSession.insert(recommendedProfessions);
+		
+			
+		kieSession.getAgenda().getAgendaGroup("results").setFocus();
+		kieSession.fireAllRules();
+		
+		for (PossibleProfession possibleProf : recommendedProfessions.getProfessions()) {
+			System.out.println(possibleProf.getProfession().getName()+" "+possibleProf.getScore());
+		}
 		
 	}
 	public static void personalityTest() {

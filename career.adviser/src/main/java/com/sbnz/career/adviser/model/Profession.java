@@ -13,7 +13,23 @@ public class Profession {
 	ProfessionalField field;
 	String description;
 	Boolean isActive;
+	Integer payment;
+	Integer employment;
 	
+	public Profession(Long id, String name, Set<Activity> activities, Set<Trait> traits, ProfessionalField field,
+			String description, Boolean isActive, Integer payment, Integer employment) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.activities = activities;
+		this.traits = traits;
+		this.field = field;
+		this.description = description;
+		this.isActive = isActive;
+		this.payment = payment;
+		this.employment = employment;
+	}
+
 	public Profession() {
 		
 	}
@@ -29,6 +45,8 @@ public class Profession {
 		this.description = description;
 		this.isActive = isActive;
 	}
+	
+	
 
 	public Long getId() {
 		return id;
@@ -84,6 +102,22 @@ public class Profession {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Integer getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Integer payment) {
+		this.payment = payment;
+	}
+
+	public Integer getEmployment() {
+		return employment;
+	}
+
+	public void setEmployment(Integer employment) {
+		this.employment = employment;
 	}
 	
 	
