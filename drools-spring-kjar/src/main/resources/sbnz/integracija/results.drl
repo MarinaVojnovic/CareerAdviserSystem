@@ -27,8 +27,8 @@ rule "Your First Rule"
 		   		
 		   	}
         });
-       for (Object pp : $l){
-       	PossibleProfession prof = (PossibleProfession) pp;
+       for (Integer i = 0; i < 3; i++){
+       	PossibleProfession prof = (PossibleProfession) $l.get(i);
        	System.out.println(prof.getScore());
        	$professions.add(prof);
        }

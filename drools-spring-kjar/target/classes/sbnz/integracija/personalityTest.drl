@@ -4,7 +4,7 @@ package sbnz.integracija;
 import com.sbnz.career.adviser.model.*;
 import java.util.List;
 
-
+/*
 rule "Traits result"
 	agenda-group "personalityTest"
 	no-loop
@@ -16,6 +16,257 @@ rule "Traits result"
        modify($traitsResult) {increment($target);}
        System.out.println("Univerasl increment called");
 end
+
+*/
+
+
+rule "Traits result - target extroverted, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "extraverted")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementExtraverted();}
+       System.out.println("Target extraverted, isChecked == true");
+end
+
+rule "Traits result - target extroverted, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "extraverted")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementIntroverted();}
+       System.out.println("Target extraverted, isChecked == false");
+end
+
+rule "Traits result - target introverted, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "introverted")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementIntroverted();}
+       System.out.println("Target introverted, isChecked == true");
+end
+
+rule "Traits result - target introverted, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "introverted")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementExtraverted();}
+       System.out.println("Target introverted, isChecked == false");
+end
+
+
+
+rule "Traits result - target assertive, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "assertive")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementAssertive();}
+       System.out.println("Target assertive, isChecked == true");
+end
+
+rule "Traits result - target assertive, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "assertive")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementTurbulent();}
+       System.out.println("Target assertive, isChecked == false");
+end
+
+rule "Traits result - target turbulent, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "turbulent")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementTurbulent();}
+       System.out.println("Target turbulent, isChecked == true");
+end
+
+rule "Traits result - target turbulent, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "turbulent")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementAssertive();}
+       System.out.println("Target turbulent, isChecked == false");
+end
+
+
+
+rule "Traits result - target thinking, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "thinking")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementThinking();}
+       System.out.println("Target thinking, isChecked == true");
+end
+
+rule "Traits result - target thinking, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "thinking")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementFeeling();}
+       System.out.println("Target thinking, isChecked == false");
+end
+
+rule "Traits result - target feeling, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "feeling")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementFeeling();}
+       System.out.println("Target feeling, isChecked == true");
+end
+
+rule "Traits result - target feeling, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "feeling")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementThinking();}
+       System.out.println("Target feeling, isChecked == false");
+end
+
+rule "Traits result - target realist, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "realist")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementRealist();}
+       System.out.println("Target realist, isChecked == true");
+end
+
+rule "Traits result - target realist, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "realist")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementVisionary();}
+       System.out.println("Target realist, isChecked == false");
+end
+
+rule "Traits result - target visionary, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "visionary")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementVisionary();}
+       System.out.println("Target visionary, isChecked == true");
+end
+
+rule "Traits result - target visionary, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "visionary")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementRealist();}
+       System.out.println("Target visionary, isChecked == false");
+end
+
+rule "Traits result - target judging, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "judging")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementJudging();}
+       System.out.println("Target judging, isChecked == true");
+end
+
+rule "Traits result - target judging, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "judging")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementProspecting();}
+       System.out.println("Target judging, isChecked == false");
+end
+
+rule "Traits result - target prospecting, isChecked == true"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == true, $target == "prospecting")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementProspecting();}
+       System.out.println("Target prospecting, isChecked == true");
+end
+
+rule "Traits result - target prospecting, isChecked == false"
+	agenda-group "personalityTest"
+	no-loop
+	lock-on-active
+    when
+        $traitQuestionResult: TraitQuestionResult($target : traitQuestion.trait.target, isChecked == false, $target == "prospecting")
+        $traitsResult : TraitsResult()
+    then
+       modify($traitsResult) {incrementJudging();}
+       System.out.println("Target prospecting, isChecked == false");
+end
+
+
+
+
 
 rule "Creating mind trait-extraverted"
 	agenda-group "personalityTest"
@@ -154,4 +405,4 @@ rule "Grouping traits"
 		System.out.println("Number of traits found: " + $list.size());
 end
 		
-
+	

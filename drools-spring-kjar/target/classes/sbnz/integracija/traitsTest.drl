@@ -43,26 +43,7 @@ rule "Calculating number of traits"
  	 
 end
 
-/*
-//Calculating score for professions where all personality traits are satisfied
-rule "Rule 0"
-	agenda-group "traitsTest"
-	no-loop
-	when
-		
-		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
-		accumulate(
-			$p : PossibleProfession (
-				$k : numTraits
-			) from $l;
-			$max: max($k)
-		)
-		$possibleProfession : PossibleProfession(numTraits == $max,  $name : profession.name)
-	then
-		 System.out.println("Rule 1 "+$name);
-		 $possibleProfession.increaseScore(1.25);
-end
-*/
+
 //Calculating score for professions where all personality traits are satisfied
 //Maximum satisfied
 rule "Rule 0"
@@ -77,7 +58,7 @@ rule "Rule 0"
 			$max: max($k)
 		)
 		
-		$possibleProfession : PossibleProfession( numTraits == $max, $name : profession.name ) from $l
+		$possibleProfession : PossibleProfession( $max == 5, numTraits == $max, $name : profession.name ) from $l
 	then
 		 System.out.println("Rule 0 : 1.0 "+$name);
 		 $possibleProfession.increaseScore(1.5);

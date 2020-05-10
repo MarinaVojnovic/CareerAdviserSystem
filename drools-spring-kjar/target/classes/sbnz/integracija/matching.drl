@@ -1,0 +1,76 @@
+//created on: 9 May 2020
+package sbnz.integracija
+import com.sbnz.career.adviser.model.*;
+
+//list any import classes here.
+
+
+
+//declare any global variables here
+query returnMatchingTraits (List $matching, List $traitsTarget, Set $professionTraits)
+	$matching:= List() 
+				from accumulate( 
+					$t : Trait( $target: getTarget(), $target memberOf $traitsTarget)
+					from $professionTraits,
+					collectList($t)
+				)
+end
+
+query returnMatchingPreferences (List $matchingPref, List $prefTarget, Set $professionPref)
+	$matchingPref:= List() 
+				from accumulate( 
+					$a : Activity( this memberOf $professionPref)
+					from $prefTarget,
+					collectList($a)
+				)
+end
+
+rule "Calculating number of matching traits"
+	agenda-group "matchingTest"
+	no-loop
+	lock-on-active
+    when
+		$traitsList : List()
+		$matching : Matching($matchTraits : traits)
+		$profession : Profession($name : name, $profTraits : traits)
+		
+		$traitsTarget: List() from accumulate (
+			$trait: Trait($target : target) from $traitsList,
+			collectList($target)
+		)
+		returnMatchingTraits($matchingTraits, $traitsTarget, $profTraits;);   
+    then
+    	for (Object o : $matchingTraits){
+    		Trait trait = (Trait) o;
+    		$matchTraits.add(trait);
+    	}
+	     System.out.println("Found matching: " + $matchTraits.size());
+	     System.out.println("Traits size list: "+$traitsList.size());
+	     System.out.println("Prof traits list size: "+$profTraits.size());
+	 	 
+end
+
+rule "Calculating number of matching preferences"
+	agenda-group "matchingTest"
+	no-loop
+	lock-on-active
+	when
+		$matching : Matching($matchPref : preferences)
+		$prefQuestResultList : List( size > 0) from collect (PreferenceQuestionResult())
+		$prefResult: List() from accumulate (
+			$pref: PreferenceQuestionResult(isChecked == true, $activity : activity) from $prefQuestResultList,
+			collectList($activity)
+		)
+	 	$profession : Profession($name : name, $preferences : activities)
+	 	returnMatchingPreferences($matchingPreferences, $prefResult, $preferences;);   
+	then
+		System.out.println("Everything satisfied "+$matchingPreferences.size());
+		for (Object o : $matchingPreferences){
+    		Activity activity = (Activity) o;
+    		$matchPref.add(activity);
+    	}
+    	System.out.println("Found matching: " + $matchPref.size());
+end
+
+
+

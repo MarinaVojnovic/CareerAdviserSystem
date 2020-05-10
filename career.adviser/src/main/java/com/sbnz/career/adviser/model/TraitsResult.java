@@ -42,7 +42,36 @@ public class TraitsResult {
 		this.judging = judging;
 		this.prospecting = prospecting;
 	}
-	
+	public void incrementExtraverted() {
+		this.extraverted++;
+	}
+	public void incrementIntroverted() {
+		this.introverted++;
+	}
+	public void incrementAssertive() {
+		this.assertive++;
+	}
+	public void incrementTurbulent() {
+		this.turbulent++;
+	}
+	public void incrementThinking() {
+		this.thinking++;
+	}
+	public void incrementFeeling() {
+		this.feeling++;
+	}
+	public void incrementRealist() {
+		this.realist++;
+	}
+	public void incrementVisionary() {
+		this.visionary++;
+	}
+	public void incrementJudging() {
+		this.judging++;
+	}
+	public void incrementProspecting() {
+		this.prospecting++;
+	}
 	public void increment(String target) {
 		switch(target) {
 		case "extraverted":
