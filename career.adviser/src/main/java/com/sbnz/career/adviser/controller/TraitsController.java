@@ -3,9 +3,11 @@ package com.sbnz.career.adviser.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,17 +31,34 @@ public class TraitsController {
 	}
 
 	
-	
+	@PostMapping(value="/createQuestion", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageDto> createTraitQuestion(@RequestBody TraitQuestionDto questionDto){
-		return null;
+		traitQuestionService.create(questionDto);
+		return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully created."), HttpStatus.CREATED);
 	}
 	
-	public ResponseEntity<MessageDto> deleteTraitQuestion(@PathVariable(value = "") Long questionId){
-		return null;
+	@DeleteMapping(value = "/deleteQuestion/{questId}")
+	public ResponseEntity<MessageDto> deleteTraitQuestion(@PathVariable Long questId){
+		TraitQuestion traitQuestion = traitQuestionService.findById(questId);
+		if (traitQuestion!=null) {
+			traitQuestionService.delete(traitQuestion);
+			return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully deleted."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found", "Trait question does not exist."), HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
-	public ResponseEntity<MessageDto> updateTraitQuestion(@PathVariable Long id, @RequestBody TraitQuestionDto questionDto){
-		return null;
+	@PutMapping(value = "/updateQuestion/{questId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MessageDto> updateTraitQuestion(@PathVariable Long questId, @RequestBody TraitQuestionDto questionDto){
+		System.out.println("Uslo u update trait question");
+		TraitQuestion traitQuestion = traitQuestionService.findById(questId);
+		if (traitQuestion!=null) {
+			traitQuestionService.update(questId, questionDto);
+			return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully updated."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found", "Trait question does not exist."), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -56,5 +75,15 @@ public class TraitsController {
 			traitQuestionResult.add(new TraitQuestionResult(traitQuest));
 		}
 		return new ResponseEntity<>(traitQuestionResult, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/{questId}")
+	public ResponseEntity<?> getTraitQuestion(@PathVariable Long questId){
+		TraitQuestion traitQuestion = traitQuestionService.findById(questId);
+		if (traitQuestion!=null) {
+			return new ResponseEntity<>(traitQuestion, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found.", "Trait question with given id does not exist"), HttpStatus.NOT_FOUND);
+		}
 	}
 }

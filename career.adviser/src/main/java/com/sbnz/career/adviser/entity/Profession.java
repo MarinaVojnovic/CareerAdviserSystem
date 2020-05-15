@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.sbnz.career.adviser.dto.ProfessionDto;
+
 
 
 @Entity
@@ -24,7 +26,7 @@ public class Profession {
 	Long id;
 	String name;
 
-	@ManyToMany
+	@ManyToMany( fetch = FetchType.EAGER)
 	Set<Preference> activities;
 	
 	@ManyToMany
@@ -53,6 +55,17 @@ public class Profession {
 		this.isActive = isActive;
 		this.payment = payment;
 		this.employment = employment;
+	}
+	
+	public Profession(ProfessionDto profDto) {
+		this.name=profDto.getName();
+		this.activities=profDto.getActivities();
+		this.traits=profDto.getTraits();
+		this.field=profDto.getField();
+		this.description=profDto.getDescription();
+		this.isActive=profDto.getIsActive();
+		this.payment=profDto.getPayment();
+		this.employment=profDto.getEmployment();
 	}
 
 	public Profession() {

@@ -12,11 +12,11 @@ query returnMatchingTraits (List $matching, List $traitsTarget, Set $professionT
 				)
 end
 
-query returnMatchingPreferences (List $matchingPref, List $prefTarget, Set $professionPref)
-	$matchingPref:= List() 
+query returnMatchingPreferences (List $matchingPreferences, List $prefTarget, Set $professionPref)
+	$matchingPreferences:= List() 
 				from accumulate( 
-					$a : Preference( this memberOf $professionPref)
-					from $prefTarget,
+					$a : Preference($id: getId(), $id memberOf $prefTarget)
+					from $professionPref,
 					collectList($a)
 				)
 end
@@ -54,12 +54,13 @@ rule "Calculating number of matching preferences"
 		$matching : Matching($matchPref : preferences)
 		$prefQuestResultList : List( size > 0) from collect (PreferenceQuestionResult())
 		$prefResult: List() from accumulate (
-			$pref: PreferenceQuestionResult(isChecked == true, $activity : activity) from $prefQuestResultList,
-			collectList($activity)
+			$pref: PreferenceQuestionResult(isChecked == true, $activityId : activity.getId()) from $prefQuestResultList,
+			collectList($activityId)
 		)
-	 	$profession : Profession($name : name, $preferences : activities)
+	 	$profession : Profession($name : name, $preferences : getActivities())
 	 	returnMatchingPreferences($matchingPreferences, $prefResult, $preferences;);   
 	then
+	
 		System.out.println("Everything satisfied "+$matchingPreferences.size());
 		for (Object o : $matchingPreferences){
     		Preference activity = (Preference) o;
@@ -67,6 +68,16 @@ rule "Calculating number of matching preferences"
     	}
     	System.out.println("Found matching: " + $matchPref.size());
 end
+
+/*
+
+	System.out.println("Everything satisfied "+$matchingPreferences.size());
+		for (Object o : $matchingPreferences){
+    		Preference activity = (Preference) o;
+    		$matchPref.add(activity);
+    	}
+    	System.out.println("Found matching: " + $matchPref.size());
+*/
 
 
 

@@ -15,13 +15,15 @@ import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
 import com.sbnz.career.adviser.model.Criteriums;
+import com.sbnz.career.adviser.model.Matching;
+import com.sbnz.career.adviser.model.ProfessionsSuitabilityList;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
 import com.sbnz.career.adviser.repository.PreferenceQuestionResultRepository;
 import com.sbnz.career.adviser.repository.ProfessionRepository;
 import com.sbnz.career.adviser.repository.TraitsResultRepository;
 import com.sbnz.career.adviser.repository.UserRepository;
 import com.sbnz.career.adviser.service.ProfessionService;
-
+import com.sbnz.career.adviser.dto.ProfessionDto;
 
 @Service
 public class ProfessionServiceImpl implements ProfessionService{
@@ -50,6 +52,8 @@ public class ProfessionServiceImpl implements ProfessionService{
 		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
 		User user = userRepository.getOne(1l);
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
+		
+		
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
@@ -95,6 +99,100 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.fireAllRules();
 		System.out.println("Recommended professions size: "+recommendedProfessions.getProfessions().size());
 		return recommendedProfessions;
+	}
+	
+	public Matching getMatching(Long profId) {
+		Profession profession = professionRepository.getOne(profId);
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		kieSession.insert(profession);
+		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
+		kieSession.insert(traitsResult);
+		User user = userRepository.getOne(1l);
+		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
+		for (PreferenceQuestionResult q : prefQuesRes) {
+			kieSession.insert(q);
+		}
+		Matching matching = new Matching();
+		kieSession.insert(matching);
+		kieSession.getAgenda().getAgendaGroup("personalityTest").setFocus();
+		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("matchingTest").setFocus();
+		kieSession.fireAllRules();
+		
+		return matching;
+	}
+	
+	public ProfessionsSuitabilityList getCandidatesByTraits() {
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
+		kieSession.insert(traitsResult);
+		List<Profession> allProfessions = professionRepository.getAllActive();
+		for (Profession profession : allProfessions) {
+			kieSession.insert(profession);
+		}
+		ProfessionsSuitabilityList profSuitList = new ProfessionsSuitabilityList();
+		kieSession.insert(profSuitList);
+		kieSession.getAgenda().getAgendaGroup("personalityTest").setFocus();
+		kieSession.fireAllRules();
+		kieSession.getAgenda().getAgendaGroup("suitableProfessionsTest-traits").setFocus();
+		kieSession.fireAllRules();
+		return profSuitList;
+	}
+	
+	public ProfessionsSuitabilityList getCandidatesByPreferences() {
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		List<Profession> allProfessions = professionRepository.getAllActive();
+		for (Profession profession : allProfessions) {
+			kieSession.insert(profession);
+		}
+		User user = userRepository.getOne(1l);
+		List<PreferenceQuestionResult> prefQuestResults = prefQustResultRepository.findByUser(user);
+		for (PreferenceQuestionResult q : prefQuestResults) {
+			kieSession.insert(q);
+		}
+		ProfessionsSuitabilityList profSuitList = new ProfessionsSuitabilityList();
+		kieSession.insert(profSuitList);
+		kieSession.getAgenda().getAgendaGroup("suitableProfessionsTest-preferences").setFocus();
+		kieSession.fireAllRules();
+		
+		
+		return profSuitList;
+	}
+	
+	public Profession findById(Long id) {
+		return professionRepository.findById(id).orElse(null);
+	}
+	
+	@Override
+	public void update(Long profId, ProfessionDto professionDto) {
+		Profession profession =  professionRepository.findById(profId).orElse(null);
+		profession.setActivities(professionDto.getActivities());
+		profession.setDescription(professionDto.getDescription());
+		profession.setEmployment(professionDto.getEmployment());
+		profession.setPayment(professionDto.getPayment());
+		profession.setName(professionDto.getName());
+		profession.setTraits(professionDto.getTraits());
+		profession.setIsActive(professionDto.getIsActive());
+		profession.setField(professionDto.getField());
+		professionRepository.save(profession);
+	}
+	
+	@Override
+	public void create(ProfessionDto professionDto) {
+		Profession profession = new Profession(professionDto);
+		professionRepository.save(profession);
 	}
 
 }

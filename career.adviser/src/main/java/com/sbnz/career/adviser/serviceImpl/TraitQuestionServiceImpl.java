@@ -12,11 +12,14 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sbnz.career.adviser.dto.TraitQuestionDto;
+import com.sbnz.career.adviser.entity.Trait;
 import com.sbnz.career.adviser.entity.TraitQuestion;
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.model.Matching;
 import com.sbnz.career.adviser.model.TraitQuestionResult;
 import com.sbnz.career.adviser.repository.TraitQuestionRepository;
+import com.sbnz.career.adviser.repository.TraitRepository;
 import com.sbnz.career.adviser.service.TraitQuestionService;
 
 @Service
@@ -27,11 +30,13 @@ public class TraitQuestionServiceImpl implements TraitQuestionService{
 	
 	private final TraitQuestionRepository traitQuestionRepository;
 	
+	private final TraitRepository traitRepository;
+	
 	@Autowired
-	public TraitQuestionServiceImpl(TraitQuestionRepository traitQuestionRepository, KieContainer kieContainer) {
+	public TraitQuestionServiceImpl(TraitQuestionRepository traitQuestionRepository, KieContainer kieContainer, TraitRepository traitRepository) {
 		this.traitQuestionRepository = traitQuestionRepository;
 		this.kieContainer = kieContainer;
-		
+		this.traitRepository = traitRepository;
 	}
 	
 	
@@ -39,6 +44,36 @@ public class TraitQuestionServiceImpl implements TraitQuestionService{
 	public List<TraitQuestion> getAllActive() {
 		// TODO Auto-generated method stub
 		return traitQuestionRepository.getAllActive();
+	}
+	
+	@Override
+	public TraitQuestion create(TraitQuestionDto questionDto) {
+		Trait trait = traitRepository.findByTarget(questionDto.getTarget());
+		TraitQuestion traitQuestion = new TraitQuestion(trait, questionDto.getText());
+		return traitQuestionRepository.save(traitQuestion);
+	}
+
+	@Override
+	public void delete(TraitQuestion traitQuestion) {
+		traitQuestion.setIsActive(false);
+		traitQuestionRepository.save(traitQuestion);
+		//traitQuestionRepository.delete(traitQuestion);
+	}
+	
+	@Override
+	public TraitQuestion findById(Long id) {
+		return traitQuestionRepository.findById(id).orElse(null);
+	}
+	
+	@Override
+	public void update(Long questId, TraitQuestionDto questDto) {
+		TraitQuestion traitQuestion = traitQuestionRepository.getOne(questId);
+		traitQuestion.setIsActive(questDto.isActive());
+		traitQuestion.setText(questDto.getText());
+		Trait trait = traitRepository.findByTarget(questDto.getTarget());
+		traitQuestion.setTrait(trait);
+		traitQuestionRepository.save(traitQuestion);
+		
 	}
 
 

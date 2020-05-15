@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.sbnz.career.adviser.dto.TraitQuestionDto;
+
 @Entity
 @Table(catalog = "db_career_adviser", name = "trait_questions")
 public class TraitQuestion {
@@ -42,7 +44,13 @@ public class TraitQuestion {
 		super();
 		this.text = text;
 		this.trait = trait;
-		this.isActive = true;
+		this.isActive = isActive;
+	}
+	
+	public TraitQuestion(Trait trait, String text) {
+		this.trait=trait;
+		this.text=text;
+		this.isActive=true;
 	}
 
 	public String getText() {

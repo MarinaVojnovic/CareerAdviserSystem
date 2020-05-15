@@ -6,4 +6,5 @@ import com.sbnz.career.adviser.entity.Trait;
 
 public interface TraitRepository extends JpaRepository<Trait, Long>{
 
+	Trait findByTarget(String target);
 }

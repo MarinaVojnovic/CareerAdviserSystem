@@ -32,6 +32,7 @@ public class Trait {
 	}
 	
 	
+	
 	public String getPersonalityField() {
 		return personalityField;
 	}
