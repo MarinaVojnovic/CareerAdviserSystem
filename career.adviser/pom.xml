@@ -53,13 +53,6 @@
 			<scope>test</scope>
 		</dependency>
 	
-
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
@@ -78,10 +71,10 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>sbnz.integracija</groupId>
-  			<artifactId>drools-spring-kjar</artifactId>
-  			<type>jar</type>
-  			<version>0.0.1-SNAPSHOT</version>
+	  		<groupId>drools-spring-v2</groupId>
+	  		<artifactId>drools-spring-v2-kjar</artifactId>
+	  		<type>jar</type>
+	  		<version>0.0.1-SNAPSHOT</version>
   		</dependency>
   		<dependency>
     		<groupId>org.drools</groupId>
@@ -108,6 +101,40 @@
             <artifactId>hamcrest-library</artifactId>
             <scope>test</scope>
         </dependency>
+        
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+        
+      	<dependency>
+	      <groupId>com.google.guava</groupId>
+	      <artifactId>guava</artifactId>
+	      <version>20.0</version>
+	      <exclusions>
+	        <exclusion>
+	          <groupId>com.google.guava</groupId>
+	          <artifactId>guava</artifactId>
+	        </exclusion>
+	      </exclusions>
+    	</dependency>
 	</dependencies>
 
 	<build>

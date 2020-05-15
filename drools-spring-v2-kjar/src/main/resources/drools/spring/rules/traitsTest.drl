@@ -1,0 +1,147 @@
+
+import java.util.List;
+import java.util.Set;
+import com.sbnz.career.adviser.model.*;
+
+
+query checkIfPossibleProfession (Number $num, List $traitsTarget, Set $professionTraits)
+	$num:= Number(intValue >= 1) 
+				from accumulate( 
+					$t : Trait( $target: getTarget(), $target memberOf $traitsTarget)
+					from $professionTraits;
+					count($t)
+				)
+end
+
+query calculateNumOfMatchingTraits (Number $num, List $traitsTarget, Set $professionTraits)
+	$num:=Number()
+				from accumulate( 
+					$t : Trait( $target: getTarget(), $target memberOf $traitsTarget)
+					from $professionTraits;
+					count($t)
+				)
+end
+
+
+rule "Calculating number of traits"
+	agenda-group "traitsTest"
+	no-loop
+	lock-on-active
+    when
+		$traitsList : List()
+		$profession : Profession($name : name, $profTraits : traits)
+		$traitsTarget: List() from accumulate (
+			$trait: Trait($target : target) from $traitsList,
+			collectList($target)
+		)
+		checkIfPossibleProfession($num, $traitsTarget, $profTraits;);      
+    then
+      PossibleProfession possibleProfession = new PossibleProfession($profession, (Long) $num);
+      System.out.println("Possible profession inserted "+$name);
+ 	  insert(possibleProfession);
+ 	  delete($profession);
+ 	 
+end
+
+
+//Calculating score for professions where all personality traits are satisfied
+//Maximum satisfied
+rule "Rule 0"
+	agenda-group "traitsTest"
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numTraits
+			) from $l;
+			$max: max($k)
+		)
+		
+		$possibleProfession : PossibleProfession( $max == 5, numTraits == $max, $name : profession.name ) from $l
+	then
+		 System.out.println("Rule 0 : 1.0 "+$name);
+		 $possibleProfession.increaseScore(1.5);
+end
+
+
+//Calculating score for professions where all personality traits are satisfied
+//Evertyhing satisfied but not maximum
+rule "Rule 1"
+	agenda-group "traitsTest"
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
+			accumulate(
+				$p : PossibleProfession (
+					$k : numTraits
+				) from $l;
+				$max: max($k)
+			)
+		$possibleProfession : PossibleProfession(numTraits == profession.traits.size(), numTraits != $max, $name : profession.name)
+	then
+		 System.out.println("Rule 1 : 1.0 "+$name);
+		 $possibleProfession.increaseScore(1.0);
+end
+
+//Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
+//Not everything satisfied but greater than maximum
+rule "Rule 2"
+	agenda-group "traitsTest"
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numTraits
+			) from $l;
+			$max: max($k)
+		)
+		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits > $max, $name : profession.name)
+		
+	then
+		 System.out.println("Rule 2 : 1.25" + $name);
+		 $possibleProfession.increaseScore(1.25);
+end
+
+rule "Rule 3"
+	agenda-group "traitsTest"
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numTraits
+			) from $l;
+			$min: min($k)
+		)
+		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits <= $min, $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
+		
+	then
+		 System.out.println("Rule 3" + $name);
+		 System.out.println((double)$numTraits/$profTraits);
+		 $possibleProfession.increaseScore((double)$numTraits/$profTraits);
+end
+
+rule "Rule 4"
+	agenda-group "traitsTest"
+	no-loop
+	when
+		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
+		accumulate(
+			$p : PossibleProfession (
+				$k : numTraits
+			) from $l;
+			$min: min($k),
+			$max: max($k)
+		)
+		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits > $min, numTraits <= $max, $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
+		
+	then
+		 System.out.println("Rule 4 : 1.0" + $name);
+		 $possibleProfession.increaseScore(1.0);
+end
+
+
+
+

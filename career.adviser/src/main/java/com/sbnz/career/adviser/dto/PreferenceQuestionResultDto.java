@@ -1,29 +1,29 @@
 package com.sbnz.career.adviser.dto;
 
-import com.sbnz.career.adviser.model.Activity;
+import com.sbnz.career.adviser.entity.Preference;
 
 public class PreferenceQuestionResultDto {
 
 	Long id;
-	Activity activity;
+	Preference activity;
 	Boolean isChecked;
 	
 	public PreferenceQuestionResultDto() {
 		
 	}
 
-	public PreferenceQuestionResultDto(Long id, Activity activity, Boolean isChecked) {
+	public PreferenceQuestionResultDto(Long id, Preference activity, Boolean isChecked) {
 		super();
 		this.id = id;
 		this.activity = activity;
 		this.isChecked = isChecked;
 	}
 
-	public Activity getActivity() {
+	public Preference getActivity() {
 		return activity;
 	}
 
-	public void setActivity(Activity activity) {
+	public void setActivity(Preference activity) {
 		this.activity = activity;
 	}
 

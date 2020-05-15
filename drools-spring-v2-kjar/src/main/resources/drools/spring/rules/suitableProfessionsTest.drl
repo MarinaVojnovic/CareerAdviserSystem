@@ -1,0 +1,75 @@
+//created on: 10 May 2020
+
+import com.sbnz.career.adviser.model.*;
+import java.util.*;
+
+query returnMatchingTraitsExist (List $matching, List $traitsTarget, Set $professionTraits)
+	$matching:= List(size > 0) 
+				from accumulate( 
+					$t : Trait( $target: getTarget(), $target memberOf $traitsTarget)
+					from $professionTraits,
+					collectList($t)
+				)
+end
+
+query returnMatchingPreferencesExist (List $matchingPref, List $prefTarget, Set $professionPref)
+	$matchingPref:= List(size > 0) 
+				from accumulate( 
+					$a : Preference( this memberOf $professionPref)
+					from $prefTarget,
+					collectList($a)
+				)
+end
+
+
+rule "Find candidate professions based on traits"
+	agenda-group "suitableProfessionsTest-traits"
+	no-loop
+	lock-on-active
+    when
+       $traitsList : List()
+       $profession : Profession($profTraits : traits)
+       $professionSuitabilityList : ProfessionsSuitabilityList($suitableProfessions : suitableProfessions)
+       $traitsTarget: List() from accumulate (
+			$trait: Trait($target : target) from $traitsList,
+			collectList($target)
+		)
+		returnMatchingTraitsExist($matchingTraits, $traitsTarget, $profTraits;); 
+     	
+    then
+       Matching matching = new Matching();
+       for (Object o : $matchingTraits){
+    		Trait trait = (Trait) o;
+    		matching.getTraits().add(trait);
+    	}
+       ProfessionSuitability profSuit = new ProfessionSuitability($profession, matching);
+       $suitableProfessions.add(profSuit);
+       System.out.println("Added profession suitability - traits");
+
+end
+
+
+rule "Find candidate professions based on preferences"
+	agenda-group "suitableProfessionsTest-preferences"
+	no-loop
+	lock-on-active
+    when
+    	$professionSuitabilityList : ProfessionsSuitabilityList($suitableProfessions : suitableProfessions)
+        $prefQuestResultList : List( size > 0) from collect (PreferenceQuestionResult())
+		$prefResult: List() from accumulate (
+			$pref: PreferenceQuestionResult(isChecked == true, $activity : activity) from $prefQuestResultList,
+			collectList($activity)
+		)
+	 	$profession : Profession($name : name, $preferences : activities)
+	 	returnMatchingPreferencesExist($matchingPreferences, $prefResult, $preferences;);   
+    then
+       Matching matching = new Matching();
+       for (Object o : $matchingPreferences){
+    		Preference activity = (Preference) o;
+    		matching.getPreferences().add(activity);
+    	}
+       ProfessionSuitability profSuit = new ProfessionSuitability($profession, matching);
+       $suitableProfessions.add(profSuit);
+       System.out.println("Added profession suitability - preferences");
+
+end

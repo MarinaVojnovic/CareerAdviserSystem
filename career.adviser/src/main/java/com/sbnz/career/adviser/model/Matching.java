@@ -3,17 +3,20 @@ package com.sbnz.career.adviser.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sbnz.career.adviser.entity.Preference;
+import com.sbnz.career.adviser.entity.Trait;
+
 public class Matching {
 
 	List<Trait> traits;
-	List<Activity> preferences;
+	List<Preference> preferences;
 	
 	public Matching() {
 		traits = new ArrayList<Trait>();
-		preferences = new ArrayList<Activity>();
+		preferences = new ArrayList<Preference>();
 	}
 
-	public Matching(List<Trait> traits, List<Activity> preferences) {
+	public Matching(List<Trait> traits, List<Preference> preferences) {
 		super();
 		this.traits = traits;
 		this.preferences = preferences;
@@ -27,11 +30,11 @@ public class Matching {
 		this.traits = traits;
 	}
 
-	public List<Activity> getPreferences() {
+	public List<Preference> getPreferences() {
 		return preferences;
 	}
 
-	public void setPreferences(List<Activity> preferences) {
+	public void setPreferences(List<Preference> preferences) {
 		this.preferences = preferences;
 	}
 	

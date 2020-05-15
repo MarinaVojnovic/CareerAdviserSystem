@@ -1,5 +1,7 @@
 package com.sbnz.career.adviser.model;
 
+import com.sbnz.career.adviser.entity.Profession;
+
 public class ProfessionSuitability {
 
 	Profession profession;
