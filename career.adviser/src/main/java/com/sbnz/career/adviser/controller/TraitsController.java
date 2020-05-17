@@ -46,7 +46,6 @@ public class TraitsController {
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found", "Trait question does not exist."), HttpStatus.NOT_FOUND);
 		}
-		
 	}
 	
 	@PutMapping(value = "/updateQuestion/{questId}", consumes = MediaType.APPLICATION_JSON_VALUE)

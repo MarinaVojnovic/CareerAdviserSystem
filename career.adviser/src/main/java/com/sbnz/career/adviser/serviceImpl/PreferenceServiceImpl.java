@@ -11,6 +11,7 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sbnz.career.adviser.dto.PreferenceDto;
 import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
 import com.sbnz.career.adviser.entity.User;
@@ -41,8 +42,35 @@ public class PreferenceServiceImpl implements PreferenceService{
 	public List<Preference> getAllActive() {
 		return this.preferenceRepository.getAllActive();
 	}
-
 	
+	@Override
+	public Preference findById(Long id) {
+		return this.preferenceRepository.findById(id).orElse(null);
+	}
+	
+	@Override
+	public List<Preference> getAll(){
+		return this.preferenceRepository.getAll();
+	}
+	
+	@Override
+	public void create(PreferenceDto prefDto) {
+		Preference pref = new Preference(prefDto);
+		preferenceRepository.save(pref);
+	}
+	
+	@Override
+	public void delete(Preference preference) {
+		preference.setIsActive(false);
+	}
+
+	@Override
+	public void update(Long prefId, PreferenceDto prefDto) {
+		Preference preference = preferenceRepository.getOne(prefId);
+		preference.setDescription(prefDto.getDescription());
+		preference.setIsActive(prefDto.getIsActive());
+		preferenceRepository.save(preference);
+	}
 	
 	
 }

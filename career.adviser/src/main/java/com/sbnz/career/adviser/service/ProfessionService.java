@@ -16,4 +16,5 @@ public interface ProfessionService {
 	Profession findById(Long id);
 	void update(Long profId, ProfessionDto professionDto);
 	void create(ProfessionDto professionDto);
+	void delete(Profession profession);
 }

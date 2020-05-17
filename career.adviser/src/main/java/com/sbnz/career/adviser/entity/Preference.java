@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.sbnz.career.adviser.dto.PreferenceDto;
+
 
 @Entity
 @Table(catalog = "db_career_adviser", name = "preferences")
@@ -31,6 +33,12 @@ public class Preference {
 		this.id = id;
 		this.description = description;
 		this.isActive = isActive;
+	}
+	
+	public Preference(PreferenceDto prefDto) {
+		this.id=prefDto.getId();
+		this.description=prefDto.getDescription();
+		this.isActive=prefDto.getIsActive();
 	}
 	
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,6 +84,7 @@ public class ProfessionController {
 	@PutMapping(value = "/updateProfession/{profId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageDto> updateProfession(@PathVariable Long profId, @RequestBody ProfessionDto professionDto){
 		System.out.println("Uslo u update profession");
+		System.out.println("Id of profession : "+professionDto.getId());
 		Profession profession = professionService.findById(profId);
 		if (profession!=null) {
 			professionService.update(profId, professionDto);
@@ -92,8 +94,15 @@ public class ProfessionController {
 		}
 	}
 	
-	public ResponseEntity<MessageDto> deleteProfession(@PathVariable Long id){
-		return null;
+	@DeleteMapping(value = "/deleteProfession/{profId}")
+	public ResponseEntity<MessageDto> deleteProfession(@PathVariable Long profId){
+		Profession profession = professionService.findById(profId);
+		if (profession!=null) {
+			professionService.delete(profession);
+			return new ResponseEntity<>(new MessageDto("Success", "Profession successfully deleted."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found", "Profession does not exist."), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	
