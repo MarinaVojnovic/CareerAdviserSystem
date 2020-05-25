@@ -43,8 +43,10 @@ public class Profession {
 	
 	Integer employment;
 	
+	String image;
+	
 	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits, ProfessionalField field,
-			String description, Boolean isActive, Integer payment, Integer employment) {
+			String description, Boolean isActive, Integer payment, Integer employment, String image) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,6 +57,7 @@ public class Profession {
 		this.isActive = isActive;
 		this.payment = payment;
 		this.employment = employment;
+		this.image=image;
 	}
 	
 	public Profession(ProfessionDto profDto) {
@@ -158,6 +161,9 @@ public class Profession {
 		this.employment = employment;
 	}
 	
+	public String getImage() {
+		return this.image;
+	}
 	
 	
 }

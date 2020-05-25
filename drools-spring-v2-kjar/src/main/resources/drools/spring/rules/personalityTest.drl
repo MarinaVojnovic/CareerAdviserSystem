@@ -400,7 +400,9 @@ rule "Grouping traits"
 	agenda-group "personalityTest"
 	salience -200
 	when $list: List() from collect(Trait())
-	then
+	then#
+	
+	
 		insert($list);
 		System.out.println("Number of traits found: " + $list.size());
 end

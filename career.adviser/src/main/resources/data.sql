@@ -47,10 +47,10 @@ insert into professional_fields (id, name) values (13, "Science") on duplicate k
 
 
 
-insert into professions(id, name, description, field_id, employment, payment, is_active) values (1, "Administration", "Neki opis za administratora", 1, 100000, 0.5, true) on duplicate key update id = 1;
-insert into professions(id, name, description, field_id, employment, payment, is_active) values (2, "Programming", "Neki opis za programiranje", 2, 90000, 0.4, true) on duplicate key update id = 2;
-insert into professions(id, name, description, field_id, employment, payment, is_active) values (3, "Graphycal design", "Neki opis za graficki dizajn", 7, 80000, 0.3, true) on duplicate key update id = 3;
-insert into professions(id, name, description, field_id, employment, payment, is_active) values (4, "Pshychology", "Neki opis za psihologiju", 9, 70000, 0.2, true) on duplicate key update id = 4;
+insert into professions(id, name, description, field_id, employment, payment, is_active, image) values (1, "Administration", "Neki opis za administratora", 1, 100000, 0.5, true, "administration.jpeg") on duplicate key update id = 1;
+insert into professions(id, name, description, field_id, employment, payment, is_active, image) values (2, "Programming", "Neki opis za programiranje", 2, 90000, 0.4, true, "programming.jpeg") on duplicate key update id = 2;
+insert into professions(id, name, description, field_id, employment, payment, is_active, image) values (3, "Graphycal design", "Neki opis za graficki dizajn", 7, 80000, 0.3, true, "graphycalDesign.jpeg") on duplicate key update id = 3;
+insert into professions(id, name, description, field_id, employment, payment, is_active, image) values (4, "Pshychology", "Neki opis za psihologiju", 9, 70000, 0.2, true, "pshychology.jpeg") on duplicate key update id = 4;
 
 
 insert into professions_traits(profession_id, traits_id) values (1, 1) on duplicate key update profession_id = 1, traits_id = 1;

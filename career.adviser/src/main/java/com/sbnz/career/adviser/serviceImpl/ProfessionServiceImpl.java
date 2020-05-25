@@ -259,5 +259,10 @@ public class ProfessionServiceImpl implements ProfessionService{
 		profession.setIsActive(false);
 		professionRepository.save(profession);
 	}
+	
+	@Override
+	public List<Profession> getAllActive(){
+		return professionRepository.getAllActive();
+	}
 
 }

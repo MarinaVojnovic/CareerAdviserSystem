@@ -1,5 +1,7 @@
 package com.sbnz.career.adviser.service;
 
+import java.util.List;
+
 import com.sbnz.career.adviser.dto.ProfessionDto;
 import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.model.Criteriums;
@@ -17,4 +19,5 @@ public interface ProfessionService {
 	void update(Long profId, ProfessionDto professionDto);
 	void create(ProfessionDto professionDto);
 	void delete(Profession profession);
+	List<Profession> getAllActive();
 }
