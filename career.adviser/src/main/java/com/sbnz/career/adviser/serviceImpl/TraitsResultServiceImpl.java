@@ -38,6 +38,13 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 	}
 	
 	@Override
+	public TraitsResult getTraitResult() {
+		User user = userRepository.getOne(1l);
+		TraitsResult traitsResult = traitsResRepo.findByUser(user);
+		return traitsResult;
+	}
+	
+	@Override
 	public void submitTraitQuestionResults(List<TraitQuestionResult> traitQuestionResults) {
 		System.out.println("Submit trait question results service called");
 		KieServices ks = KieServices.Factory.get();

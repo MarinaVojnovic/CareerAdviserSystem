@@ -1,17 +1,23 @@
 package com.sbnz.career.adviser.entity;
 
+import java.sql.Clob;
+import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.sql.rowset.serial.SerialException;
 
 import com.sbnz.career.adviser.dto.ProfessionDto;
 
@@ -23,7 +29,10 @@ public class Profession {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	Long id;
+	
+	@Column(name="name")
 	String name;
 
 	@ManyToMany( fetch = FetchType.EAGER)
@@ -32,27 +41,29 @@ public class Profession {
 	@ManyToMany
 	Set<Trait> traits;
 	
-	@ManyToOne
-	ProfessionalField field;
+	@Lob
+	@Column(name = "description")
+	Clob description;
 	
-	String description;
-	
+	@Column(name="is_active")
 	Boolean isActive;
 	
+	@Column(name="payment")
 	Integer payment;
 	
+	@Column(name="employment")
 	Integer employment;
 	
+	@Column(name="image")
 	String image;
 	
-	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits, ProfessionalField field,
-			String description, Boolean isActive, Integer payment, Integer employment, String image) {
+	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits,
+			Clob description, Boolean isActive, Integer payment, Integer employment, String image) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.activities = activities;
 		this.traits = traits;
-		this.field = field;
 		this.description = description;
 		this.isActive = isActive;
 		this.payment = payment;
@@ -62,13 +73,32 @@ public class Profession {
 	
 	public Profession(ProfessionDto profDto) {
 		this.name=profDto.getName();
-		this.activities=profDto.getActivities();
-		this.traits=profDto.getTraits();
-		this.field=profDto.getField();
-		this.description=profDto.getDescription();
+		//this.activities=profDto.getActivities();
+		
+		Set<Preference> prefSet = new HashSet<Preference>();
+		for (Preference prefer : profDto.getActivities()) {
+			prefSet.add(prefer);
+		}
+		this.activities=prefSet;
+		//this.traits=profDto.getTraits();
+		Set<Trait> setTraits = new HashSet<Trait>();
+		for (Trait trait : profDto.getTraits()) {
+			setTraits.add(trait);
+		}
+		this.traits=setTraits;
+		try {
+			this.description=new javax.sql.rowset.serial.SerialClob(profDto.getDescription().toCharArray());
+		} catch (SerialException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.isActive=profDto.getIsActive();
 		this.payment=profDto.getPayment();
 		this.employment=profDto.getEmployment();
+		this.image = profDto.getImage();
 	}
 
 	public Profession() {
@@ -76,13 +106,12 @@ public class Profession {
 	}
 	
 	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits, ProfessionalField field,
-			String description, Boolean isActive) {
+			Clob description, Boolean isActive) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.activities = activities;
 		this.traits = traits;
-		this.field = field;
 		this.description = description;
 		this.isActive = isActive;
 	}
@@ -121,19 +150,12 @@ public class Profession {
 		this.traits = traits;
 	}
 
-	public ProfessionalField getField() {
-		return field;
-	}
 
-	public void setField(ProfessionalField field) {
-		this.field = field;
-	}
-
-	public String getDescription() {
+	public Clob getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(Clob description) {
 		this.description = description;
 	}
 

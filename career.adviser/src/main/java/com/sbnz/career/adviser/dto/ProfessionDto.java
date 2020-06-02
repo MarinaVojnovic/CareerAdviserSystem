@@ -1,9 +1,13 @@
 package com.sbnz.career.adviser.dto;
 
+import java.sql.Clob;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-
+import java.util.prefs.Preferences;
 
 import com.sbnz.career.adviser.entity.Preference;
+import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.entity.ProfessionalField;
 import com.sbnz.career.adviser.entity.Trait;
 
@@ -14,11 +18,9 @@ public class ProfessionDto {
 	
 	String name;
 
-	Set<Preference> activities;
+	List<Preference> activities;
 	
-	Set<Trait> traits;
-
-	ProfessionalField field;
+	List<Trait> traits;
 	
 	String description;
 	
@@ -28,25 +30,59 @@ public class ProfessionDto {
 	
 	Integer employment;
 	
+	String image;
+	
 	public ProfessionDto() {
 		
 	}
 
-	public ProfessionDto(Long id, String name, Set<Preference> activities, Set<Trait> traits, ProfessionalField field,
-			String description, Boolean isActive, Integer payment, Integer employment) {
+	public ProfessionDto(Long id, String name, List<Preference> activities, List<Trait> traits,
+			String description, Boolean isActive, Integer payment, Integer employment, String image) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.activities = activities;
 		this.traits = traits;
-		this.field = field;
 		this.description = description;
 		this.isActive = isActive;
 		this.payment = payment;
 		this.employment = employment;
+		this.image=image;
+	}
+	
+	public ProfessionDto(Profession profession) {
+		this.id=profession.getId();
+		this.name=profession.getName();
+		//this.activities=profession.getActivities();
+		//this.traits=profession.getTraits();
+		this.isActive=profession.getIsActive();
+		this.payment=profession.getPayment();
+		this.employment=profession.getEmployment();
+		this.image=profession.getImage();
+		
+		List<Trait> list = new ArrayList<Trait>();
+		for (Trait t : profession.getTraits()) {
+			list.add(t);
+		}
+		
+		List<Preference> preferencesList = new ArrayList<Preference>();
+		for (Preference p : profession.getActivities()) {
+			preferencesList.add(p);
+		}
+		this.activities=preferencesList;
+		this.traits=list;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public Long getId() {
+		
 		return id;
 	}
 
@@ -62,29 +98,22 @@ public class ProfessionDto {
 		this.name = name;
 	}
 
-	public Set<Preference> getActivities() {
+	public List<Preference> getActivities() {
 		return activities;
 	}
 
-	public void setActivities(Set<Preference> activities) {
+	public void setActivities(List<Preference> activities) {
 		this.activities = activities;
 	}
 
-	public Set<Trait> getTraits() {
+	public List<Trait> getTraits() {
 		return traits;
 	}
 
-	public void setTraits(Set<Trait> traits) {
+	public void setTraits(List<Trait> traits) {
 		this.traits = traits;
 	}
 
-	public ProfessionalField getField() {
-		return field;
-	}
-
-	public void setField(ProfessionalField field) {
-		this.field = field;
-	}
 
 	public String getDescription() {
 		return description;

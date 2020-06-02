@@ -400,7 +400,7 @@ rule "Grouping traits"
 	agenda-group "personalityTest"
 	salience -200
 	when $list: List() from collect(Trait())
-	then#
+	then
 	
 	
 		insert($list);

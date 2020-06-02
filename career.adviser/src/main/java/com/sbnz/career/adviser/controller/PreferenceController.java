@@ -1,11 +1,13 @@
 package com.sbnz.career.adviser.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import com.sbnz.career.adviser.dto.PreferenceDto;
 import com.sbnz.career.adviser.dto.TraitQuestionDto;
 import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
+import com.sbnz.career.adviser.entity.ProfessionalField;
 import com.sbnz.career.adviser.entity.TraitQuestion;
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
@@ -29,6 +32,7 @@ import com.sbnz.career.adviser.service.TraitQuestionService;
 
 @RestController
 @RequestMapping(value = "/preferences")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class PreferenceController {
 
 	private PreferenceService preferenceService;
@@ -44,6 +48,7 @@ public class PreferenceController {
 		for (Preference preference : preferences) {
 			preferenceQuestionRes.add(new PreferenceQuestionResult(preference));
 		}
+		Collections.shuffle(preferenceQuestionRes);
 		return new ResponseEntity<>(preferenceQuestionRes, HttpStatus.OK);
 	}
 	
@@ -55,6 +60,13 @@ public class PreferenceController {
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found.", "Preference with given id does not exist"), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping(value = "/findByField")
+	public ResponseEntity<List<Preference>> getPreference(@RequestBody ProfessionalField profField){
+		System.out.println("Uslo u find by field - preferences");
+		List<Preference> preference = preferenceService.findByField(profField);
+		return new ResponseEntity<>(preference, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/getAll")
@@ -71,6 +83,8 @@ public class PreferenceController {
 	
 	@PostMapping(value="/create", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageDto> createPreference(@RequestBody PreferenceDto preferenceDto){
+		System.out.println("Uslo u create preference");
+		System.out.println("Prference dto field: "+preferenceDto.getField().getName());
 		preferenceService.create(preferenceDto);
 		return new ResponseEntity<>(new MessageDto("Success", "Preference successfully created."), HttpStatus.CREATED);
 	}

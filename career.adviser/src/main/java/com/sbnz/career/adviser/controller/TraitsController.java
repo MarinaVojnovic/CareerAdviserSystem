@@ -1,8 +1,10 @@
 package com.sbnz.career.adviser.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,26 +16,56 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import com.sbnz.career.adviser.dto.MessageDto;
+import com.sbnz.career.adviser.dto.ProfessionDto;
 import com.sbnz.career.adviser.dto.TraitQuestionDto;
+import com.sbnz.career.adviser.entity.Trait;
 import com.sbnz.career.adviser.entity.TraitQuestion;
 import com.sbnz.career.adviser.entity.TraitsResult;
+import com.sbnz.career.adviser.model.ProfessionsSuitabilityList;
 import com.sbnz.career.adviser.model.TraitQuestionResult;
 import com.sbnz.career.adviser.service.TraitQuestionService;
+import com.sbnz.career.adviser.service.TraitService;
 
 @RestController
-@RequestMapping(value = "/traits")
+@RequestMapping(value = "/personality")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class TraitsController {
 	
 	private TraitQuestionService traitQuestionService;
+	
+	private TraitService traitService;
 
-	public TraitsController(TraitQuestionService traitQuestionService) {
+	public TraitsController(TraitQuestionService traitQuestionService, TraitService traitService) {
 		this.traitQuestionService = traitQuestionService;
+		this.traitService = traitService;
+	}
+	
+	@GetMapping(value = "/getTraits")
+	public ResponseEntity<List<Trait>> getTraits(){
+		System.out.println("Get traits called.");
+		List<Trait> traits = traitService.getAll();
+		return new ResponseEntity<>(traits, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getByPersonalityField/{persField}")
+	public ResponseEntity<List<Trait>> getByPersonalityField(@PathVariable String persField){
+		System.out.println("Uslo u get by personality field.");
+		List<Trait> traits = traitService.getByPersonalityField(persField);
+		System.out.println("SIZE: "+traits.size());
+		return new ResponseEntity<>(traits, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getTraitQuestions")
+	public ResponseEntity<List<TraitQuestion>> getTraitQuestions(){
+		System.out.println("Get trait questions called.");
+		List<TraitQuestion> traitQuestions = traitQuestionService.getAll();
+		return new ResponseEntity<>(traitQuestions, HttpStatus.OK);
 	}
 
 	
 	@PostMapping(value="/createQuestion", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MessageDto> createTraitQuestion(@RequestBody TraitQuestionDto questionDto){
-		traitQuestionService.create(questionDto);
+	public ResponseEntity<MessageDto> createTraitQuestion(@RequestBody TraitQuestion question){
+		traitQuestionService.create(question);
 		return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully created."), HttpStatus.CREATED);
 	}
 	
@@ -43,6 +75,17 @@ public class TraitsController {
 		if (traitQuestion!=null) {
 			traitQuestionService.delete(traitQuestion);
 			return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully deleted."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found", "Trait question does not exist."), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(value = "/activateQuestion/{questId}")
+	public ResponseEntity<MessageDto> activateTraitQuestion(@PathVariable Long questId){
+		TraitQuestion traitQuestion = traitQuestionService.findById(questId);
+		if (traitQuestion!=null) {
+			traitQuestionService.activate(traitQuestion);
+			return new ResponseEntity<>(new MessageDto("Success", "Trait question successfully activated."), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found", "Trait question does not exist."), HttpStatus.NOT_FOUND);
 		}
@@ -68,11 +111,13 @@ public class TraitsController {
 	
 	@GetMapping(value = "/getAllQuestionsForUser")
 	public ResponseEntity<List<TraitQuestionResult>> getAllForUser(){
+		System.out.println("Uslo u get questions for user");
 		List<TraitQuestionResult> traitQuestionResult = new ArrayList<TraitQuestionResult>();
 		List<TraitQuestion> traitQuestions = traitQuestionService.getAllActive();
 		for (TraitQuestion traitQuest : traitQuestions) {
 			traitQuestionResult.add(new TraitQuestionResult(traitQuest));
 		}
+		Collections.shuffle(traitQuestionResult);
 		return new ResponseEntity<>(traitQuestionResult, HttpStatus.OK);
 	}
 	
@@ -84,5 +129,11 @@ public class TraitsController {
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found.", "Trait question with given id does not exist"), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping(value="/create")
+	public ResponseEntity<MessageDto> createProfession(@RequestBody Trait trait){
+		traitService.create(trait);
+		return new ResponseEntity<>(new MessageDto("Success", "Trait successfully created."), HttpStatus.CREATED);
 	}
 }

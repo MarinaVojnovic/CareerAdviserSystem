@@ -5,6 +5,7 @@ import java.util.List;
 import com.sbnz.career.adviser.dto.PreferenceDto;
 import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
+import com.sbnz.career.adviser.entity.ProfessionalField;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
 
 public interface PreferenceService {
@@ -15,5 +16,6 @@ public interface PreferenceService {
 	void create(PreferenceDto prefDto);
 	void delete(Preference preference);
 	void update(Long prefId, PreferenceDto prefDto);
+	List<Preference> findByField(ProfessionalField field);
 	
 }

@@ -1,8 +1,17 @@
 package com.sbnz.career.adviser.serviceImpl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.sql.rowset.serial.SerialException;
+
+import org.apache.commons.io.FileUtils;
 
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -11,11 +20,12 @@ import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.sbnz.career.adviser.dto.ProfessionDto;
 import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
 import com.sbnz.career.adviser.entity.Profession;
-import com.sbnz.career.adviser.entity.ProfessionalField;
 import com.sbnz.career.adviser.entity.Trait;
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
@@ -31,7 +41,10 @@ import com.sbnz.career.adviser.repository.TraitRepository;
 import com.sbnz.career.adviser.repository.TraitsResultRepository;
 import com.sbnz.career.adviser.repository.UserRepository;
 import com.sbnz.career.adviser.service.ProfessionService;
-import com.sbnz.career.adviser.dto.ProfessionDto;
+
+
+
+
 
 @Service
 public class ProfessionServiceImpl implements ProfessionService{
@@ -115,11 +128,12 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.getAgenda().getAgendaGroup("results").setFocus();
 		kieSession.fireAllRules();
 		System.out.println("Recommended professions size: "+recommendedProfessions.getProfessions().size());
+	
 		return recommendedProfessions;
 	}
 	
 	public Matching getMatching(Long profId) {
-		Profession profession = professionRepository.getOne(profId);
+		Profession profession = professionRepository.findById(profId).orElse(null);
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
@@ -143,6 +157,8 @@ public class ProfessionServiceImpl implements ProfessionService{
 		return matching;
 	}
 	
+	
+
 	public ProfessionsSuitabilityList getCandidatesByTraits() {
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
@@ -195,13 +211,21 @@ public class ProfessionServiceImpl implements ProfessionService{
 	@Override
 	public void update(Long profId, ProfessionDto professionDto) {
 		Profession profession =  professionRepository.findById(profId).orElse(null);
-		profession.setDescription(professionDto.getDescription());
+		try {
+			profession.setDescription(new javax.sql.rowset.serial.SerialClob(professionDto.getDescription().toCharArray()));
+		} catch (SerialException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		profession.setEmployment(professionDto.getEmployment());
 		profession.setPayment(professionDto.getPayment());
 		profession.setName(professionDto.getName());
 		profession.setIsActive(professionDto.getIsActive());
 		
-		Set<Preference> prefDto = professionDto.getActivities();
+		List<Preference> prefDto = professionDto.getActivities();
 		Set<Preference> profPref = new HashSet<Preference>();
 		for (Preference pref : prefDto) {
 			if(pref.getId()!=null) {
@@ -215,27 +239,24 @@ public class ProfessionServiceImpl implements ProfessionService{
 		}
 		profession.setActivities(profPref);
 		
-		Set<Trait> traits = professionDto.getTraits();
+		List<Trait> traits = professionDto.getTraits();
 		Set<Trait> profTraits = new HashSet<Trait>();
 		for (Trait trait : traits) {
 			profTraits.add(this.traitRepository.findByTarget(trait.getTarget()));
 		}
 		profession.setTraits(profTraits);
-		ProfessionalField profField = profFieldRepository.getOne(professionDto.getField().getId());
-		profession.setField(profField);
 		professionRepository.save(profession);
 	}
 	
 	@Override
 	public void create(ProfessionDto professionDto) {
-		Set<Trait> traits = professionDto.getTraits();
+		List<Trait> traits = professionDto.getTraits();
 		Set<Trait> profTraits = new HashSet<Trait>();
 		for (Trait trait : traits) {
 			profTraits.add(this.traitRepository.findByTarget(trait.getTarget()));
 		}
-		ProfessionalField profField = profFieldRepository.getOne(professionDto.getField().getId());
-		System.out.println("Professional field found: "+profField.getName()+" "+profField.getId());
-		Set<Preference> prefDto = professionDto.getActivities();
+		
+		List<Preference> prefDto = professionDto.getActivities();
 		Set<Preference> profPref = new HashSet<Preference>();
 		for (Preference pref : prefDto) {
 			if(pref.getId()!=null) {
@@ -249,7 +270,6 @@ public class ProfessionServiceImpl implements ProfessionService{
 		}
 		Profession profession = new Profession(professionDto);
 		profession.setTraits(profTraits);
-		profession.setField(profField);
 		profession.setActivities(profPref);
 		professionRepository.save(profession);
 	}
@@ -261,8 +281,76 @@ public class ProfessionServiceImpl implements ProfessionService{
 	}
 	
 	@Override
-	public List<Profession> getAllActive(){
-		return professionRepository.getAllActive();
+	public List<ProfessionDto> getAllActive(){
+		List<Profession> professions = professionRepository.getAllActive();
+		List<ProfessionDto> professionDtos = new ArrayList<ProfessionDto>();
+		for (Profession prof : professions) {
+			ProfessionDto profDto = new ProfessionDto(prof);
+			Reader r = null;
+			try {
+				r = prof.getDescription().getCharacterStream();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int j = 0;
+			StringBuffer buffer = new StringBuffer();
+			int ch;
+			try {
+				while ((ch = r.read())!=-1) {
+				   buffer.append(""+(char)ch);
+				}
+				profDto.setDescription(buffer.toString());
+				professionDtos.add(profDto);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		return professionDtos;
 	}
+	
+	@Override
+	public ProfessionDto findOneDto(Long id) {
+		Profession profession = professionRepository.findById(id).orElse(null);
+		ProfessionDto profDto = new ProfessionDto(profession);
+		
+		Reader r = null;
+		try {
+			r = profession.getDescription().getCharacterStream();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		int j = 0;
+		StringBuffer buffer = new StringBuffer();
+		int ch;
+		try {
+			while ((ch = r.read())!=-1) {
+			   buffer.append(""+(char)ch);
+			}
+			profDto.setDescription(buffer.toString());
+		
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return profDto;
+	}
+	
+
+	@Override
+	public void uploadImage(MultipartFile imageFile) throws IOException{
+		String folder = "src/main/resources/static/";
+		byte[] bytes = imageFile.getBytes();
+		//Path path = Paths.get(folder + imageFile.getOriginalFilename());
+		//Files.newBufferedWriter(path, bytes);
+		FileUtils.writeByteArrayToFile(new File(folder+imageFile.getOriginalFilename()), bytes);
+	}
+	
+	
+	
 
 }

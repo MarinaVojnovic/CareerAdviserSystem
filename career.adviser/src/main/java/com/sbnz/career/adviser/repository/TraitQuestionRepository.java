@@ -13,4 +13,7 @@ public interface TraitQuestionRepository extends JpaRepository<TraitQuestion, Lo
 	
 	@Query(value = "select * from trait_questions quest where quest.is_active = true;", nativeQuery = true)
 	List<TraitQuestion> getAllActive();
+	
+	@Query(value = "select * from trait_questions", nativeQuery = true)
+	List<TraitQuestion> getAll();
 }

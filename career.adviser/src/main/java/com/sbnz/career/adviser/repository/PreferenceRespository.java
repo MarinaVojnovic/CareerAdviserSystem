@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.sbnz.career.adviser.entity.Preference;
+import com.sbnz.career.adviser.entity.ProfessionalField;
 
 
 public interface PreferenceRespository extends JpaRepository<Preference, Long>{
@@ -14,4 +15,6 @@ public interface PreferenceRespository extends JpaRepository<Preference, Long>{
 	List<Preference> getAllActive();
 	@Query(value = "select * from preferences", nativeQuery = true)
 	List<Preference> getAll();
+	
+	List<Preference> findByField(ProfessionalField field);
 }
