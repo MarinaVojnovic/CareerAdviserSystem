@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.sbnz.career.adviser.dto.PreferenceDto;
 import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
+import com.sbnz.career.adviser.entity.ProfessionalField;
 import com.sbnz.career.adviser.entity.User;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
 import com.sbnz.career.adviser.model.TraitQuestionResult;
@@ -70,6 +71,12 @@ public class PreferenceServiceImpl implements PreferenceService{
 		preference.setDescription(prefDto.getDescription());
 		preference.setIsActive(prefDto.getIsActive());
 		preferenceRepository.save(preference);
+	}
+	
+
+	@Override
+	public List<Preference> findByField(ProfessionalField field){
+		return preferenceRepository.findByField(field);
 	}
 	
 	

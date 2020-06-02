@@ -9,9 +9,11 @@ import com.sbnz.career.adviser.model.TraitQuestionResult;
 
 public interface TraitQuestionService {
 	List<TraitQuestion> getAllActive();
-	TraitQuestion create(TraitQuestionDto questionDto);
+	TraitQuestion create(TraitQuestion question);
 	void delete(TraitQuestion traitQuestion);
 	TraitQuestion findById(Long id);
 	void update(Long questId, TraitQuestionDto questDto);
+	List<TraitQuestion> getAll();
+	void activate(TraitQuestion traitQuestion);
 
 }

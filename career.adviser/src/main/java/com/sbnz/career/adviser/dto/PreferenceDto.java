@@ -1,5 +1,7 @@
 package com.sbnz.career.adviser.dto;
 
+import com.sbnz.career.adviser.entity.ProfessionalField;
+
 public class PreferenceDto {
 
 	Long id;
@@ -8,15 +10,18 @@ public class PreferenceDto {
 	
 	Boolean isActive;
 	
+	ProfessionalField field;
+	
 	public PreferenceDto() {
 		
 	}
 
-	public PreferenceDto(Long id, String description, Boolean isActive) {
+	public PreferenceDto(Long id, String description, Boolean isActive, ProfessionalField field) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.isActive = isActive;
+		this.field=field;
 	}
 
 	public Long getId() {
@@ -41,6 +46,14 @@ public class PreferenceDto {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public ProfessionalField getField() {
+		return field;
+	}
+
+	public void setField(ProfessionalField field) {
+		this.field = field;
 	}
 	
 	

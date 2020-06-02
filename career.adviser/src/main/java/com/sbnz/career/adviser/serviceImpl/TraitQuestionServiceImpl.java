@@ -47,10 +47,14 @@ public class TraitQuestionServiceImpl implements TraitQuestionService{
 	}
 	
 	@Override
-	public TraitQuestion create(TraitQuestionDto questionDto) {
-		Trait trait = traitRepository.findByTarget(questionDto.getTarget());
+	public TraitQuestion create(TraitQuestion question) {
+		
+		Trait trait = traitRepository.findByTarget(question.getTrait().getTarget());
+		question.setTrait(trait);
+		/*
 		TraitQuestion traitQuestion = new TraitQuestion(trait, questionDto.getText());
-		return traitQuestionRepository.save(traitQuestion);
+		*/
+		return traitQuestionRepository.save(question);
 	}
 
 	@Override
@@ -72,6 +76,21 @@ public class TraitQuestionServiceImpl implements TraitQuestionService{
 		traitQuestion.setText(questDto.getText());
 		Trait trait = traitRepository.findByTarget(questDto.getTarget());
 		traitQuestion.setTrait(trait);
+		traitQuestionRepository.save(traitQuestion);
+		
+	}
+
+
+	@Override
+	public List<TraitQuestion> getAll() {
+		
+		return traitQuestionRepository.getAll();
+	}
+
+
+	@Override
+	public void activate(TraitQuestion traitQuestion) {
+		traitQuestion.setIsActive(true);
 		traitQuestionRepository.save(traitQuestion);
 		
 	}

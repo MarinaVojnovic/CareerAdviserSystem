@@ -401,6 +401,8 @@ rule "Grouping traits"
 	salience -200
 	when $list: List() from collect(Trait())
 	then
+	
+	
 		insert($list);
 		System.out.println("Number of traits found: " + $list.size());
 end

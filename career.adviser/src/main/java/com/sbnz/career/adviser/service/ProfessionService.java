@@ -1,5 +1,10 @@
 package com.sbnz.career.adviser.service;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.sbnz.career.adviser.dto.ProfessionDto;
 import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.model.Criteriums;
@@ -17,4 +22,8 @@ public interface ProfessionService {
 	void update(Long profId, ProfessionDto professionDto);
 	void create(ProfessionDto professionDto);
 	void delete(Profession profession);
+	List<ProfessionDto> getAllActive();
+	ProfessionDto findOneDto(Long id);
+	void uploadImage(MultipartFile imageFile) throws IOException;
+	
 }

@@ -9,4 +9,5 @@ import com.sbnz.career.adviser.model.TraitQuestionResult;
 public interface TraitsResultService {
 
 	void submitTraitQuestionResults(List<TraitQuestionResult> traitQuestionResults);
+	TraitsResult getTraitResult();
 }

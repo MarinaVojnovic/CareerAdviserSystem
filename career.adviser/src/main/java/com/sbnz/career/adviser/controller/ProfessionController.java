@@ -1,10 +1,14 @@
 package com.sbnz.career.adviser.controller;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sbnz.career.adviser.dto.MessageDto;
 import com.sbnz.career.adviser.dto.PreferenceQuestionResultDto;
@@ -29,6 +35,7 @@ import com.sbnz.career.adviser.service.ProfessionService;
 
 @RestController
 @RequestMapping(value = "/professions")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class ProfessionController {
 
 	private final ProfessionService professionService;
@@ -37,11 +44,26 @@ public class ProfessionController {
 		this.professionService = professionService;
 	}
 	
-	@GetMapping(value = "/getResults")
-	public ResponseEntity<RecommendedProfessions> getResults(Criteriums criteriums){
+	@PostMapping(value = "/uploadImage")
+	public ResponseEntity<MessageDto> uploadImage(@RequestParam("file") MultipartFile imageFile){
+		System.out.println("Uploag image called");
+		System.out.println(imageFile);
+		try {
+			professionService.uploadImage(imageFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@PostMapping(value = "/getResults",  consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RecommendedProfessions> getResults(@RequestBody Criteriums criteriums){
 		System.out.println("Get results tests just done");
+		
 		RecommendedProfessions recommendedProfessions = professionService.getResults(criteriums);
 		return new ResponseEntity<>(recommendedProfessions, HttpStatus.OK);
+		
 	}
 	
 	@GetMapping(value = "/getMatchingTraitsAndPreferences/{profId}")
@@ -65,20 +87,19 @@ public class ProfessionController {
 		return new ResponseEntity<>(candidates, HttpStatus.OK);
 	}
 	
-	@PostMapping(value="/createProfession", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/createProfession")
 	public ResponseEntity<MessageDto> createProfession(@RequestBody ProfessionDto professionDto){
 		professionService.create(professionDto);
 		return new ResponseEntity<>(new MessageDto("Success", "Profession successfully created."), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value = "/{profId}")
-	public ResponseEntity<?> getProfession(@PathVariable Long profId){
-		Profession profession = professionService.findById(profId);
-		if (profession!=null) {
-			return new ResponseEntity<>(profession, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(new MessageDto("Not found.", "Trait question with given id does not exist"), HttpStatus.NOT_FOUND);
-		}
+	public ResponseEntity<ProfessionDto> getProfession(@PathVariable Long profId){
+		System.out.println("GET ONE PROFESSION CALLED");
+		ProfessionDto profession = professionService.findOneDto(profId);
+		
+		return new ResponseEntity<>(profession, HttpStatus.OK);
+		
 	}
 	
 	@PutMapping(value = "/updateProfession/{profId}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -105,6 +126,14 @@ public class ProfessionController {
 		}
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<ProfessionDto>> getActiveProfessions() throws SQLException, IOException {
+		System.out.println("Get active professions called.");
+		List<ProfessionDto> professions = professionService.getAllActive();
+		
+		
+		return new ResponseEntity<>(professions, HttpStatus.OK);
+	}
 	
 	
 }

@@ -7,6 +7,9 @@ public class Criteriums {
 	Boolean payment;
 	Boolean employment;
 	
+	public Criteriums() {
+		
+	}
 	
 	public Criteriums(Boolean personality, Boolean preferences, Boolean payment, Boolean employment) {
 		super();

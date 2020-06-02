@@ -104,6 +104,7 @@ rule "Rule 2"
 		 $possibleProfession.increaseScore(1.25);
 end
 
+//Not everything is satisfies and is less than min satisfied all
 rule "Rule 3"
 	agenda-group "traitsTest"
 	no-loop

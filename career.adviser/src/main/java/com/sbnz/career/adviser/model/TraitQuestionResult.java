@@ -22,9 +22,6 @@ public class TraitQuestionResult {
 		this.isChecked = false;
 	}
 
-	
-
-
 
 	public TraitQuestionResult(TraitQuestion traitQuestion, Boolean isChecked) {
 		super();
