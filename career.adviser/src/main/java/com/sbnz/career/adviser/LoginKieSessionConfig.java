@@ -44,11 +44,7 @@ public class LoginKieSessionConfig {
 	//@Bean(name="loginKieSession")
 		@Bean(name="newPersTestSession")
 		public KieSession newPersTest() {
-			System.out.println("**********************");
-			System.out.println("**********************");
-			System.out.println("login kiew sesssioooooooooooon");
-			System.out.println("**********************");
-			System.out.println("**********************");
+			
 			//return kieContainer.newKieSession("someSession");
 			KieServices ks = KieServices.Factory.get();
 			KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();

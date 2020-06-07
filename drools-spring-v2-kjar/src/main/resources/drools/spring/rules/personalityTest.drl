@@ -4,8 +4,6 @@
 import com.sbnz.career.adviser.model.*;
 import java.util.List;
 
-
-
 rule "Traits result - target extroverted, isChecked == true"
 	agenda-group "personalityTest"
 	no-loop
