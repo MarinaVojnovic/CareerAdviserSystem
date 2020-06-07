@@ -47,13 +47,13 @@ insert into professional_fields (id, name) values (13, "Science") on duplicate k
 
 
 
-insert into professions(id, name, description, employment, payment, is_active, image) values (1, "Administration", "Opšta uloga administratora i računovodstva je u svim kompanijama uglavnom administrativne prirode i postoji u mnogim industrijama. Poslovi iz ove kategorije obično uključuju brigu o finansijama i pomaganje menadžerima u efikasnom upravljanju. Dužnosti mogu uključiti briga o finansijama, različitoj dokumentaciji, javljanje na telefon, fotokopiranje, pisanje elektronske pošte i zakazivanje sastanaka i drugih aktivnosti. Radna mesta iz ove kategorije se dosta i nude od strane poslodavaca, ali su radna mesta tražena od strane kandidata. Za sva radna mesta iz ove kategorije je bitno znanje MS Office-a i engleskog jezika. Najtraženija zanimanja od strane poslodavaca u okviru ove kategorije su poslovni sekretar i knjigovođa.", 100000, 0.5, true, "administration.jpeg") on duplicate key update id = 1;
-insert into professions(id, name, description, employment, payment, is_active, image) values (2, "Programming", "Programer je osoba koja pravi kompjuterske programe.
+insert into professions(id, name, description, payment, employment_score, employment, is_active, image) values (1, "Administration", "Opšta uloga administratora i računovodstva je u svim kompanijama uglavnom administrativne prirode i postoji u mnogim industrijama. Poslovi iz ove kategorije obično uključuju brigu o finansijama i pomaganje menadžerima u efikasnom upravljanju. Dužnosti mogu uključiti briga o finansijama, različitoj dokumentaciji, javljanje na telefon, fotokopiranje, pisanje elektronske pošte i zakazivanje sastanaka i drugih aktivnosti. Radna mesta iz ove kategorije se dosta i nude od strane poslodavaca, ali su radna mesta tražena od strane kandidata. Za sva radna mesta iz ove kategorije je bitno znanje MS Office-a i engleskog jezika. Najtraženija zanimanja od strane poslodavaca u okviru ove kategorije su poslovni sekretar i knjigovođa.", 100000, 0, 50, true, "administration.jpeg") on duplicate key update id = 1;
+insert into professions(id, name, description, payment, employment_score, employment, is_active, image) values (2, "Programming", "Programer je osoba koja pravi kompjuterske programe.
 Termin „programer“ može da se odnosi na stručnjaka u nekoj od oblasti kompjuterskog programiranja ili na osobu opšteg kompjuterskog znanja koja piše kodove za više vrsta programa.
 Programer piše, testira, otklanja neispravnosti, održava i upućuje detaljne instrukcije preko „kompjuterskih programa“ kompjuteru, koje izvršava kako bi rešio neku funkciju. Programer takođe osmišljava, dizajnira i testira logičku strukturu za rešenje problema od strane kompjutera.
-Mnoge tehničke inovacije u programiranju – napredne kompjuterske tehnologije, sofisticirani programski jezici i alati su redefinisali ulogu programera u savremenom programiranju. Naziv njegove pozicije i opis posla kojim se bavi danas varira u mnogo većoj amplitudi u odnosu na raniji period.", 90000, 0.4, true, "programming.jpeg") on duplicate key update id = 2;
-insert into professions(id, name, description, employment, payment, is_active, image) values (3, "Graphycal design", "Neki opis za graficki dizajn", 80000, 0.3, true, "graphycalDesign.jpeg") on duplicate key update id = 3;
-insert into professions(id, name, description, employment, payment, is_active, image) values (4, "Psychology", "Neki opis za psihologiju", 70000, 0.2, true, "psychology.jpeg") on duplicate key update id = 4;
+Mnoge tehničke inovacije u programiranju – napredne kompjuterske tehnologije, sofisticirani programski jezici i alati su redefinisali ulogu programera u savremenom programiranju. Naziv njegove pozicije i opis posla kojim se bavi danas varira u mnogo većoj amplitudi u odnosu na raniji period.", 90000, 0, 15, true, "programming.jpeg") on duplicate key update id = 2;
+insert into professions(id, name, description, payment, employment_score, employment, is_active, image) values (3, "Graphycal design", "Neki opis za graficki dizajn", 80000, 0, 5, true, "graphycalDesign.jpeg") on duplicate key update id = 3;
+insert into professions(id, name, description, payment, employment_score, employment, is_active, image) values (4, "Psychology", "Neki opis za psihologiju", 70000, 0, 5, true, "psychology.jpeg") on duplicate key update id = 4;
 
 
 insert into professions_traits(profession_id, traits_id) values (1, 1) on duplicate key update profession_id = 1, traits_id = 1;
@@ -112,7 +112,16 @@ insert into trait_questions(id, text, trait_id, is_active) value(13, "You are de
 insert into trait_questions(id, text, trait_id, is_active) value(14, "Even when you have planned a particular daily routine, you usually end up doing what you feel like at any given moment.", 10, true) on duplicate key update id = 14;
 insert into trait_questions(id, text, trait_id, is_active) value(15, "Your personal work style is closer to spontaneous bursts of energy than to organized and consistent efforts.", 10, true) on duplicate key update id = 15;
 
+insert into authority (id, role) VALUES (1, 'ROLE_ADMIN') on duplicate key update id = 1;
+insert into users(id, username, email, password, name, surname, allowed, new_pers_test, new_prof_test) values (1, "maki", "marina.vojnovic1997@gmail.com", "$2a$10$xMipTNv6mB4FdLt52YK4KuzVVFx891Pr0cnWySeko67UbjbZcIAK2", "Marina", "Vojnovic", true, true, true) on duplicate key update id = 1;
+insert into user_authority (user_id, authority_id) VALUES (1, 1) ON DUPLICATE KEY UPDATE user_id = 1;
+
+insert into authority (id, role) VALUES (2, 'ROLE_USER') on duplicate key update id = 2;
+insert into users(id, username, email, password, name, surname, allowed, new_pers_test, new_prof_test) values (2, "nebojsa", "marina.vojnovic1997@gmail.com", "$2a$10$xMipTNv6mB4FdLt52YK4KuzVVFx891Pr0cnWySeko67UbjbZcIAK2", "Nebojsa", "Lalic", true, true, true) on duplicate key update id = 2;
+insert into user_authority (user_id, authority_id) VALUES (2, 2) ON DUPLICATE KEY UPDATE user_id = 2;
 
 
-
-insert into users(id, username, email, password, name, surname) values (1, "maki", "marina.vojnovic1997@gmail.com", "maki", "Marina", "Vojnovic") on duplicate key update id = 1;
+insert into employment_score_template(id, min_perc, max_perc, score) value(1, 0, 10, 0.25) on duplicate key update id = 1;
+insert into employment_score_template(id, min_perc, max_perc, score) value(2, 11, 20, 0.50) on duplicate key update id = 2;
+insert into employment_score_template(id, min_perc, max_perc, score) value(3, 21, 30, 0.75) on duplicate key update id = 3;
+insert into employment_score_template(id, min_perc, max_perc, score) value(4, 31, 100, 1.0) on duplicate key update id = 4;

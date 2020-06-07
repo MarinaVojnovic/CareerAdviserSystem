@@ -1,0 +1,19 @@
+
+ <div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Preferences test</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p><b>Check activities you find amusing, like or would like to do.</b></p>
+    <div *ngFor="let question of preferenceQuestionResults;">
+        <p ><mat-checkbox [(ngModel)]="question.isChecked"></mat-checkbox>{{question.activity.description}}</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="submitQuestions()" style="margin-right: 10px;">Submit</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+  </div>

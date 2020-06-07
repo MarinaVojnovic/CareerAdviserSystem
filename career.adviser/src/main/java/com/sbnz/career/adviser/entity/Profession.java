@@ -54,6 +54,9 @@ public class Profession {
 	@Column(name="employment")
 	Integer employment;
 	
+	@Column(name="employment_score")
+	Double employmentScore;
+	
 	@Column(name="image")
 	String image;
 	
@@ -69,6 +72,21 @@ public class Profession {
 		this.payment = payment;
 		this.employment = employment;
 		this.image=image;
+	}
+	
+	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits,
+			Clob description, Boolean isActive, Integer payment, Integer employment, String image, Double employmentScore) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.activities = activities;
+		this.traits = traits;
+		this.description = description;
+		this.isActive = isActive;
+		this.payment = payment;
+		this.employment = employment;
+		this.image=image;
+		this.employmentScore = employmentScore;
 	}
 	
 	public Profession(ProfessionDto profDto) {
@@ -185,6 +203,18 @@ public class Profession {
 	
 	public String getImage() {
 		return this.image;
+	}
+
+	public Double getEmploymentScore() {
+		return employmentScore;
+	}
+
+	public void setEmploymentScore(Double employmentScore) {
+		this.employmentScore = employmentScore;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

@@ -23,13 +23,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sbnz.career.adviser.dto.MessageDto;
 import com.sbnz.career.adviser.dto.PreferenceQuestionResultDto;
 import com.sbnz.career.adviser.dto.ProfessionDto;
+import com.sbnz.career.adviser.entity.EmploymentScoreTemplate;
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
 import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.entity.TraitQuestion;
+import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.model.Criteriums;
 import com.sbnz.career.adviser.model.Matching;
 import com.sbnz.career.adviser.model.ProfessionsSuitabilityList;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
+import com.sbnz.career.adviser.service.EmploymentScoreTemplateService;
 import com.sbnz.career.adviser.service.ProfessionService;
 
 
@@ -39,9 +42,20 @@ import com.sbnz.career.adviser.service.ProfessionService;
 public class ProfessionController {
 
 	private final ProfessionService professionService;
+	
+	private final EmploymentScoreTemplateService employmentScoreTemplateService;
 
-	public ProfessionController(ProfessionService professionService) {
+	public ProfessionController(ProfessionService professionService, EmploymentScoreTemplateService employmentScoreTemplateService) {
 		this.professionService = professionService;
+		this.employmentScoreTemplateService=employmentScoreTemplateService;
+	}
+	
+	@PostMapping(value = "/newEmploymentScoreTemplates",  consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MessageDto> newEmploymentScoreTemplates(@RequestBody List<EmploymentScoreTemplate> templates){
+		System.out.println("New employment score templates called");
+		this.employmentScoreTemplateService.newTemplates(templates);
+		return new ResponseEntity<>(new MessageDto("Success", "Templates successfully created."), HttpStatus.OK);
+		
 	}
 	
 	@PostMapping(value = "/uploadImage")
@@ -63,6 +77,17 @@ public class ProfessionController {
 		
 		RecommendedProfessions recommendedProfessions = professionService.getResults(criteriums);
 		return new ResponseEntity<>(recommendedProfessions, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping(value = "/isTestDone")
+	public ResponseEntity<Boolean> isTestDone(){
+		System.out.println("Uslo u get traitsResult");
+		Boolean result = professionService.isTestDone();
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+		
+		
 		
 	}
 	

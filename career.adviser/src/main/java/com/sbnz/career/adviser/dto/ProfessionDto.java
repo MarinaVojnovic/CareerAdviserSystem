@@ -32,10 +32,12 @@ public class ProfessionDto {
 	
 	String image;
 	
+	Double employmentScore;
+	
 	public ProfessionDto() {
 		
 	}
-
+	
 	public ProfessionDto(Long id, String name, List<Preference> activities, List<Trait> traits,
 			String description, Boolean isActive, Integer payment, Integer employment, String image) {
 		super();
@@ -48,6 +50,21 @@ public class ProfessionDto {
 		this.payment = payment;
 		this.employment = employment;
 		this.image=image;
+	}
+
+	public ProfessionDto(Long id, String name, List<Preference> activities, List<Trait> traits,
+			String description, Boolean isActive, Integer payment, Integer employment, String image, Double employmentScore) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.activities = activities;
+		this.traits = traits;
+		this.description = description;
+		this.isActive = isActive;
+		this.payment = payment;
+		this.employment = employment;
+		this.image=image;
+		this.employmentScore=employmentScore;
 	}
 	
 	public ProfessionDto(Profession profession) {
@@ -71,6 +88,7 @@ public class ProfessionDto {
 		}
 		this.activities=preferencesList;
 		this.traits=list;
+		this.employmentScore = profession.getEmploymentScore();
 	}
 
 	public String getImage() {
@@ -146,6 +164,16 @@ public class ProfessionDto {
 	public void setEmployment(Integer employment) {
 		this.employment = employment;
 	}
+
+	public Double getEmploymentScore() {
+		return employmentScore;
+	}
+
+	public void setEmploymentScore(Double employmentScore) {
+		this.employmentScore = employmentScore;
+	}
+	
+	
 	
 	
 }

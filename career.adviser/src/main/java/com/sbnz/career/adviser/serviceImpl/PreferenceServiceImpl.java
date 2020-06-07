@@ -25,16 +25,16 @@ import com.sbnz.career.adviser.service.PreferenceService;
 @Service
 public class PreferenceServiceImpl implements PreferenceService{
 
-	private final KieContainer kieContainer;
+	//private final KieContainer kieContainer;
 	
 	private final PreferenceRespository preferenceRepository;
 	
 	private final UserRepository userRepository;
 	
 	@Autowired
-	public PreferenceServiceImpl(UserRepository userRepository, PreferenceRespository preferenceRepository, KieContainer kieContainer) {
+	public PreferenceServiceImpl(UserRepository userRepository, PreferenceRespository preferenceRepository/*, KieContainer kieContainer*/) {
 		this.preferenceRepository = preferenceRepository;
-		this.kieContainer = kieContainer;
+		//this.kieContainer = kieContainer;
 		this.userRepository=userRepository;
 		
 	}

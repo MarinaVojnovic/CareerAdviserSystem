@@ -46,3 +46,12 @@ rule "If there are possible professions inserted, caluculate influence of paymen
         $possibleProfession.increaseScore((double) $pay/$max);
 
 end
+
+rule "More than"
+	agenda-group "paymentTest"
+    when
+    	$user : User()
+       
+    then
+    	System.out.println("Basic rule.");
+end

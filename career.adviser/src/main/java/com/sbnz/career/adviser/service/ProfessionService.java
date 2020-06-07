@@ -25,5 +25,6 @@ public interface ProfessionService {
 	List<ProfessionDto> getAllActive();
 	ProfessionDto findOneDto(Long id);
 	void uploadImage(MultipartFile imageFile) throws IOException;
+	Boolean isTestDone();
 	
 }

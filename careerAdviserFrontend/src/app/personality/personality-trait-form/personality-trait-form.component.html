@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Personality trait form</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+  <div class="modal-body">
+   
+    <form [formGroup]="form" (submit)='submit()' id="personalityTraitForm" novalidate>
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <input type="text" id="personalityField" class="form-control" [(ngModel)]="trait1.personalityField" placeholder="Personality field"
+                        required autofocus [pattern]="'^[a-zA-Z ]+$'" formControlName="personalityField" maxlength="64">
+                        <div *ngIf="personalityFieldCtrl.invalid && (personalityFieldCtrl.dirty || personalityFieldCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="personalityFieldCtrl.errors.required">
+                              Personality field is required.
+                            </div>
+                            <div *ngIf="personalityFieldCtrl.errors.pattern">
+                              Only alphabet characters are allowed.
+                            </div>
+                          </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <input type="text" id="target1" class="form-control" [(ngModel)]="trait1.target" placeholder="Option 1"
+                        required autofocus [pattern]="'^[a-zA-Z ]+$'" formControlName="target1" maxlength="64">
+                        <div *ngIf="targetCtrl1.invalid && (targetCtrl1.dirty || targetCtrl1.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="targetCtrl1.errors.required">
+                             Target is required.
+                            </div>
+                            <div *ngIf="targetCtrl1.errors.pattern">
+                              Only alphabet characters are allowed.
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" id="target1" class="form-control" [(ngModel)]="trait2.target" placeholder="Option 2"
+                        required autofocus [pattern]="'^[a-zA-Z ]+$'" formControlName="target2" maxlength="64">
+                        <div *ngIf="targetCtrl2.invalid && (targetCtrl2.dirty || targetCtrl2.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="targetCtrl2.errors.required">
+                             Target is required.
+                            </div>
+                            <div *ngIf="targetCtrl2.errors.pattern">
+                              Only alphabet characters are allowed.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+
+<div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="submit()" style="margin-right: 10px;">Submit</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+  </div>

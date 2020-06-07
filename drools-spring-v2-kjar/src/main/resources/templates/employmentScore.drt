@@ -1,0 +1,21 @@
+template header
+minPerc
+maxPerc
+score
+
+package com.ruletemplate.employmentScore;
+
+import com.sbnz.career.adviser.model.*;
+import com.sbnz.career.adviser.entity.*;
+
+template "classify-employment-score"
+
+rule "Calculate Employment Score_@{row.rowNumber}"
+no-loop true
+when
+    $profession: Profession( employment >= @{minPerc} && employment <= @{maxPerc} )
+then
+    $profession.setEmploymentScore(@{score});
+end
+
+end template

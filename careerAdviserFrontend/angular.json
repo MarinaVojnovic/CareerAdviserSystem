@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "careerAdviserFrontend": {
+    "careeradviserfrontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/careerAdviserFrontend",
+            "outputPath": "dist/careeradviserfrontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,6 +24,8 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -62,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "careerAdviserFrontend:build"
+            "browserTarget": "careeradviserfrontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "careerAdviserFrontend:build:production"
+              "browserTarget": "careeradviserfrontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "careerAdviserFrontend:build"
+            "browserTarget": "careeradviserfrontend:build"
           }
         },
         "test": {
@@ -88,6 +90,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -110,15 +113,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "careerAdviserFrontend:serve"
+            "devServerTarget": "careeradviserfrontend:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "careerAdviserFrontend:serve:production"
+              "devServerTarget": "careeradviserfrontend:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "careerAdviserFrontend"
+    }
+  },
+  "defaultProject": "careeradviserfrontend",
+  "cli": {
+    "analytics": "0e4a8b99-2569-427f-a0ed-b9dc7108ac85"
+  }
 }

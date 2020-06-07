@@ -15,6 +15,8 @@ public interface ProfessionRepository extends PagingAndSortingRepository<Profess
 	List<Profession> getAllActive();
 	
 	Optional<Profession> findById(Long id);
+	
+	
 }
 
 

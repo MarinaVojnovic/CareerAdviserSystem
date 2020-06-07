@@ -1,0 +1,149 @@
+<div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Adding profession</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+<div class="modal-body">
+
+<form [formGroup]="form" (submit)='addProfession()' id="professionForm" novalidate>
+    <div class="form-group">
+        <div class="container">
+
+            <div class="row">
+               
+                    <label for="type"><b>Name: </b></label>
+                    <input type="text" id="name" class="form-control" [(ngModel)]="profession.name" placeholder="Name"
+                    required autofocus [pattern]="'^[a-zA-Z ]+$'" formControlName="name" maxlength="64">
+                    <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)"
+                           class="alert alert-danger">
+                        <div *ngIf="nameCtrl.errors.required">
+                          Name is required.
+                        </div>
+                        <div *ngIf="nameCtrl.errors.pattern">
+                          Only alphabet characters are allowed.
+                        </div>
+                      </div>
+    
+                      <label for="type"><b>Description: </b></label>
+                      <textarea type="text" id="description" class="form-control"  [(ngModel)]="profession.description" placeholder="Description"
+                        required autofocus [pattern]="'^[a-zA-Z0-9 ]+$'" formControlName="description" ></textarea>
+                        <div *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="descriptionCtrl.errors.required">
+                            Description is required.
+                            </div>
+                            <div *ngIf="descriptionCtrl.errors.pattern">
+                            Only alphabet characters are allowed.
+                            </div>
+                        </div>
+
+                        <label for="type"><b>Payment: </b></label>
+                        <input type="number" id="payment" class="form-control" [(ngModel)]="profession.payment" placeholder="Payment"
+                        required autofocus [pattern]="'^[0-9 ]+$'" formControlName="payment" maxlength="64">
+                        <div *ngIf="paymentCtrl.invalid && (paymentCtrl.dirty || paymentCtrl.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="paymentCtrl.errors.required">
+                            Payment is required.
+                            </div>
+                            <div *ngIf="paymentCtrl.errors.pattern">
+                            Only positive numeric characters are allowed.
+                            </div>
+                        </div>
+
+                        <label for="type"><p>Employment:</p> </label>
+                        <input type="number" id="employment" class="form-control" [(ngModel)]="profession.employment" placeholder="Employment (percentage)"
+                        required autofocus [pattern]="'^[0-9 ]+$'" formControlName="employment" maxlength="64">
+                        <div *ngIf="employmentCtrl.invalid && (employmentCtrl.dirty || employmentCtrl.touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="employmentCtrl.errors.required">
+                                Employment is required.
+                            </div>
+                            <div *ngIf="employmentCtrl.errors.pattern">
+                            Only positive numeric characters between 0 and 100 are allowed.
+                            </div>  
+                        </div>
+
+                     
+                            <div>
+                                <label for="type"><b>Professional field:</b> </label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select (change)="changeProfessionField($event)" class="dropdown-select form-control" [(ngModel)] = "field" formControlName="field">
+                                            <option *ngFor="let profField of professionalFields" [ngValue]="profField">
+                                              {{profField.name}}</option>
+                                          </select>
+                                    </div>
+                                    <div class="col">
+                                        <button (click)="addField()" mat-button color="primary">New field</button>
+                                    </div>
+                                  </div>
+                            </div>
+
+                            <br>
+                            <div *ngIf="showActivities">
+                                <label for="type"><b>Activities:</b> </label>
+                                <div class="row">
+                                        <select  class="dropdown-select form-control" [(ngModel)] = "profession.activities" formControlName="activities" multiple>
+                                            <option *ngFor="let activity of activities" [ngValue]="activity">
+                                              {{activity.description}}</option>
+                                          </select>
+                                  </div>
+                                  <button (click)="addActivity()" mat-button color="primary">New activity</button>
+                            </div>
+
+                            <br>
+
+                            
+
+                         
+                            
+              
+            
+            </div>
+        </div>
+  
+    </div>
+</form>
+<div>
+    <label><b>Traits:</b></label>
+    <br>
+    <span *ngFor="let trait of traitsList; index as i">
+       
+        <span  *ngIf="i%2==0">
+            <label><b>{{traitsList[i].personalityField}}</b></label>
+            <br>
+            <mat-radio-group [(ngModel)]="selectedTraits[i]" aria-label="Select an option" (change)="handleChange($event)">
+                <mat-radio-button value="{{traitsList[i].target}}">{{traitsList[i].target}}</mat-radio-button>
+                <br>
+                <mat-radio-button value="{{traitsList[i].target}}">{{traitsList[i+1].target}}</mat-radio-button>
+            </mat-radio-group>
+        </span>
+       
+        <br>
+    </span>
+    <button (click)="addTrait()" mat-button color="primary">New trait</button>
+</div>
+<br>
+<br>
+<!-- <form method="post" enctype="multipart/form-data" action="http://localhost:8080/professions/uploadImage">
+    <input type="file" name="imageFile">
+    <input type="submit" value="Upload"/>
+</form> -->
+
+<input type="file" id="customFile" (change)="selectFile($event)">
+<!-- <button class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">Save File</button> -->
+
+</div>
+
+<div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="submit()" style="margin-right: 10px;">Submit</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+</div>
+
+
+
+

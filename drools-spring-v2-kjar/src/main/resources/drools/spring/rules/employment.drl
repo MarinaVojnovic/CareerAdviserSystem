@@ -7,11 +7,11 @@ rule "If there are not possible professions, find and insert them - employmentTe
 	lock-on-active
     when
     	$criteriums : Criteriums(personality == false, preferences==false, payment == false, employment == true)
-    	$profession : Profession($employment : employment, $name : name)
+    	$profession : Profession($employmentScore : employmentScore, $name : name)
     then
     	 System.out.println("Possible profession inserted "+$name);
     	 PossibleProfession possibleProfession = new PossibleProfession($profession);
-    	 possibleProfession.increaseScore((double) $employment/100);
+    	 possibleProfession.increaseScore($employmentScore);
  	  	 insert(possibleProfession);
  	  	 delete($profession);
  	  	 
@@ -24,10 +24,10 @@ rule "If there are possible professions inserted, caluculate influence of employ
     when
     	$l : List( size > 0) from collect (PossibleProfession())
     
-        $possibleProfession : PossibleProfession($employment : profession.employment, $name : profession.name)
+        $possibleProfession : PossibleProfession($employmentScore : profession.employmentScore, $name : profession.name)
     then
     
     	System.out.println("Score increase-employment "+$name);
-        $possibleProfession.increaseScore((double) $employment/100);
+        $possibleProfession.increaseScore($employmentScore);
 
 end

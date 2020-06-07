@@ -46,6 +46,8 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 	
 	@Override
 	public void submitTraitQuestionResults(List<TraitQuestionResult> traitQuestionResults) {
+		
+		
 		System.out.println("Submit trait question results service called");
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();

@@ -31,12 +31,7 @@ rule "Calculating number of matching activities"
 		modify($possibleProfession) {setNumPref((Long) $num);}
 end
 
-/*
-		System.out.println("Number of preferences matched set on possible profession: " + $num);
-		System.out.println("Professions activities size: " + $activities.size());
-		System.out.println("Previous score: " + $score);
-		System.out.println();
-*/
+
 		
 		
 rule "If there are not possible profession, find and insert them"

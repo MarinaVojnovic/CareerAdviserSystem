@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Personality questions</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+<table class="table table-striped">
+    <thead>
+        <th style="text-align: center;">Field/target</th>
+        <th style="text-align: center;">Text</th>
+        <th><button style="display: block; margin: auto;" type="button" class="btn btn-success" (click)="newQuestion()">New</button></th>
+    
+    </thead>
+    <tbody>
+        <tr *ngFor="let quest of traitQuestions" >
+            <!-- <ngb-tab *ngIf="event.id && event.name && event.type && event.status && event.locationInfo">  -->
+            <td>{{quest.trait.personalityField}}/{{quest.trait.target}}</td>
+            <td>{{quest.text}}</td>
+            <td>  <button style="display: block; margin: auto;" *ngIf="quest.isActive" (click) = "deleteQuestion(quest)" class="btn btn-danger" >Delete</button>
+              <button style="display: block; margin: auto;" *ngIf="quest.isActive == false" (click) = "activateQuestion(quest)" class="btn btn-danger" >Activate</button>
+                <button style="display: block; margin: auto;" (click)="editQuestion(quest)" class="btn btn-primary">Edit</button></td>
+      
+        </tr>
+    </tbody> 
+</table>
+
+<div class="modal-footer">
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+  </div>

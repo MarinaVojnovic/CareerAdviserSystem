@@ -29,6 +29,19 @@ public class TraitsResultController {
 	public TraitsResultController(TraitsResultService traitsResultService) {
 		this.traitsResultService = traitsResultService;
 	}
+	
+	@GetMapping(value = "/isTestDone")
+	public ResponseEntity<?> isTestDone(){
+		System.out.println("Uslo u get traitsResult");
+		TraitsResult traitsResult = traitsResultService.getTraitResult();
+		if (traitsResult == null) {
+			return new ResponseEntity<>(false, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+		}
+		
+		
+	}
 
 	@PostMapping(value = "/submitTraitQuestions")
 	public ResponseEntity<MessageDto> submitTraitQuestionResults(@RequestBody List<TraitQuestionResult> traitQuestionResults){
@@ -48,5 +61,9 @@ public class TraitsResultController {
 		return new ResponseEntity<>(traitsResult, HttpStatus.OK);
 		
 	}
+	
+
+	
+	
 	
 }

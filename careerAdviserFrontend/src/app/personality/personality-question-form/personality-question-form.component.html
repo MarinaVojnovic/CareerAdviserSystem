@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Personality question form</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+<div class="modal-body">
+    <form [formGroup]="form" (submit)='addQuestion()' id="personalityQuestionForm" novalidate>
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <label for="type"><b>Text: </b></label>
+                    <input type="text" id="text" class="form-control" [(ngModel)]="text" placeholder="Text"
+                    required autofocus formControlName="text" maxlength="64">
+                    <div *ngIf="textCtrl.invalid && (textCtrl.dirty || textCtrl.touched)"
+                           class="alert alert-danger">
+                        <div *ngIf="textCtrl.errors.required">
+                          Text is required.
+                        </div>
+                        
+                      </div>
+
+                    <br>
+                    <br>
+                    <div>
+                        <label for="type"><b>Personality field:</b> </label>
+                        <div class="row">
+                            <div class="col">
+                                <select  (change)="addedPersonalityField($event)" class="dropdown-select form-control" [(ngModel)] = "personalityField" formControlName="personalityField">
+                                    <option *ngFor="let trait of traits" [ngValue]="trait.personalityField">
+                                      {{trait.personalityField}}</option>
+                                  </select>
+                            </div>
+                            <div class="col">
+                                <button (click)="addField()" mat-button color="primary">New field</button>
+                            </div>
+                        
+                          </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </form>
+    <div class = "row" *ngIf="chooseTarget">
+        <mat-radio-group [(ngModel)]="target" aria-label="Select an option" >
+            <mat-radio-button value="{{targetOne}}">{{targetOne}}</mat-radio-button>
+            <br>
+            <mat-radio-button value="{{targetTwo}}">{{targetTwo}}</mat-radio-button>
+        </mat-radio-group>
+
+    </div>
+</div>
+<br>
+
+<div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="submit()" style="margin-right: 10px;">Submit</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+</div>
+
+
+  

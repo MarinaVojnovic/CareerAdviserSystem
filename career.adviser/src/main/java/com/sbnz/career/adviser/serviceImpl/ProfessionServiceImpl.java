@@ -19,6 +19,7 @@ import org.kie.api.KieServices;
 import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,7 +66,10 @@ public class ProfessionServiceImpl implements ProfessionService{
 	
 	private final PreferenceRespository preferenceRepository;
 	
-	public ProfessionServiceImpl(PreferenceRespository preferenceRepository, ProfessionalFieldRepository profFieldRepository, TraitRepository traitRepository, UserRepository userRepository, TraitsResultRepository traitsResultRepository, PreferenceQuestionResultRepository prefQustResultRepository, ProfessionRepository professionRepository, KieContainer kieContainer) {
+	private final EmploymentScoreTemplateServiceImpl employmentScoreTemplateServiceImpl;
+	
+	public ProfessionServiceImpl(EmploymentScoreTemplateServiceImpl emplScoreService, PreferenceRespository preferenceRepository, ProfessionalFieldRepository profFieldRepository, TraitRepository traitRepository, UserRepository userRepository, TraitsResultRepository traitsResultRepository, PreferenceQuestionResultRepository prefQustResultRepository, ProfessionRepository professionRepository, KieContainer kieContainer) {
+		this.employmentScoreTemplateServiceImpl=emplScoreService;
 		this.professionRepository=professionRepository;
 		this.kieContainer = kieContainer;
 		this.traitsResultRepository=traitsResultRepository;
@@ -77,13 +81,15 @@ public class ProfessionServiceImpl implements ProfessionService{
 	}
 	
 	public RecommendedProfessions getResults(Criteriums criteriums) {
+
 		System.out.println("Get results tests just done service called");
+		employmentScoreTemplateServiceImpl.loadTemplates();
 		List<Profession> professions = professionRepository.getAllActive();
 		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
 		User user = userRepository.getOne(1l);
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
 		
-		
+
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
@@ -130,9 +136,14 @@ public class ProfessionServiceImpl implements ProfessionService{
 		System.out.println("Recommended professions size: "+recommendedProfessions.getProfessions().size());
 	
 		return recommendedProfessions;
+		
+	
+		
+		
 	}
 	
 	public Matching getMatching(Long profId) {
+		
 		Profession profession = professionRepository.findById(profId).orElse(null);
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
@@ -155,11 +166,13 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.fireAllRules();
 		
 		return matching;
+		
 	}
 	
 	
 
 	public ProfessionsSuitabilityList getCandidatesByTraits() {
+		
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
@@ -178,9 +191,11 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.getAgenda().getAgendaGroup("suitableProfessionsTest-traits").setFocus();
 		kieSession.fireAllRules();
 		return profSuitList;
+		
 	}
 	
 	public ProfessionsSuitabilityList getCandidatesByPreferences() {
+		
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
@@ -202,6 +217,7 @@ public class ProfessionServiceImpl implements ProfessionService{
 		
 		
 		return profSuitList;
+		
 	}
 	
 	public Profession findById(Long id) {
@@ -348,6 +364,17 @@ public class ProfessionServiceImpl implements ProfessionService{
 		//Path path = Paths.get(folder + imageFile.getOriginalFilename());
 		//Files.newBufferedWriter(path, bytes);
 		FileUtils.writeByteArrayToFile(new File(folder+imageFile.getOriginalFilename()), bytes);
+	}
+
+	@Override
+	public Boolean isTestDone() {
+		User user = userRepository.getOne(1l);
+		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
+		if (prefQuesRes.size()==0) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 	
 	

@@ -1,0 +1,7 @@
+.spacer {
+    flex-grow: 1;
+}
+
+.modal-xl .modal-lg {
+    max-width:300%;
+  }

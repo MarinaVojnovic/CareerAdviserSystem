@@ -1,0 +1,25 @@
+<div style="padding: 10px; margin: 10px">
+    <h2 style="text-align: center;">Candidate professions</h2>
+    <div class="container">
+        <div class="center">
+            <button  mat-button color="primary" (click)="getRecommendedProfessionsByTraits()">By traits</button>
+            <button  mat-button color="accent" (click)="getRecommendedProfessionsByPreferences()">By preferences</button>
+        </div>
+    </div>
+    <div *ngIf="professionSuitabilityList.suitableProfessions!==undefined">
+        <mat-grid-list cols="3" rowHeight="200px" >
+            <div class="float-child card" *ngFor="let prof of professionSuitabilityList.suitableProfessions; let i = index">
+            <mat-grid-tile>
+                <div class="card-body" style="margin: 5px; padding: 5px; text-align: center;">
+                <img style="width: 100px; height: 100px;" class="card-img-top" src={{showPicture(prof.profession.image)}} alt="Card image cap">
+                <h5 class="card-title" style="color:  #0000ff; font-size: 80%;">{{prof.profession.name}}</h5>
+                <button mat-stroked-button color="warn" (click)="showDetails(prof)">Details</button>
+                </div>
+            </mat-grid-tile>
+            </div>
+        </mat-grid-list>
+        
+        <button style="display: block; float: right; margin: 10px;" (click)="close()" mat-stroked-button color="primary">Close</button>
+    </div>
+</div>
+

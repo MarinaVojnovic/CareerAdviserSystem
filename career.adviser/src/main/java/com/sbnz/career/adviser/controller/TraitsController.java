@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import com.sbnz.career.adviser.dto.MessageDto;
@@ -34,10 +37,27 @@ public class TraitsController {
 	private TraitQuestionService traitQuestionService;
 	
 	private TraitService traitService;
+	
+	
 
 	public TraitsController(TraitQuestionService traitQuestionService, TraitService traitService) {
 		this.traitQuestionService = traitQuestionService;
 		this.traitService = traitService;
+		
+	}
+	
+	@GetMapping(value = "/newTest")
+	public ResponseEntity<MessageDto> newTest(){
+		System.out.println("New test called.");
+		
+		Boolean permision  = traitService.newTest();
+		if (permision == true) {
+			return new ResponseEntity<>(new MessageDto("Success", "You can now retake the test."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Forbidden", "Access forbidden for three minutes"), HttpStatus.FORBIDDEN);
+		}
+		
+		
 	}
 	
 	@GetMapping(value = "/getTraits")
@@ -56,6 +76,7 @@ public class TraitsController {
 	}
 	
 	@GetMapping(value = "/getTraitQuestions")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<TraitQuestion>> getTraitQuestions(){
 		System.out.println("Get trait questions called.");
 		List<TraitQuestion> traitQuestions = traitQuestionService.getAll();

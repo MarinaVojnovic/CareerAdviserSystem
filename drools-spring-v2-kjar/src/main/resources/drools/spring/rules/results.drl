@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-rule "Your First Rule"
+rule "Finding results"
 
 	agenda-group "results"
 	no-loop
@@ -27,7 +27,14 @@ rule "Your First Rule"
 		   		
 		   	}
         });
-       for (Integer i = 0; i < 3; i++){
+        
+        Integer granica = $l.size();
+        if (granica > 3){
+        
+        	granica = 3;
+        }
+        
+       for (Integer i = 0; i < granica; i++){
        	PossibleProfession prof = (PossibleProfession) $l.get(i);
        	System.out.println(prof.getScore());
        	$professions.add(prof);
@@ -35,11 +42,4 @@ rule "Your First Rule"
 
 end
 
-rule "Your Second Rule"
-    //include attributes such as "salience" here...
-    when
-        //conditions
-    then
-        //actions
 
-end

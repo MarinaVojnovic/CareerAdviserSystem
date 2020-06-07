@@ -1,0 +1,33 @@
+<div style="padding: 10px; margin: 10px">
+    <h2 style="text-align: center;">Personality results</h2>
+    <div>
+        <span><label style="display: block; text-align: center;"><b>MIND</b></label></span>
+        <span><label style="display: block; text-align: center;">This trait determines how we interact with our environment.</label></span>
+        <mat-progress-bar mode="determinate" value="{{100 * (traitsResult.extraverted/(traitsResult.extraverted+traitsResult.introverted))}}" style="height: 40px;"></mat-progress-bar>
+        <span><label><b>Extraverted</b></label> <label style="float: right;"><b>Introverted</b></label></span>
+    
+        <span><label style="display: block; text-align: center;"><b>IDENTITY</b></label></span>
+        <span><label style="display: block; text-align: center;">This trait underpins all others, showing how confident we are in our abilities and decisions.</label></span>
+        <mat-progress-bar mode="determinate" value="{{100 * (traitsResult.assertive/(traitsResult.assertive+traitsResult.turbulent))}}" style="height: 40px;"></mat-progress-bar>
+        <span><label><b>Assertive</b></label> <label style="float: right;"><b>Turbulent</b></label></span>
+    
+        <span><label style="display: block; text-align: center;"><b>NATURE</b></label></span>
+        <span><label style="display: block; text-align: center;">This trait determines how we make decisions and cope with emotions.</label></span>
+        <mat-progress-bar mode="determinate" value="{{100 * (traitsResult.thinking/(traitsResult.thinking+traitsResult.feeling))}}" style="height: 40px;"></mat-progress-bar>
+        <span><label><b>Thinking</b></label> <label style="float: right;"><b>Feeling</b></label></span>
+    
+        <span><label style="display: block; text-align: center;"><b>ENERGY</b></label></span>
+        <span><label style="display: block; text-align: center;">This trait shows where we direct our mental energy.</label></span>
+        <mat-progress-bar mode="determinate" value="{{100 * (traitsResult.realist/(traitsResult.realist+traitsResult.visionary))}}" style="height: 40px;"></mat-progress-bar>
+        <span><label><b>Realist</b></label> <label style="float: right;"><b>Visionary</b></label></span>
+    
+        <span><label style="display: block; text-align: center;"><b>TACTICS</b></label></span>
+        <span><label style="display: block; text-align: center;">This trait reflects our approach to work, planning and decision-making.</label></span>
+        <mat-progress-bar mode="determinate" value="{{100 * (traitsResult.judging/(traitsResult.judging+traitsResult.prospecting))}}" style="height: 40px;"></mat-progress-bar>
+        <span><label><b>Judging</b></label> <label style="float: right;"><b>Prospecting</b></label></span>   
+    </div>
+    <button  style="display: block; float: right; margin: 10px;" mat-stroked-button color="primary" (click)="close()">Close</button>
+    
+    
+    
+    </div>

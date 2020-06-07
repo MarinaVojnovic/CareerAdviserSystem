@@ -69,15 +69,6 @@ rule "Calculating number of matching preferences"
     	System.out.println("Found matching: " + $matchPref.size());
 end
 
-/*
-
-	System.out.println("Everything satisfied "+$matchingPreferences.size());
-		for (Object o : $matchingPreferences){
-    		Preference activity = (Preference) o;
-    		$matchPref.add(activity);
-    	}
-    	System.out.println("Found matching: " + $matchPref.size());
-*/
 
 
 

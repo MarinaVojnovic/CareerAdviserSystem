@@ -9,4 +9,5 @@ public interface TraitService {
 	List<Trait> getAll();
 	void create(Trait trait);
 	List<Trait> getByPersonalityField(String persField);
+	Boolean newTest();
 }
