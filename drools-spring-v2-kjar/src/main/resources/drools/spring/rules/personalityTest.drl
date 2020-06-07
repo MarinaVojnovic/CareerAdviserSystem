@@ -4,8 +4,10 @@
 import com.sbnz.career.adviser.model.*;
 import java.util.List;
 
+
+agenda-group "personalityTest"
+
 rule "Traits result - target extroverted, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -17,7 +19,6 @@ rule "Traits result - target extroverted, isChecked == true"
 end
 
 rule "Traits result - target extroverted, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -29,7 +30,6 @@ rule "Traits result - target extroverted, isChecked == false"
 end
 
 rule "Traits result - target introverted, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -41,7 +41,6 @@ rule "Traits result - target introverted, isChecked == true"
 end
 
 rule "Traits result - target introverted, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -55,7 +54,6 @@ end
 
 
 rule "Traits result - target assertive, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -67,7 +65,6 @@ rule "Traits result - target assertive, isChecked == true"
 end
 
 rule "Traits result - target assertive, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -79,7 +76,6 @@ rule "Traits result - target assertive, isChecked == false"
 end
 
 rule "Traits result - target turbulent, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -91,7 +87,6 @@ rule "Traits result - target turbulent, isChecked == true"
 end
 
 rule "Traits result - target turbulent, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -105,7 +100,6 @@ end
 
 
 rule "Traits result - target thinking, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -117,7 +111,6 @@ rule "Traits result - target thinking, isChecked == true"
 end
 
 rule "Traits result - target thinking, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -129,7 +122,6 @@ rule "Traits result - target thinking, isChecked == false"
 end
 
 rule "Traits result - target feeling, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -141,7 +133,6 @@ rule "Traits result - target feeling, isChecked == true"
 end
 
 rule "Traits result - target feeling, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -153,7 +144,6 @@ rule "Traits result - target feeling, isChecked == false"
 end
 
 rule "Traits result - target realist, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -165,7 +155,6 @@ rule "Traits result - target realist, isChecked == true"
 end
 
 rule "Traits result - target realist, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -177,7 +166,6 @@ rule "Traits result - target realist, isChecked == false"
 end
 
 rule "Traits result - target visionary, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -189,7 +177,6 @@ rule "Traits result - target visionary, isChecked == true"
 end
 
 rule "Traits result - target visionary, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -201,7 +188,6 @@ rule "Traits result - target visionary, isChecked == false"
 end
 
 rule "Traits result - target judging, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -213,7 +199,6 @@ rule "Traits result - target judging, isChecked == true"
 end
 
 rule "Traits result - target judging, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -225,7 +210,6 @@ rule "Traits result - target judging, isChecked == false"
 end
 
 rule "Traits result - target prospecting, isChecked == true"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -237,7 +221,6 @@ rule "Traits result - target prospecting, isChecked == true"
 end
 
 rule "Traits result - target prospecting, isChecked == false"
-	agenda-group "personalityTest"
 	no-loop
 	lock-on-active
     when
@@ -253,7 +236,6 @@ end
 
 
 rule "Creating mind trait-extraverted"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -266,7 +248,6 @@ rule "Creating mind trait-extraverted"
 end
 
 rule "Creating mind trait-introverted"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -279,7 +260,6 @@ rule "Creating mind trait-introverted"
 end
 
 rule "Creating mind identity-assertive"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -291,7 +271,6 @@ rule "Creating mind identity-assertive"
 end
 
 rule "Creating mind identity-turbulent"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -303,7 +282,6 @@ rule "Creating mind identity-turbulent"
 end
 
 rule "Creating mind nature-thinking"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -315,7 +293,6 @@ rule "Creating mind nature-thinking"
 end
 
 rule "Creating mind nature-feeling"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -327,7 +304,6 @@ rule "Creating mind nature-feeling"
 end
 
 rule "Creating mind energy-realist"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -339,7 +315,6 @@ rule "Creating mind energy-realist"
 end
 
 rule "Creating mind energy-visionary"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -352,7 +327,6 @@ end
 
 
 rule "Creating mind tactics-judging"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -366,7 +340,6 @@ rule "Creating mind tactics-judging"
 end
 
 rule "Creating mind tactics-prospecting"
-	agenda-group "personalityTest"
 	salience -100
 	no-loop
 	when
@@ -381,7 +354,6 @@ rule "Creating mind tactics-prospecting"
 end
 
 rule "Grouping traits"
-	agenda-group "personalityTest"
 	salience -200
 	when $list: List() from collect(Trait())
 	then

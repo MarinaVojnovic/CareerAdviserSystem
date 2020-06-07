@@ -4,8 +4,9 @@ import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 import java.util.List;
 
+agenda-group "preferencesTest"
+
 rule "Calculating number of matching activities"
-	agenda-group "preferencesTest"
 	salience 200
 	no-loop
 	lock-on-active
@@ -35,7 +36,6 @@ end
 		
 		
 rule "If there are not possible profession, find and insert them"
-	agenda-group "preferencesTest"
 	no-loop
 	lock-on-active
     when
@@ -66,7 +66,6 @@ end
 
 //Maximum satisfied
 rule "Rule 0 - preferences test"
-	agenda-group "preferencesTest"
 	salience 100
 	no-loop
 	when
@@ -86,7 +85,6 @@ end
 
 //Calculating score for professions where all personality traits are satisfied
 rule "Rule 1 - preferences test"
-	agenda-group "preferencesTest"
 	salience 100
 	no-loop
 	when
@@ -107,7 +105,6 @@ end
 
 //Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
 rule "Rule 2 - preferences test"
-	agenda-group "preferencesTest"
 	salience 100
 	no-loop
 	when
@@ -128,7 +125,6 @@ end
 
 
 rule "Rule 3 - preferences test"
-	agenda-group "preferencesTest"
 	salience 100
 	no-loop
 	when
@@ -147,7 +143,6 @@ rule "Rule 3 - preferences test"
 end
 
 rule "Rule 4 - preferences test"
-	agenda-group "preferencesTest"
 	salience 100
 	no-loop
 	when
@@ -165,4 +160,5 @@ rule "Rule 4 - preferences test"
 		 System.out.println("Rule 4 : 1.0" + $name);
 		 $possibleProfession.increaseScore(1.0);
 end
+
 

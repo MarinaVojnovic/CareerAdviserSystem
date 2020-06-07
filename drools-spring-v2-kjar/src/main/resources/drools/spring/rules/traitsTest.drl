@@ -2,7 +2,8 @@
 import java.util.List;
 import java.util.Set;
 import com.sbnz.career.adviser.model.*;
-
+/*
+agenda-group "traitsTest"
 
 query checkIfPossibleProfession (Number $num, List $traitsTarget, Set $professionTraits)
 	$num:= Number(intValue >= 1) 
@@ -24,7 +25,6 @@ end
 
 
 rule "Calculating number of traits"
-	agenda-group "traitsTest"
 	no-loop
 	lock-on-active
     when
@@ -47,7 +47,6 @@ end
 //Calculating score for professions where all personality traits are satisfied
 //Maximum satisfied
 rule "Rule 0"
-	agenda-group "traitsTest"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -68,7 +67,6 @@ end
 //Calculating score for professions where all personality traits are satisfied
 //Evertyhing satisfied but not maximum
 rule "Rule 1"
-	agenda-group "traitsTest"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -87,7 +85,6 @@ end
 //Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
 //Not everything satisfied but greater than maximum
 rule "Rule 2"
-	agenda-group "traitsTest"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -106,7 +103,6 @@ end
 
 //Not everything is satisfies and is less than min satisfied all
 rule "Rule 3"
-	agenda-group "traitsTest"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -125,7 +121,6 @@ rule "Rule 3"
 end
 
 rule "Rule 4"
-	agenda-group "traitsTest"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -142,6 +137,7 @@ rule "Rule 4"
 		 System.out.println("Rule 4 : 1.0" + $name);
 		 $possibleProfession.increaseScore(1.0);
 end
+*/
 
 
 

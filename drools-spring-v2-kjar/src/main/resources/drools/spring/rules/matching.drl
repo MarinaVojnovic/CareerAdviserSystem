@@ -1,6 +1,8 @@
 //created on: 9 May 2020
 import com.sbnz.career.adviser.model.*;
 
+/*
+agenda-group "matchingTest"
 
 //declare any global variables here
 query returnMatchingTraits (List $matching, List $traitsTarget, Set $professionTraits)
@@ -22,7 +24,6 @@ query returnMatchingPreferences (List $matchingPreferences, List $prefTarget, Se
 end
 
 rule "Calculating number of matching traits"
-	agenda-group "matchingTest"
 	no-loop
 	lock-on-active
     when
@@ -47,7 +48,6 @@ rule "Calculating number of matching traits"
 end
 
 rule "Calculating number of matching preferences"
-	agenda-group "matchingTest"
 	no-loop
 	lock-on-active
 	when
@@ -70,5 +70,5 @@ rule "Calculating number of matching preferences"
 end
 
 
-
+*/
 

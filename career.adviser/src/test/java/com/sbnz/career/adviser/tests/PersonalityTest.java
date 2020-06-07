@@ -4,6 +4,7 @@ package com.sbnz.career.adviser.tests;
 import static org.junit.Assert.assertEquals;
 
 import org.drools.core.base.RuleNameEqualsAgendaFilter;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,7 @@ import com.sbnz.career.adviser.model.TraitQuestionResult;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PersonalityTestTest {
+public class PersonalityTest {
 	
 	  	@Autowired
 		private KieContainer kieContainer;
@@ -282,5 +283,10 @@ public class PersonalityTestTest {
 		    assertEquals((Integer) 1, traitsResult.getJudging());
 			
 		}
+		
+	  @After
+	    public void disposeOfSession() {
+	        this.kieSession.dispose();
+	    }
 		
 }

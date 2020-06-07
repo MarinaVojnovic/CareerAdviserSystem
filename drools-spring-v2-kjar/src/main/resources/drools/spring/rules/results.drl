@@ -2,9 +2,10 @@
 
 import java.util.*;
 
-rule "Finding results"
+/*
+agenda-group "results"
 
-	agenda-group "results"
+rule "Finding results"
 	no-loop
 	lock-on-active
     when
@@ -41,5 +42,5 @@ rule "Finding results"
        }
 
 end
-
+*/
 

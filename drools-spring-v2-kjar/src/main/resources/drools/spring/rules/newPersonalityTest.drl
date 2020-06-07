@@ -4,11 +4,11 @@ package rules
 import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 import com.sbnz.career.adviser.events.*;
-
+/*
+agenda-group "newPersonalityTest"
 
 rule "More than 1 attempt for redoing personality test in 2 minutes"
 	lock-on-active
-	agenda-group "newPersonalityTest"
     when
         $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
         Number(intValue >= 2) from accumulate(
@@ -29,7 +29,6 @@ end
  
  
 rule "Suspicious event already exists, client is punished if forcing another test."
-	agenda-group "newPersonalityTest"
 	lock-on-active
 	when
         $e1: NewPersonalityTestEvent($user: user)
@@ -40,37 +39,10 @@ rule "Suspicious event already exists, client is punished if forcing another tes
 		delete($curSuspEvent);
 		insert(new SuspiciousPersonalityTest($user, "Maximum number of tests in two minutes reached."));
 end
-/*
-rule "Suspicious event already exists, client is punished if forcing another test."
-	agenda-group "newPersonalityTest"
-	lock-on-active
-	when
-		$curSuspEvent : SuspiciousEvent(reason == "Maximum number of tests in two minutes reached.")
-		
-	then
-		System.out.println("Suspicious user event basic.");
-		
-end
-*/
-/*
-rule "No suspicious event, new test allowed"
-	agenda-group "newPersonalityTest"
-	lock-on-active
-	when
-        $e1: NewPersonalityTestEvent($user: user)
-		not (SuspiciousEvent($susUserId : user.id, $susUserId == $user.id, reason == "Maximum number of tests in two minutes reached."))
-		
-	then
-		$user.setNewPersTest(true);
-		System.out.println("Allowed to redo a test.");
-		
-end
-*/
 
 
 
 rule "No suspicious event, new test allowed"
-	agenda-group "newPersonalityTest"
 	lock-on-active
 	when
 		 $e1: NewPersonalityTestEvent($user: user)
@@ -84,7 +56,6 @@ end
 
 
 rule "Less than 3 logging in unsuccessfully in 10 minutes from one user"
-	agenda-group "newPersonalityTest"
 	lock-on-active
     when
         $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
@@ -103,3 +74,4 @@ rule "Less than 3 logging in unsuccessfully in 10 minutes from one user"
         delete($sp);
         
 end
+*/

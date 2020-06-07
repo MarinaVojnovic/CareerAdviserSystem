@@ -4,9 +4,10 @@ package events
 import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 import com.sbnz.career.adviser.events.*;
+/*
+agenda-group "loginEvents"
 
 rule "More than 3 logging in unsuccessfully in 10 minutes from one user"
-	agenda-group "loginEvents"
 	lock-on-active
     when
         $e1: LoginEvent($userId: user.id, $user : user)
@@ -30,7 +31,6 @@ end
 
 
 rule "Suspicious login event and new new unsuccessfull login - new suspcious login event inserted."
-	agenda-group "loginEvents"
 	lock-on-active
 	when
         $e1: LoginEvent($user: user, $successfull : successfull, $successfull==false)
@@ -44,7 +44,6 @@ end
 
 
 rule "Suspicious login event and new successfull login - stays not allowed."
-	agenda-group "loginEvents"
 	lock-on-active
 	when
         $e1: LoginEvent($user: user, $successfull : successfull, $successfull==true)
@@ -56,7 +55,6 @@ rule "Suspicious login event and new successfull login - stays not allowed."
 end
 
 rule "No suspicious login event, successfull login"
-	agenda-group "loginEvents"
 	lock-on-active
 	when
         $e1: LoginEvent($user: user, $successfull : successfull, $successfull==true)
@@ -67,3 +65,4 @@ rule "No suspicious login event, successfull login"
 		System.out.println("Allowed to login.");
 		
 end
+*/

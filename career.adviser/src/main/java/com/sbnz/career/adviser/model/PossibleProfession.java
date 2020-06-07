@@ -10,7 +10,9 @@ public class PossibleProfession {
 	Long numPref;
 	
 	public PossibleProfession() {
-		
+		this.score=0d;
+		this.numTraits=0l;
+		this.numPref=0l;
 	}
 	
 	public PossibleProfession(Profession profession, Double score, Long numTraits, Long numPref) {

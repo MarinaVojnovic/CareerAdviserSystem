@@ -1,9 +1,8 @@
 //created on: 7 May 2020
 
-
+agenda-group "paymentTest"
 
 rule "If there are not possible professions, find and insert them"
-	agenda-group "paymentTest"
 	no-loop
 	lock-on-active
     when
@@ -28,7 +27,6 @@ rule "If there are not possible professions, find and insert them"
 end
 
 rule "If there are possible professions inserted, caluculate influence of payment"
-    agenda-group "paymentTest"
     no-loop
 	lock-on-active
     when
@@ -47,11 +45,4 @@ rule "If there are possible professions inserted, caluculate influence of paymen
 
 end
 
-rule "More than"
-	agenda-group "paymentTest"
-    when
-    	$user : User()
-       
-    then
-    	System.out.println("Basic rule.");
-end
+

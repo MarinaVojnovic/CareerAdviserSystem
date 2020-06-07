@@ -1,7 +1,7 @@
 import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 
-
+/*
 rule "Moje prvo pravilo"
 	no-loop
 	lock-on-active true
@@ -12,3 +12,4 @@ rule "Moje prvo pravilo"
  		System.out.println("Traits result found");
  		
 end
+*/

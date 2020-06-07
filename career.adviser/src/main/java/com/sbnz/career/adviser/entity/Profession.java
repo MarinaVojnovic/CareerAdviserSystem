@@ -2,6 +2,7 @@ package com.sbnz.career.adviser.entity;
 
 import java.sql.Clob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,6 +60,12 @@ public class Profession {
 	
 	@Column(name="image")
 	String image;
+	
+	public Profession() {
+		this.employmentScore=0d;
+		this.activities = new HashSet<Preference>();
+		this.traits=new HashSet<Trait>();
+	}
 	
 	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits,
 			Clob description, Boolean isActive, Integer payment, Integer employment, String image) {
@@ -119,9 +126,7 @@ public class Profession {
 		this.image = profDto.getImage();
 	}
 
-	public Profession() {
-		
-	}
+	
 	
 	public Profession(Long id, String name, Set<Preference> activities, Set<Trait> traits, ProfessionalField field,
 			Clob description, Boolean isActive) {

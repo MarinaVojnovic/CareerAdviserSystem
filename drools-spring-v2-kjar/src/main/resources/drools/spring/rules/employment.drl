@@ -1,8 +1,9 @@
 //created on: 7 May 2020
 
 
+agenda-group "employmentTest"
+
 rule "If there are not possible professions, find and insert them - employmentTest"
-	agenda-group "employmentTest"
 	no-loop
 	lock-on-active
     when
@@ -18,11 +19,9 @@ rule "If there are not possible professions, find and insert them - employmentTe
 end
 
 rule "If there are possible professions inserted, caluculate influence of employment"
-    agenda-group "employmentTest"
     no-loop
 	lock-on-active
     when
-    	$l : List( size > 0) from collect (PossibleProfession())
     
         $possibleProfession : PossibleProfession($employmentScore : profession.employmentScore, $name : profession.name)
     then
@@ -31,3 +30,4 @@ rule "If there are possible professions inserted, caluculate influence of employ
         $possibleProfession.increaseScore($employmentScore);
 
 end
+
