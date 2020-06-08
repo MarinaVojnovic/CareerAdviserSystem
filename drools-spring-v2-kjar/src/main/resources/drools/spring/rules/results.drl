@@ -2,7 +2,7 @@
 
 import java.util.*;
 
-/*
+
 agenda-group "results"
 
 rule "Finding results"
@@ -42,5 +42,5 @@ rule "Finding results"
        }
 
 end
-*/
+
 

@@ -284,6 +284,96 @@ public class PersonalityTest {
 			
 		}
 		
+		@Test
+		public void isExtraverted() {
+			traitsResult.setExtraverted(10);
+			traitsResult.setIntraverted(5);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind trait-extraverted"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isIntroverted() {
+			traitsResult.setExtraverted(5);
+			traitsResult.setIntraverted(10);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind trait-introverted"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isAssertive() {
+			traitsResult.setAssertive(10);
+			traitsResult.setTurbulent(5);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind identity-assertive"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isTurbulent() {
+			traitsResult.setAssertive(5);
+			traitsResult.setTurbulent(10);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind identity-turbulent"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isThinking() {
+			traitsResult.setThinking(10);
+			traitsResult.setFeeling(5);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind nature-thinking"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isFeeling() {
+			traitsResult.setThinking(5);
+			traitsResult.setFeeling(10);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind nature-feeling"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isRealist() {
+			traitsResult.setRealist(10);
+			traitsResult.setVisionary(5);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind energy-realist"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isVisionary() {
+			traitsResult.setRealist(5);
+			traitsResult.setVisionary(10);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind energy-visionary"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isJudging() {
+			traitsResult.setJudging(10);
+			traitsResult.setProspecting(5);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind tactics-judging"));
+		    assertEquals(1, fired);
+		}
+		
+		@Test
+		public void isProspecting() {
+			traitsResult.setJudging(5);
+			traitsResult.setProspecting(10);
+			kieSession.insert(traitsResult);
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind tactics-prospecting"));
+		    assertEquals(1, fired);
+		}
+		
 	  @After
 	    public void disposeOfSession() {
 	        this.kieSession.dispose();

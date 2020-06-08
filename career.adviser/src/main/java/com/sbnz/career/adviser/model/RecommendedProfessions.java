@@ -10,6 +10,8 @@ public class RecommendedProfessions {
 
 
 	LinkedHashSet<PossibleProfession> professions;
+	
+
 
 	public RecommendedProfessions(LinkedHashSet<PossibleProfession> professions) {
 		super();
