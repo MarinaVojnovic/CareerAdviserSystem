@@ -4,7 +4,7 @@ package rules
 import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 import com.sbnz.career.adviser.events.*;
-/*
+
 agenda-group "newPersonalityTest"
 
 rule "More than 1 attempt for redoing personality test in 2 minutes"
@@ -74,4 +74,4 @@ rule "Less than 3 logging in unsuccessfully in 10 minutes from one user"
         delete($sp);
         
 end
-*/
+

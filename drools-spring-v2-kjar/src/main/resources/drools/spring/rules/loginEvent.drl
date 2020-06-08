@@ -4,7 +4,7 @@ package events
 import com.sbnz.career.adviser.model.*;
 import com.sbnz.career.adviser.entity.*;
 import com.sbnz.career.adviser.events.*;
-/*
+
 agenda-group "loginEvents"
 
 rule "More than 3 logging in unsuccessfully in 10 minutes from one user"
@@ -65,4 +65,4 @@ rule "No suspicious login event, successfull login"
 		System.out.println("Allowed to login.");
 		
 end
-*/
+
