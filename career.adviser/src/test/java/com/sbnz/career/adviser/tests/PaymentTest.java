@@ -2,6 +2,9 @@ package com.sbnz.career.adviser.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.sbnz.career.adviser.entity.Preference;
 import com.sbnz.career.adviser.entity.Profession;
+import com.sbnz.career.adviser.entity.Trait;
 import com.sbnz.career.adviser.model.Criteriums;
 import com.sbnz.career.adviser.model.PossibleProfession;
 
@@ -43,13 +48,18 @@ public class PaymentTest {
 		
 		PossibleProfession possibleProfession1 = new PossibleProfession();
 		Profession profession1 = new Profession(1l, "Prof A", null, null, null, true, 10000, 5, "", 0.5);
+		Set<Preference> preferences= new HashSet<Preference>();
+		profession1.setActivities(preferences);
+		Set<Trait> traits = new HashSet<Trait>();
+		profession1.setTraits(traits);
 		possibleProfession1.setProfession(profession1);
-		
 		
 		PossibleProfession possibleProfession2 = new PossibleProfession();
 		Profession profession2 = new Profession(2l, "Prof B", null, null, null, true, 20000, 15, "", 0d);
+		profession2.setActivities(preferences);
+		profession2.setTraits(traits);
 		possibleProfession2.setProfession(profession2);
-		
+	
 		System.out.println("Payment 1 : "+profession1.getPayment());
 		System.out.println("Payment 2: "+profession2.getPayment());
 		
@@ -70,6 +80,14 @@ public class PaymentTest {
 		Profession profession1 = new Profession(1l, "Prof A", null, null, null, true, 10000, 5, "", 0.5);
 		Profession profession2 = new Profession(2l, "Prof B", null, null, null, true, 20000, 15, "", 0d);
 		Profession profession3 = new Profession(3l, "Prof C", null, null, null, true, 20000, 15, "", 0d);
+		Set<Preference> preferences= new HashSet<Preference>();
+		profession1.setActivities(preferences);
+		profession2.setActivities(preferences);
+		profession3.setActivities(preferences);
+		Set<Trait> traits=new HashSet<Trait>();
+		profession1.setTraits(traits);
+		profession2.setTraits(traits);
+		profession3.setTraits(traits);
 		kieSession.insert(profession1);
 		kieSession.insert(profession2);
 		kieSession.insert(profession3);

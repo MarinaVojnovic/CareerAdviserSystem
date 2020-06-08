@@ -2,7 +2,7 @@
 import java.util.List;
 import java.util.Set;
 import com.sbnz.career.adviser.model.*;
-/*
+
 agenda-group "traitsTest"
 
 query checkIfPossibleProfession (Number $num, List $traitsTarget, Set $professionTraits)
@@ -46,7 +46,7 @@ end
 
 //Calculating score for professions where all personality traits are satisfied
 //Maximum satisfied
-rule "Rule 0"
+rule "Rule 0 - traits test"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -57,7 +57,7 @@ rule "Rule 0"
 			$max: max($k)
 		)
 		
-		$possibleProfession : PossibleProfession( $max == 5, numTraits == $max, $name : profession.name ) from $l
+		$possibleProfession : PossibleProfession( numTraits == $max, $name : profession.name ) from $l
 	then
 		 System.out.println("Rule 0 : 1.0 "+$name);
 		 $possibleProfession.increaseScore(1.5);
@@ -66,7 +66,7 @@ end
 
 //Calculating score for professions where all personality traits are satisfied
 //Evertyhing satisfied but not maximum
-rule "Rule 1"
+rule "Rule 1 - traits test"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -84,7 +84,7 @@ end
 
 //Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
 //Not everything satisfied but greater than maximum
-rule "Rule 2"
+rule "Rule 2 - traits test"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -102,7 +102,7 @@ rule "Rule 2"
 end
 
 //Not everything is satisfies and is less than min satisfied all
-rule "Rule 3"
+rule "Rule 3 - traits test"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -120,7 +120,7 @@ rule "Rule 3"
 		 $possibleProfession.increaseScore((double)$numTraits/$profTraits);
 end
 
-rule "Rule 4"
+rule "Rule 4 - traits test"
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numTraits == profession.traits.size()))
@@ -137,7 +137,7 @@ rule "Rule 4"
 		 System.out.println("Rule 4 : 1.0" + $name);
 		 $possibleProfession.increaseScore(1.0);
 end
-*/
+
 
 
 
