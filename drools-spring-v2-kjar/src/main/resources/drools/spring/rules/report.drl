@@ -12,6 +12,7 @@ declare window numberOfTestsDone
 	TestDoneEvent() over window:time( 24h )
 end
 
+/*
 rule "Test done-increase counter"
 
     when
@@ -20,5 +21,38 @@ rule "Test done-increase counter"
     then
        $counter.increase();
 
+end
+
+*/
+
+rule "Film already existed in the memory"
+	no-loop
+	when
+		$e : TestDoneEvent()
+		$counter: Counter()
+	then
+		$counter.increase();
+		update($counter);
+end
+
+rule "Persist"
+	when
+		$testsInADay : TestsDoneInDay()
+	then
+
+end
+
+
+rule "number of tests done in the last 24h"
+
+	when
+		$testsInADay: TestsDoneInDay( );
+		accumulate(
+			Counter() from window numberOfTestsDone,
+			$cnt: count(1)
+		)
+	then
+		$testsInADay.increase();
+		$testsInADay.setNumber($cnt);
 end
 

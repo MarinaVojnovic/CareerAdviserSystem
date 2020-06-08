@@ -4,5 +4,8 @@
    <kbase name="rules" packages="drools.spring.rules" default="true">
 		<ksession name="ksession-rules"/>
 	</kbase>
-	
+	<kbase name="cepReport" eventProcessingMode="stream" packages="drools.spring.rules">
+        <ksession name="cepConfigKsessionRealtimeClock" clockType="realtime"/>
+        <ksession name="cepConfigKsessionPseudoClock" clockType="pseudo"/>
+    </kbase>
 </kmodule>

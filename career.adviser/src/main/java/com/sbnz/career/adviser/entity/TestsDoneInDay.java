@@ -1,5 +1,6 @@
 package com.sbnz.career.adviser.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,50 +15,53 @@ public class TestsDoneInDay {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	long id;
 	
-	Date date;
+	LocalDate date;
 	
-	Integer number;
+	Long number;
 	
 	public TestsDoneInDay() {
 		
 	}
 	
-	public TestsDoneInDay(Long id, Integer number) {
+	public TestsDoneInDay(long id, Long number) {
 		super();
 		this.id = id;
 		this.number = number;
 	}
 	
-	public TestsDoneInDay(Long id, Date date, Integer number) {
+	public TestsDoneInDay(long id,LocalDate localDate, Long number) {
 		super();
 		this.id = id;
-		this.date = date;
+		this.date = localDate;
 		this.number = number;
 	}
 
-	public Date getDate() {
+	public void increase() {
+		this.number++;
+	}
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public Integer getNumber() {
+	public Long getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(Long number) {
 		this.number = number;
 	}
 	
