@@ -4,7 +4,7 @@ import com.sbnz.career.adviser.model.*;
 import java.util.*;
 
 
-agenda-group "suitableProfessionsTest-traits"
+
 
 query returnMatchingTraitsExist (List $matching, List $traitsTarget, Set $professionTraits)
 	$matching:= List(size > 0) 
@@ -26,6 +26,7 @@ end
 
 
 rule "Find candidate professions based on traits"
+	agenda-group "suitableProfessionsTest-traits"
 	no-loop
 	lock-on-active
     when
@@ -52,6 +53,7 @@ end
 
 
 rule "Find candidate professions based on preferences"
+	agenda-group "suitableProfessionsTest-preferences"
 	no-loop
 	lock-on-active
     when
