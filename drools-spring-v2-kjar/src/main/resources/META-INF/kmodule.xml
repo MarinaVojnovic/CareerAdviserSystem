@@ -4,4 +4,5 @@
    <kbase name="rules" packages="drools.spring.rules" default="true">
 		<ksession name="ksession-rules"/>
 	</kbase>
+	
 </kmodule>

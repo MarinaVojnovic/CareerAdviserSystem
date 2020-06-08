@@ -1,0 +1,24 @@
+//created on: 8 Jun 2020
+package rules
+import com.sbnz.career.adviser.model.*;
+import com.sbnz.career.adviser.entity.*;
+import com.sbnz.career.adviser.events.*;
+import java.util.List;
+
+agenda-group "report"
+
+declare window numberOfTestsDone
+	@doc("Number of views in the last 24h")
+	TestDoneEvent() over window:time( 24h )
+end
+
+rule "Test done-increase counter"
+
+    when
+       $td : TestDoneEvent()
+       $counter : Counter()
+    then
+       $counter.increase();
+
+end
+
