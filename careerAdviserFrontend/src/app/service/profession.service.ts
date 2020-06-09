@@ -11,6 +11,7 @@ import { ProfessionalField } from '../model/professional-field';
 import { Preference } from '../model/preference';
 import { Trait } from '../model/trait';
 import { Matching } from '../model/matching';
+import { EmploymentScoreTemplate } from '../model/employmentScore.Template';
 
 @Injectable({
   providedIn: 'root'
@@ -97,6 +98,10 @@ export class ProfessionService {
     getMatchingTraitsAndPreferences(profId : number):Observable<Matching> {
    
       return this.http.get<Matching>(`${this.urlBase}`+'/getMatchingTraitsAndPreferences/'+`${profId}`);
+    }
+
+    addNewProfessionScores(scores : Array<EmploymentScoreTemplate>):Observable<any>{
+      return this.http.post<Array<EmploymentScoreTemplate>>(`${this.urlBase}`+'/newEmploymentScoreTemplates', scores);
     }
 
 

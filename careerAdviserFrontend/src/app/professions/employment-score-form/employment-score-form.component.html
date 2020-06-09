@@ -1,0 +1,104 @@
+<div class="modal-header" style="text-align: center;">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Employment score form</h4>
+    
+   <!--  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+
+  <div class="modal-body">
+
+    <form [formGroup]="form" id="employmentScoreForm" novalidate>
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <label><b>Minimum percentage</b></label>
+                        <input type="number" id="minPerc" class="form-control" [(ngModel)]="employmentScoreTemplate.minPerc" placeholder="Min %"
+                        required autofocus formControlName="minPerc">
+                       
+                        <div *ngIf="minPercCtrl.invalid && (minPercCtrl.dirty || minPercCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="minPercCtrl.errors.required">
+                              Minimum percentage is required.
+                            </div>
+                            <div *ngIf="minPercCtrl.errors.pattern">
+                              Only numeric characters are allowed.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <label><b>Maximum percentage</b></label>
+                        <input type="number" id="maxPerc" class="form-control" [(ngModel)]="employmentScoreTemplate.maxPerc" placeholder="Max %"
+                        required autofocus formControlName="maxPerc">
+                       
+                        <div *ngIf="maxPercCtrl.invalid && (maxPercCtrl.dirty || maxPercCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="maxPercCtrl.errors.required">
+                              Maximum percentage is required.
+                            </div>
+                            <div *ngIf="maxPercCtrl.errors.pattern">
+                              Only numeric characters are allowed.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <label><b>Score</b></label>
+                        <input type="number" id="maxPerc" class="form-control" [(ngModel)]="employmentScoreTemplate.score" placeholder="Score"
+                        required autofocus formControlName="score">
+                       
+                        <div *ngIf="scoreCtrl.invalid && (scoreCtrl.dirty || scoreCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="scoreCtrl.errors.required">
+                              Score is required.
+                            </div>
+                            <div *ngIf="scoreCtrl.errors.pattern">
+                              Only numeric characters are allowed.
+                            </div>
+                          </div>
+                          <button mat-raised-button color="accent" (click) = "addScore()">Add</button>
+                    </div>
+                </div>
+                <br>
+                <div class = "row" *ngIf="scores.length>0">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6" >
+                        
+                        <h2 style="text-align: center;" class="form-signin-heading">Ranges</h2>
+                        <table class="table table-striped">
+                            <thead>
+                                <th>Min%</th>  
+                                <th>Max%</th>  
+                                <th>Score</th>        
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let s of scores">
+                                    <td>{{s.minPerc}}</td>
+                                    <td>{{s.maxPerc}}</td>
+                                    <td>{{s.score}}</td>
+                                 
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                  </div>
+            </div>
+        </div>
+    </form>
+  </div>
+
+  
+<div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="submit()" style="margin-right: 10px;">Submit</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+  </div>

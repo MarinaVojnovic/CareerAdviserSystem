@@ -16,6 +16,7 @@ import { PersonalityService } from 'src/app/service/personality.service';
 import { TraitsResult } from 'src/app/model/traits-result';
 import { TraitsResultService } from 'src/app/service/traits-result.service';
 import { applySourceSpanToExpressionIfNeeded } from '@angular/compiler/src/output/output_ast';
+import { EmploymentScoreFormComponent } from 'src/app/professions/employment-score-form/employment-score-form.component';
 
 @Component({
   selector: 'app-header',
@@ -134,5 +135,9 @@ export class HeaderComponent implements OnInit {
 
   personalityQuestions(){
     const modalRef = this.modalService.open(PersonalityQuestionsComponent);
+  }
+
+  employmentScoreForm(){
+    const modalRef = this.modalService.open(EmploymentScoreFormComponent);
   }
 }
