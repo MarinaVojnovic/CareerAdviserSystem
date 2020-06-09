@@ -368,11 +368,14 @@ public class ProfessionServiceImpl implements ProfessionService{
 
 	@Override
 	public Boolean isTestDone() {
+		System.out.println("Uslo u is test done in profession service impl");
 		User user = userRepository.getOne(1l);
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
 		if (prefQuesRes.size()==0) {
+			System.out.println("Null je");
 			return false;
 		}else {
+			System.out.println("Nadjeno");
 			return true;
 		}
 	}

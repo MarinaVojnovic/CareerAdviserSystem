@@ -1,6 +1,25 @@
 <div style="padding: 10px; margin: 10px">
     <h2 style="text-align: center;">{{profession.name}}</h2>
     <p style="text-align: justify;">{{profession.description}}</p>
+    <div *ngIf="professionTestDone==true&&personalityTestDone==true">
+        <b>Preferences you selected</b>
+        <div *ngFor="let pref of checkedPreferences;">
+            <p>{{pref.description}}
+            <span *ngIf="pref.checked">
+                <mat-checkbox checked="pref.checked" onclick="return false;"></mat-checkbox>
+            </span></p>
+        </div>
+    </div>
+    <div *ngIf="personalityTestDone==true&&professionTestDone">
+        <b>Personality traits you own</b>
+        <div *ngFor="let t of ownedTraits;">
+            <p>{{t.trait}}
+            <span *ngIf="t.owned">
+                <mat-checkbox checked="t.owned" onclick="return false;"></mat-checkbox>
+            </span></p>
+        </div>
+    </div>
+    
     <button style="float: right; margin: 10px" mat-stroked-button color="primary" (click)="activeModal.close('Close click')">Close</button>
 </div>
 

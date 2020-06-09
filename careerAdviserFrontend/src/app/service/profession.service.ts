@@ -10,6 +10,7 @@ import { ProfessionsSuitabilityList } from '../model/professions-suitability-lis
 import { ProfessionalField } from '../model/professional-field';
 import { Preference } from '../model/preference';
 import { Trait } from '../model/trait';
+import { Matching } from '../model/matching';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,10 @@ export class ProfessionService {
     return this.http.request(newRequest);
     }
 
+    getMatchingTraitsAndPreferences(profId : number):Observable<Matching> {
+   
+      return this.http.get<Matching>(`${this.urlBase}`+'/getMatchingTraitsAndPreferences/'+`${profId}`);
+    }
 
 
 }
