@@ -7,52 +7,29 @@ import java.util.List;
 
 agenda-group "report"
 
-declare window numberOfTestsDone
-	@doc("Number of views in the last 24h")
-	TestDoneEvent() over window:time( 24h )
-end
 
-/*
-rule "Test done-increase counter"
-
+rule "Test done"
     when
-       $td : TestDoneEvent()
-       $counter : Counter()
+        
+        $td : TestDoneEvent() 
+        over window:time(24h)
+       
     then
-       $counter.increase();
-
+    	System.out.println("First rule");
+        insert(new Counter());
+        delete($td);
+       
+        
 end
 
-*/
-
-rule "Film already existed in the memory"
-	no-loop
+rule "Increase in reports"
 	when
-		$e : TestDoneEvent()
-		$counter: Counter()
+		$testsInADay: TestsDoneInDay()
+		$c : Counter()
 	then
-		$counter.increase();
-		update($counter);
-end
-
-rule "Persist"
-	when
-		$testsInADay : TestsDoneInDay()
-	then
-
-end
-
-
-rule "number of tests done in the last 24h"
-
-	when
-		$testsInADay: TestsDoneInDay( );
-		accumulate(
-			Counter() from window numberOfTestsDone,
-			$cnt: count(1)
-		)
-	then
+		System.out.println("Second rule");
 		$testsInADay.increase();
-		$testsInADay.setNumber($cnt);
+		delete($c);
 end
-
+	
+		

@@ -5,7 +5,7 @@ import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
 @Role(Role.Type.EVENT)
-@Expires("48h")
+@Expires("24h")
 public class TestDoneEvent {
 
 	

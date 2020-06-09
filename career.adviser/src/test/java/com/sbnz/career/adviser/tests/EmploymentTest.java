@@ -2,9 +2,12 @@ package com.sbnz.career.adviser.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import org.drools.core.ClassObjectFilter;
 import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.junit.After;
 import org.junit.Before;
@@ -73,6 +76,7 @@ public class EmploymentTest {
 		kieSession.getAgenda().getAgendaGroup("employmentTest").setFocus();
 		Integer fired = kieSession.fireAllRules();
 		assertEquals((Integer) 3, fired);
+		
 	}
 	
 	

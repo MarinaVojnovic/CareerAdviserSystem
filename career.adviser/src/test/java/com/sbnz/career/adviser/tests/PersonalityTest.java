@@ -3,6 +3,10 @@ package com.sbnz.career.adviser.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collection;
+import java.util.Iterator;
+
+import org.drools.core.ClassObjectFilter;
 import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.junit.After;
 import org.junit.Before;
@@ -289,8 +293,14 @@ public class PersonalityTest {
 			traitsResult.setExtraverted(10);
 			traitsResult.setIntraverted(5);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind trait-extraverted"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating trait mind-extraverted"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("mind",trait.getPersonalityField());
+		    assertEquals("extraverted",trait.getTarget());
 		}
 		
 		@Test
@@ -298,8 +308,14 @@ public class PersonalityTest {
 			traitsResult.setExtraverted(5);
 			traitsResult.setIntraverted(10);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind trait-introverted"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating trait mind-introverted"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("mind",trait.getPersonalityField());
+		    assertEquals("introverted",trait.getTarget());
 		}
 		
 		@Test
@@ -307,8 +323,14 @@ public class PersonalityTest {
 			traitsResult.setAssertive(10);
 			traitsResult.setTurbulent(5);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind identity-assertive"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating identity-assertive"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("identity",trait.getPersonalityField());
+		    assertEquals("assertive",trait.getTarget());
 		}
 		
 		@Test
@@ -316,8 +338,14 @@ public class PersonalityTest {
 			traitsResult.setAssertive(5);
 			traitsResult.setTurbulent(10);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind identity-turbulent"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating identity-turbulent"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("identity",trait.getPersonalityField());
+		    assertEquals("turbulent",trait.getTarget());
 		}
 		
 		@Test
@@ -325,8 +353,14 @@ public class PersonalityTest {
 			traitsResult.setThinking(10);
 			traitsResult.setFeeling(5);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind nature-thinking"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating nature-thinking"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("nature",trait.getPersonalityField());
+		    assertEquals("thinking",trait.getTarget());
 		}
 		
 		@Test
@@ -334,8 +368,14 @@ public class PersonalityTest {
 			traitsResult.setThinking(5);
 			traitsResult.setFeeling(10);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind nature-feeling"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating nature-feeling"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("nature",trait.getPersonalityField());
+		    assertEquals("feeling",trait.getTarget());
 		}
 		
 		@Test
@@ -343,8 +383,14 @@ public class PersonalityTest {
 			traitsResult.setRealist(10);
 			traitsResult.setVisionary(5);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind energy-realist"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating energy-realist"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("energy",trait.getPersonalityField());
+		    assertEquals("realist",trait.getTarget());
 		}
 		
 		@Test
@@ -352,8 +398,14 @@ public class PersonalityTest {
 			traitsResult.setRealist(5);
 			traitsResult.setVisionary(10);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind energy-visionary"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating energy-visionary"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("energy",trait.getPersonalityField());
+		    assertEquals("visionary",trait.getTarget());
 		}
 		
 		@Test
@@ -361,8 +413,14 @@ public class PersonalityTest {
 			traitsResult.setJudging(10);
 			traitsResult.setProspecting(5);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind tactics-judging"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating tactics-judging"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("tactics",trait.getPersonalityField());
+		    assertEquals("judging",trait.getTarget());
 		}
 		
 		@Test
@@ -370,8 +428,14 @@ public class PersonalityTest {
 			traitsResult.setJudging(5);
 			traitsResult.setProspecting(10);
 			kieSession.insert(traitsResult);
-			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating mind tactics-prospecting"));
+			int fired = this.kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Creating tactics-prospecting"));
+			Collection<?> newObjects = kieSession.getObjects(new ClassObjectFilter(Trait.class));
+			Iterator it = newObjects.iterator();
 		    assertEquals(1, fired);
+		    assertEquals(1, newObjects.size());
+		    Trait trait = (Trait) it.next();
+		    assertEquals("tactics",trait.getPersonalityField());
+		    assertEquals("prospecting",trait.getTarget());
 		}
 		
 	  @After

@@ -44,6 +44,9 @@ insert into professional_fields (id, name) values (11, "Beauty") on duplicate ke
 insert into professional_fields (id, name) values (12, "Toursim and catering") on duplicate key update id = 12;
 insert into professional_fields (id, name) values (13, "Science") on duplicate key update id = 13;
 
+insert into tests_done_in_a_day(id, test_date, number) values (1, '2020-06-01 08:00', 10) on duplicate key update id = 1;
+insert into tests_done_in_a_day(id, test_date, number) values (2, '2020-06-02 08:00', 20) on duplicate key update id = 2;
+insert into tests_done_in_a_day(id, test_date, number) values (3, '2020-06-03 08:00', 30) on duplicate key update id = 3;
 
 
 

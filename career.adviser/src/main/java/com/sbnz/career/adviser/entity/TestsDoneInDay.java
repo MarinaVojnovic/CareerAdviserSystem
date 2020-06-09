@@ -17,7 +17,7 @@ public class TestsDoneInDay {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long id;
 	
-	LocalDate date;
+	LocalDate testDate;
 	
 	Long number;
 	
@@ -34,19 +34,24 @@ public class TestsDoneInDay {
 	public TestsDoneInDay(long id,LocalDate localDate, Long number) {
 		super();
 		this.id = id;
-		this.date = localDate;
+		this.testDate= localDate;
 		this.number = number;
+	}
+	public TestsDoneInDay(LocalDate localDate) {
+		super();
+		this.testDate= localDate;
+		this.number = 0l;
 	}
 
 	public void increase() {
 		this.number++;
 	}
 	public LocalDate getDate() {
-		return date;
+		return testDate;
 	}
 
 	public void setDate(LocalDate date) {
-		this.date = date;
+		this.testDate = date;
 	}
 
 	public long getId() {

@@ -26,34 +26,33 @@ public class LoginKieSessionConfig {
 	//@Bean(name="loginKieSession")
 	@Bean(name="loginKieSession")
 	public KieSession loginKieSession() {
-		System.out.println("**********************");
-		System.out.println("**********************");
-		System.out.println("login kiew sesssioooooooooooon");
-		System.out.println("**********************");
-		System.out.println("**********************");
-		//return kieContainer.newKieSession("someSession");
 		KieServices ks = KieServices.Factory.get();
 		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
 		kbconf.setOption(EventProcessingOption.STREAM);
 		KieBase kbase = kieContainer.newKieBase(kbconf);
 		KieSession kieSession = kbase.newKieSession();
-		//kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
 		return kieSession;
 	}
 	
-	//@Bean(name="loginKieSession")
-		@Bean(name="newPersTestSession")
-		public KieSession newPersTest() {
-			
-			//return kieContainer.newKieSession("someSession");
-			KieServices ks = KieServices.Factory.get();
-			KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
-			kbconf.setOption(EventProcessingOption.STREAM);
-			KieBase kbase = kieContainer.newKieBase(kbconf);
-			KieSession kieSession = kbase.newKieSession();
-			//kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
-			return kieSession;
-		}
+	@Bean(name="newPersTestSession")
+	public KieSession newPersTest() {
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		return kieSession;
+	}
+	
+	@Bean(name="reportSession")
+	public KieSession reportSession() {
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		return kieSession;
+	}
 	
 
 	

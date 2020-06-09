@@ -1,5 +1,10 @@
 package com.sbnz.career.adviser.service;
 
-public class TestsDoneInDayService {
+import java.util.List;
 
+import com.sbnz.career.adviser.entity.TestsDoneInDay;
+
+public interface TestsDoneInDayService {
+
+	List<TestsDoneInDay> getReport();
 }

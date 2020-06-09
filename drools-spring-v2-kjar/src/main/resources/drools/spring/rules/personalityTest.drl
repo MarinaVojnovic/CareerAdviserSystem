@@ -235,7 +235,7 @@ end
 
 
 
-rule "Creating mind trait-extraverted"
+rule "Creating trait mind-extraverted"
 	salience -100
 	no-loop
 	when
@@ -247,7 +247,7 @@ rule "Creating mind trait-extraverted"
 	
 end
 
-rule "Creating mind trait-introverted"
+rule "Creating trait mind-introverted"
 	salience -100
 	no-loop
 	when
@@ -259,7 +259,7 @@ rule "Creating mind trait-introverted"
 	
 end
 
-rule "Creating mind identity-assertive"
+rule "Creating identity-assertive"
 	salience -100
 	no-loop
 	when
@@ -270,7 +270,7 @@ rule "Creating mind identity-assertive"
 		System.out.println("Assertive inserted");
 end
 
-rule "Creating mind identity-turbulent"
+rule "Creating identity-turbulent"
 	salience -100
 	no-loop
 	when
@@ -281,7 +281,7 @@ rule "Creating mind identity-turbulent"
 		System.out.println("Turbulent inserted");
 end
 
-rule "Creating mind nature-thinking"
+rule "Creating nature-thinking"
 	salience -100
 	no-loop
 	when
@@ -292,7 +292,7 @@ rule "Creating mind nature-thinking"
 		System.out.println("Thinking inserted");
 end
 
-rule "Creating mind nature-feeling"
+rule "Creating nature-feeling"
 	salience -100
 	no-loop
 	when
@@ -303,7 +303,7 @@ rule "Creating mind nature-feeling"
 		System.out.println("Feeling inserted");
 end
 
-rule "Creating mind energy-realist"
+rule "Creating energy-realist"
 	salience -100
 	no-loop
 	when
@@ -314,7 +314,7 @@ rule "Creating mind energy-realist"
 		System.out.println("Realist inserted");
 end
 
-rule "Creating mind energy-visionary"
+rule "Creating energy-visionary"
 	salience -100
 	no-loop
 	when
@@ -326,7 +326,7 @@ rule "Creating mind energy-visionary"
 end
 
 
-rule "Creating mind tactics-judging"
+rule "Creating tactics-judging"
 	salience -100
 	no-loop
 	when
@@ -339,7 +339,7 @@ rule "Creating mind tactics-judging"
 		
 end
 
-rule "Creating mind tactics-prospecting"
+rule "Creating tactics-prospecting"
 	salience -100
 	no-loop
 	when

@@ -84,10 +84,7 @@ public class ProfessionController {
 	public ResponseEntity<Boolean> isTestDone(){
 		System.out.println("Uslo u get traitsResult");
 		Boolean result = professionService.isTestDone();
-		
 		return new ResponseEntity<>(result, HttpStatus.OK);
-		
-		
 		
 	}
 	

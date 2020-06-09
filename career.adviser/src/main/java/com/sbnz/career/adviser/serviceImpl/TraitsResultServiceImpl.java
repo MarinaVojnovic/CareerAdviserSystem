@@ -9,10 +9,12 @@ import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
+import com.sbnz.career.adviser.events.TestDoneEvent;
 import com.sbnz.career.adviser.model.TraitQuestionResult;
 import com.sbnz.career.adviser.repository.TraitQuestionRepository;
 
@@ -29,11 +31,13 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 	
 	private final UserRepository userRepository;
 	
+	private final KieSession reportKieSession;
 	@Autowired
-	public TraitsResultServiceImpl(UserRepository userRepository, TraitsResultRepository traitsResRepo, KieContainer kieContainer) {
+	public TraitsResultServiceImpl(@Qualifier("reportSession") KieSession kieSession, UserRepository userRepository, TraitsResultRepository traitsResRepo, KieContainer kieContainer) {
 		this.traitsResRepo = traitsResRepo;
 		this.kieContainer = kieContainer;
 		this.userRepository = userRepository;
+		this.reportKieSession=kieSession;
 		
 	}
 	
@@ -80,6 +84,10 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 		
 		traitsResult.setUser(user);
 		traitsResRepo.save(traitsResult);
+		
+		reportKieSession.insert(new TestDoneEvent());
+		reportKieSession.getAgenda().getAgendaGroup("report").setFocus();
+		reportKieSession.fireAllRules();
 		
 		
 		
