@@ -12,6 +12,7 @@ import { Preference } from '../model/preference';
 import { Trait } from '../model/trait';
 import { Matching } from '../model/matching';
 import { EmploymentScoreTemplate } from '../model/employmentScore.Template';
+import { TestsDoneInDayDto } from '../model/testsDoneInDayDto';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class ProfessionService {
   private readonly urlBase3 = 'http://localhost:8080/preferencesResult';
   private readonly urlBase4 = "http://localhost:8080/professionalField";
   private readonly urlBase5 = 'http://localhost:8080/personality';
+  private readonly urlBase6 = 'http://localhost:8080/report';
   constructor(private http: HttpClient) { }
 
   allProfessions():Observable<Array<Profession>> {
@@ -102,6 +104,10 @@ export class ProfessionService {
 
     addNewProfessionScores(scores : Array<EmploymentScoreTemplate>):Observable<any>{
       return this.http.post<Array<EmploymentScoreTemplate>>(`${this.urlBase}`+'/newEmploymentScoreTemplates', scores);
+    }
+
+    getReports() : Observable<Array<TestsDoneInDayDto>>{
+      return this.http.get<Array<TestsDoneInDayDto>>(`${this.urlBase6}`+'/getReport');
     }
 
 

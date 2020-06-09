@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { TraitQuestion } from '../model/trait-question';
 import { TraitQuestionDto } from '../model/trait-question-dto';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +43,7 @@ export class PersonalityService {
   activateTraitQuestion(traitQuestId : String) : Observable<any>{
     return this.http.delete<String>(`${this.urlBase}`+'/activateQuestion/'+traitQuestId);
   }
+
 
 
 }

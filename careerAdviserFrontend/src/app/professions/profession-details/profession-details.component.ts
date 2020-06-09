@@ -37,9 +37,12 @@ export class ProfessionDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loggedUser = JSON.parse(
       localStorage.getItem('currentUser'));
-      if (this.loggedUser.userRoleName=='ROLE_USER'){
-        this.checkTestDone();
+      if (this.loggedUser!=null){
+        if (this.loggedUser.userRoleName=='ROLE_USER'){
+          this.checkTestDone();
+        }
       }
+      
      
       
   }

@@ -40,11 +40,13 @@ export class ProfessionsListComponent implements OnInit {
         if (response !== null) {
           this.professions = response;
           console.log('professions size:'+this.professions.length);
+          /*
           this.professions.push(this.professions[0]);
           this.professions.push(this.professions[0]);
           this.professions.push(this.professions[0]);
           this.professions.push(this.professions[0]);
           console.log(this.professions[0].image);
+          */
         }
       }),
       (error => {
