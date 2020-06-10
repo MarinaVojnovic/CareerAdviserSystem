@@ -52,7 +52,7 @@ public class NewPersonalityTest {
 		kieSession.insert(e2);
 		kieSession.insert(e3);
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 1 attempt for redoing personality test in 2 minutes"));
+		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 1 attempt for redoing personality test in 1h"));
 		assertEquals(false, user.getNewPersTest());
 	}
 	
