@@ -52,7 +52,7 @@ public class LoginTest {
 		kieSession.insert(e3);
 		
 		kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
-		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 3 logging in unsuccessfully in 10 minutes from one user"));
+		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 3 logging in unsuccessfully in 1 minutes from one user"));
 	
 		assertEquals(false, user.getAllowed());
 	}
