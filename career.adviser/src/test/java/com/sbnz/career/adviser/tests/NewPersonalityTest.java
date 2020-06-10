@@ -93,7 +93,7 @@ public class NewPersonalityTest {
 		SuspiciousPersonalityTest se = new SuspiciousPersonalityTest(user, "Maximum number of tests in two minutes reached.");
 		kieSession.insert(se);
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		Integer fired = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Less than 3 logging in unsuccessfully in 10 minutes from one user"));
+		Integer fired = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Less than 3 attempts in one hour from one user"));
 		assertEquals((Integer)1, fired);
 		assertEquals(true, user.getNewPersTest());
 	}
