@@ -98,10 +98,10 @@ public class ReportTest {
 		//kieSession.insert(counter);
 
 		SessionPseudoClock clock = kieSession.getSessionClock();
-		clock.advanceTime(25, TimeUnit.HOURS);
+		clock.advanceTime(5, TimeUnit.HOURS);
 		
 		kieSession.fireAllRules();
-		assertEquals((Long)0l, report.getNumber());
+		assertEquals((Long)3l, report.getNumber());
 		
 		
 		
