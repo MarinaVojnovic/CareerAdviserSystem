@@ -7,7 +7,7 @@ import com.sbnz.career.adviser.events.*;
 
 agenda-group "loginEvents"
 
-rule "More than 3 logging in unsuccessfully in 10 minutes from one user"
+rule "More than 3 logging in unsuccessfully in 1 minutes from one user"
 	lock-on-active
     when
         $e1: LoginEvent($userId: user.id, $user : user)

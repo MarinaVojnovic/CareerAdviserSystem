@@ -7,7 +7,7 @@ import com.sbnz.career.adviser.events.*;
 
 agenda-group "newPersonalityTest"
 
-rule "More than 1 attempt for redoing personality test in 2 minutes"
+rule "More than 1 attempt for redoing personality test in 1h"
 	lock-on-active
     when
         $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
@@ -15,7 +15,7 @@ rule "More than 1 attempt for redoing personality test in 2 minutes"
             $e2: NewPersonalityTestEvent($thisUser : user,
                 this != $e1, 
                 $thisUser.id == $userId, 
-                this meets[1m] $e1
+                this meets[1h] $e1
             ),
             count($e2)
         )
@@ -55,7 +55,7 @@ rule "No suspicious event, new test allowed"
 end
 
 
-rule "Less than 3 logging in unsuccessfully in 10 minutes from one user"
+rule "Less than 3 attempts in one hour from one user"
 	lock-on-active
     when
         $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
@@ -63,7 +63,7 @@ rule "Less than 3 logging in unsuccessfully in 10 minutes from one user"
             $e2: NewPersonalityTestEvent(
                 this != $e1, 
                 user.id == $userId,
-                this meets[1m] $e1
+                this meets[1h] $e1
             ),
             count($e2)
         )

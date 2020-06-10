@@ -10,7 +10,7 @@ import com.sbnz.career.adviser.entity.User;
 
 @Role(Role.Type.EVENT)
 @Timestamp("executionTime")
-@Expires("1m")
+@Expires("1h")
 public class NewPersonalityTestEvent {
 
 	private User user;

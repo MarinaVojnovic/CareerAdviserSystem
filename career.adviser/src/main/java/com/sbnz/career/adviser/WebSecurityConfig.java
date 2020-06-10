@@ -108,6 +108,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				authentication = authenticationManagerBean().authenticate(new UsernamePasswordAuthenticationToken(
 						authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 			}
+			//ovde je user uspesno uneo i ime i lozinku
+			//moze se desiti da je vec forbidden, to proveramo pomocu getAllowed - ali sve u svemu je success
 			LoginEvent loggingEvent = new LoginEvent(user,true);
 			kieSession.insert(loggingEvent);
 			kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
@@ -120,6 +122,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		} catch (Exception e) {
 			user = userService.findByUsername(authenticationRequest.getUsername());
 			if (user!=null) {
+				//ovde je user uneo dobro ime ali nije lozinku
 				LoginEvent loggingEvent = new LoginEvent(user,false);
 				kieSession.insert(loggingEvent);
 				kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
@@ -127,11 +130,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				userService.save(user);
 				System.out.println("Allowed after action: "+user.getAllowed());
 				System.out.println("ID: "+loggingEvent.getUser().getAllowed());
-				return null;
+				success = false;
+				
 			}
 			
+			
+			
 		}
-		if (success == true && user.getAllowed()) {
+		if (success == true && user.getAllowed()) { //uspesno se prijavio i ime i lozinka i nije forbidden
 			user = (User) authentication.getPrincipal();
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			String jwt = tokenHelper.generateToken(user.getUsername());
@@ -143,12 +149,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				role = Role.ROLE_USER;
 			}
 			return new UserTokenState(jwt, expiresIn, role);
-		}else {
+		}else if (success=true && user.getAllowed()==false){// //uspesno se prijavio ali je forbidden
 			String jwt = "-1";
 			UserTokenState userToken =  new UserTokenState();
 			userToken.setAccessToken(jwt);
 			return userToken;
 			
+		}else {
+			return null;
 		}
 		
 	}

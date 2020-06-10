@@ -19,7 +19,7 @@
             <button *ngIf = "personalityTestDone==false && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="personalityTest()">Personality test</button>
             <button *ngIf = "professionTestDone && personalityTestDone && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="professionResults()">Profession results</button>
             <button *ngIf = "personalityTestDone  && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="personalityResults()">Personality results</button>
-            <button *ngIf = "personalityTestDone  && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="newPersonalityTest()">New personality test</button>
+            <button *ngIf = "personalityTestDone  && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="newPersonalityTest()">Repeat tests</button>
             <button style="margin-left: 10px;" mat-raised-button color="accent" (click)="logout()">Log Out</button>
         </div>
     </mat-toolbar-row>
