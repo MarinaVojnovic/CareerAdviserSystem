@@ -30,12 +30,15 @@ export class ProfessionFormComponent implements OnInit {
     isActive : true,
     payment : 0,
     employment: 0,
-    image: 'some image'
+    image: ''
   }
 
-  traitsList : Array<Trait>;
+  oldImage : string;
+  edit : boolean;
+  traitsList : Array<Trait> = [];
   traitsSelected : Array<TraitSelected>
   selectedTraits : Array<String> = [];
+  existingTraits : Array<String>=[];
   field : ProfessionalField;
   nameCtrl: FormControl;
   activitiesCtrl : FormControl;
@@ -88,10 +91,68 @@ export class ProfessionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.getFields();
     this.getTraits();
+    if (this.edit==true){
+      this.getActivities();
+    }
+  
+   
   }
 
+  activateActivity(activity){
+    this.professionService.activateActivity(activity.id).subscribe(
+      (response => {
+        if (response !== null) {
+        this.getActivities();
+        }
+      }),
+      (error => {
+   
+        alert(error.error.message);
+      })
+    );
+  }
+
+  deleteActivity(activity){
+
+    alert(activity.id);
+    this.professionService.deleteActivity(activity.id).subscribe(
+      (response => {
+        if (response !== null) {
+        this.getActivities();
+        }
+      }),
+      (error => {
+   
+        alert(error.error.message);
+      })
+    );
+  }
+
+  markExistingTraits(){
+
+    for (let trait of this.traitsList){
+    
+      let exist = false;
+      let existingTrait : String = "";
+      for (let existTrait of this.existingTraits){
+     
+        if (trait.target==existTrait){
+          existingTrait= existTrait;
+          exist=true;
+          break;
+        }
+      }
+      if (exist==false){
+        this.selectedTraits.push("");
+      }else {
+        this.selectedTraits.push(existingTrait);
+      }
+    }
+    console.log(this.selectedTraits);
+  }
   addProfession(){
 
     console.log('adddingg profession');
@@ -118,6 +179,7 @@ export class ProfessionFormComponent implements OnInit {
         if (response !== null) {
           this.professionalFields = response;
           console.log('profession fields size:'+this.professionalFields.length);  
+          
         }
       }),
       (error => {
@@ -147,12 +209,15 @@ export class ProfessionFormComponent implements OnInit {
     );
   }
 
+ 
   changeProfessionField(event) {
     this.showActivities=true;
+    this.activities=[];
     this.getActivities();
   }
+
   public submit(){
-    this.upload();
+    
     for (let st of this.selectedTraits){
       for (let trait of this.traitsList){
         if (trait.target==st){
@@ -160,45 +225,58 @@ export class ProfessionFormComponent implements OnInit {
         }
       }
     }
-
-    alert(this.profession.traits.length);
-    console.log(this.profession.traits);
-    console.log(this.profession.traits.values);
-  
-    this.professionService.createProfession(this.profession).subscribe(
-      (response => {
-        if (response !== null) {
-         alert("successfully submited");
-         this.activeModal.close();
-        }
-      }),
-      (error => {
-        console.log('some error happend :)');
-        alert(error.error.message);
-      })
-    );
-  
-   
-  }
-
-  addActivity(){
-    var that = this;
-    console.log('add activity called');
-    let modalRef = this.modalService.open(AddProfessionActivityComponent);
-    modalRef.componentInstance.activity.field=this.field;
-    modalRef.result.then(
-      function () {
-        that.getActivities();
-        console.log('AFTER FUNCTION FINISIHED');
-      }
-    );
-  }
-
-  handleChange($event){
-    console.log(event.target);
-    console.log('RADIO BUTTON CHANGED');
+    if (this.edit==false){
+      this.upload();
+     
+      this.professionService.createProfession(this.profession).subscribe(
+        (response => {
+          if (response !== null) {
+          alert("successfully submited");
+          this.activeModal.close();
+          }
+        }),
+        (error => {
+          console.log('some error happend :)');
+          alert(error.error.message);
+        })
+      );
     
+      }else {
+      
+        if (this.selectedFiles!= undefined){
+          console.log('TREBA DA UDJE U PROMENU SLIKE');
+          this.upload();
+        }
+        this.professionService.editProfession(this.profession).subscribe(
+          (response => {
+            if (response !== null) {
+            alert("Successfully edited profession.");
+            this.activeModal.close();
+            }
+          }),
+          (error => {
+       
+            alert(error.error.message);
+          })
+        );
+      }
+    
+    }
+
+    addActivity(){
+      var that = this;
+      console.log('add activity called');
+      let modalRef = this.modalService.open(AddProfessionActivityComponent);
+      modalRef.componentInstance.activity.field=this.field;
+      modalRef.result.then(
+        function () {
+          that.getActivities();
+          console.log('AFTER FUNCTION FINISIHED');
+        }
+      );
   }
+
+  
 
   getTraits(){
     console.log('get traits called');
@@ -207,12 +285,19 @@ export class ProfessionFormComponent implements OnInit {
         if (response !== null) {
           this.traitsList = response;
           console.log('traits size:'+this.traitsList.length);  
-          for (let trait of this.traitsList){
-            //let traitSelected = new TraitSelected(trait.id, trait.personalityField, "");
-            //this.traitsSelected.push(traitSelected);
-            this.selectedTraits.push("");
-            console.log('selected trait added');
+          if (this.edit == true){
+            this.markExistingTraits();
+           
           }
+          else{
+            for (let trait of this.traitsList){
+              //let traitSelected = new TraitSelected(trait.id, trait.personalityField, "");
+              //this.traitsSelected.push(traitSelected);
+              this.selectedTraits.push("");
+              console.log('selected trait added');
+            }
+          }
+         
         }
       }),
       (error => {

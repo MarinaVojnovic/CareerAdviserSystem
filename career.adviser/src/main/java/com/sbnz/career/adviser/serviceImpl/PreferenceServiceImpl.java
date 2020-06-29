@@ -63,13 +63,19 @@ public class PreferenceServiceImpl implements PreferenceService{
 	@Override
 	public void delete(Preference preference) {
 		preference.setIsActive(false);
+		this.preferenceRepository.save(preference);
+	}
+	
+	@Override
+	public void activate(Preference preference) {
+		preference.setIsActive(true);
+		this.preferenceRepository.save(preference);
 	}
 
 	@Override
 	public void update(Long prefId, PreferenceDto prefDto) {
 		Preference preference = preferenceRepository.getOne(prefId);
 		preference.setDescription(prefDto.getDescription());
-		preference.setIsActive(prefDto.getIsActive());
 		preferenceRepository.save(preference);
 	}
 	
@@ -78,6 +84,8 @@ public class PreferenceServiceImpl implements PreferenceService{
 	public List<Preference> findByField(ProfessionalField field){
 		return preferenceRepository.findByField(field);
 	}
+	
+	
 	
 	
 }

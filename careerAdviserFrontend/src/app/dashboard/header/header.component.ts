@@ -18,6 +18,7 @@ import { TraitsResultService } from 'src/app/service/traits-result.service';
 import { applySourceSpanToExpressionIfNeeded } from '@angular/compiler/src/output/output_ast';
 import { EmploymentScoreFormComponent } from 'src/app/professions/employment-score-form/employment-score-form.component';
 import { ReportComponent } from 'src/app/professions/report/report.component';
+import { DeletedProfessionsComponent } from 'src/app/professions/deleted-professions/deleted-professions.component';
 
 @Component({
   selector: 'app-header',
@@ -128,6 +129,7 @@ export class HeaderComponent implements OnInit {
 
   addProfession(){
     const modalRef = this.modalService.open(ProfessionFormComponent);
+    modalRef.componentInstance.edit=false;
   }
 
   addPersonalityTrait(){
@@ -144,5 +146,9 @@ export class HeaderComponent implements OnInit {
 
   report(){
     const modalRef = this.modalService.open(ReportComponent);
+  }
+
+  deletedProfessions(){
+    const modalRef = this.modalService.open(DeletedProfessionsComponent);
   }
 }

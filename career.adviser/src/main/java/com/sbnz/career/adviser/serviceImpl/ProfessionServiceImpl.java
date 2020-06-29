@@ -85,6 +85,15 @@ public class ProfessionServiceImpl implements ProfessionService{
 		System.out.println("Get results tests just done service called");
 		employmentScoreTemplateServiceImpl.loadTemplates();
 		List<Profession> professions = professionRepository.getAllActive();
+		for (Profession profession : professions) {
+			Set<Preference> preferences=new HashSet<Preference>();
+			for (Preference activity : profession.getActivities()) {
+				if (activity.getIsActive()==true) {
+					preferences.add(activity);
+				}
+			}
+			profession.setActivities(preferences);
+		}
 		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
 		User user = userRepository.getOne(1l);
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
@@ -225,8 +234,8 @@ public class ProfessionServiceImpl implements ProfessionService{
 	}
 	
 	@Override
-	public void update(Long profId, ProfessionDto professionDto) {
-		Profession profession =  professionRepository.findById(profId).orElse(null);
+	public void update(ProfessionDto professionDto) {
+		Profession profession =  professionRepository.findById(professionDto.getId()).orElse(null);
 		try {
 			profession.setDescription(new javax.sql.rowset.serial.SerialClob(professionDto.getDescription().toCharArray()));
 		} catch (SerialException e) {
@@ -261,6 +270,9 @@ public class ProfessionServiceImpl implements ProfessionService{
 			profTraits.add(this.traitRepository.findByTarget(trait.getTarget()));
 		}
 		profession.setTraits(profTraits);
+		if (professionDto.getImage()!="") {
+			profession.setImage(professionDto.getImage());
+		}
 		professionRepository.save(profession);
 	}
 	
@@ -292,8 +304,47 @@ public class ProfessionServiceImpl implements ProfessionService{
 	
 	@Override
 	public void delete(Profession profession) {
+		System.out.println("Uslo u delete u servisu");
 		profession.setIsActive(false);
+		System.out.println(profession.getIsActive());
 		professionRepository.save(profession);
+	}
+	
+	@Override
+	public void activate(Profession profession) {
+		profession.setIsActive(true);
+		professionRepository.save(profession);
+	}
+	
+	@Override
+	public List<ProfessionDto> getAllDeleted(){
+		List<Profession> professions =  professionRepository.getAllDeleted();
+		List<ProfessionDto> professionDtos = new ArrayList<ProfessionDto>();
+		for (Profession prof : professions) {
+			ProfessionDto profDto = new ProfessionDto(prof);
+			Reader r = null;
+			try {
+				r = prof.getDescription().getCharacterStream();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int j = 0;
+			StringBuffer buffer = new StringBuffer();
+			int ch;
+			try {
+				while ((ch = r.read())!=-1) {
+				   buffer.append(""+(char)ch);
+				}
+				profDto.setDescription(buffer.toString());
+				professionDtos.add(profDto);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		return professionDtos;
 	}
 	
 	@Override

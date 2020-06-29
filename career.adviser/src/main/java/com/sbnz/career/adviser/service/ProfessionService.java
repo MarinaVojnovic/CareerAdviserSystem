@@ -19,10 +19,12 @@ public interface ProfessionService {
 	ProfessionsSuitabilityList getCandidatesByTraits();
 	ProfessionsSuitabilityList getCandidatesByPreferences();
 	Profession findById(Long id);
-	void update(Long profId, ProfessionDto professionDto);
+	void update(ProfessionDto professionDto);
 	void create(ProfessionDto professionDto);
 	void delete(Profession profession);
+	void activate(Profession profession);
 	List<ProfessionDto> getAllActive();
+	List<ProfessionDto> getAllDeleted();
 	ProfessionDto findOneDto(Long id);
 	void uploadImage(MultipartFile imageFile) throws IOException;
 	Boolean isTestDone();

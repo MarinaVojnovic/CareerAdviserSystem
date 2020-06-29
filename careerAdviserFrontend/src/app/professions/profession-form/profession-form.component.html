@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Adding profession</h4>
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Profession form</h4>
     
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
@@ -71,7 +71,7 @@
                                 <label for="type"><b>Professional field:</b> </label>
                                 <div class="row">
                                     <div class="col">
-                                        <select (change)="changeProfessionField($event)" class="dropdown-select form-control" [(ngModel)] = "field" formControlName="field">
+                                        <select  (change)="changeProfessionField($event)" class="dropdown-select form-control" [(ngModel)] = "field" formControlName="field">
                                             <option *ngFor="let profField of professionalFields" [ngValue]="profField">
                                               {{profField.name}}</option>
                                           </select>
@@ -91,6 +91,26 @@
                                               {{activity.description}}</option>
                                           </select>
                                   </div>
+                                  <button (click)="addActivity()" mat-button color="primary">New activity</button>
+                            </div>
+
+                            <div *ngIf="edit==true && showActivities==false">
+                                <br>
+                                <label for="type"><b>Activities:</b> </label>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <th>Description</th>
+                        
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let activity of activities;let index;" >
+                                            <td>{{activity.description}}</td>
+                                            <td *ngIf="activity.isActive==true"><button (click) = "deleteActivity(activity)" mat-button color="accent">Delete</button></td>
+                                            <td *ngIf="activity.isActive==false"><button (click) = "activateActivity(activity)" mat-button  color="primary">Activate</button></td>
+                                          
+                                        </tr>
+                                    </tbody> 
+                                </table>
                                   <button (click)="addActivity()" mat-button color="primary">New activity</button>
                             </div>
 
@@ -115,10 +135,10 @@
         <span  *ngIf="i%2==0">
             <label><b>{{traitsList[i].personalityField}}</b></label>
             <br>
-            <mat-radio-group [(ngModel)]="selectedTraits[i]" aria-label="Select an option" (change)="handleChange($event)">
+            <mat-radio-group [(ngModel)]="selectedTraits[i]" aria-label="Select an option">
                 <mat-radio-button value="{{traitsList[i].target}}">{{traitsList[i].target}}</mat-radio-button>
                 <br>
-                <mat-radio-button value="{{traitsList[i].target}}">{{traitsList[i+1].target}}</mat-radio-button>
+                <mat-radio-button value="{{traitsList[i+1].target}}">{{traitsList[i+1].target}}</mat-radio-button>
             </mat-radio-group>
         </span>
        

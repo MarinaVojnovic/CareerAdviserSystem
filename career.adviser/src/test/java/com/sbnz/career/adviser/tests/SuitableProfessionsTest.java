@@ -92,7 +92,7 @@ public class SuitableProfessionsTest {
 		
 		ProfessionalField field = new ProfessionalField(1l, "Economy");
 		Preference pref1 = new Preference(1l, "Preference 1", true, field);
-		Preference pref2 = new Preference(2l, "Preference 2", true, field);
+		Preference pref2 = new Preference(2l, "Preference 2",true, field);
 		Preference pref3 = new Preference(3l, "Preference 3", true, field);
 		User user = new User();
 		PreferenceQuestionResult q1 = new PreferenceQuestionResult(1l, user, pref1, true);

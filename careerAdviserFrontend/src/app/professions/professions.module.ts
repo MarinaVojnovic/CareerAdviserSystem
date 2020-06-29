@@ -20,9 +20,10 @@ import { AddProfessionActivityComponent } from './add-profession-activity/add-pr
 import {MatRadioModule} from '@angular/material/radio';
 import { EmploymentScoreFormComponent } from './employment-score-form/employment-score-form.component';
 import { ReportComponent } from './report/report.component';
+import { DeletedProfessionsComponent } from './deleted-professions/deleted-professions.component';
 
 @NgModule({
-  declarations: [ ProfessionsListComponent, ProfessionDetailsComponent, ProfessionResultsComponent, ProfessionsTestComponent, CandidateProfessionsComponent, ProfessionFormComponent, ProfessionalFieldFormComponent, AddProfessionActivityComponent, EmploymentScoreFormComponent, ReportComponent],
+  declarations: [ ProfessionsListComponent, ProfessionDetailsComponent, ProfessionResultsComponent, ProfessionsTestComponent, CandidateProfessionsComponent, ProfessionFormComponent, ProfessionalFieldFormComponent, AddProfessionActivityComponent, EmploymentScoreFormComponent, ReportComponent, DeletedProfessionsComponent],
   imports: [
     CommonModule,
     HttpClientModule,

@@ -17,6 +17,10 @@ public interface ProfessionRepository extends PagingAndSortingRepository<Profess
 	Optional<Profession> findById(Long id);
 	
 	
+	@Query(value = "select * from professions prof where prof.is_active = false;", nativeQuery = true)
+	List<Profession> getAllDeleted();
+	
+	
 }
 
 

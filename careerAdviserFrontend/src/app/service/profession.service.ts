@@ -32,6 +32,11 @@ export class ProfessionService {
     return this.http.get<Array<Profession>>(`${this.urlBase}`);
   }
 
+  getAllDeleted():Observable<Array<Profession>> {
+    console.log('pozvana servisna metoda get professions');
+    return this.http.get<Array<Profession>>(`${this.urlBase}/getAllDeleted`);
+  }
+
   showResults(criteriums) : Observable<RecommendedProfessions> {
     console.log('show results from service called');
     return this.http.post<RecommendedProfessions>(`${this.urlBase}/getResults`, criteriums);
@@ -40,6 +45,26 @@ export class ProfessionService {
   getProfessionById(id: number): Observable<Profession> {
     console.log('GET PROFESSION BY ID CALLED SERVICE');
     return this.http.get<Profession>(`${this.urlBase}` + '/' + id);
+  }
+
+  deleteActivity(prefId: number): Observable<any> {
+    
+    return this.http.delete<any>(`${this.urlBase2}` + '/delete/' + prefId);
+  }
+
+  activateProfession(profId: number): Observable<any> {
+    
+    return this.http.get<any>(`${this.urlBase}` + '/activateProfession/' + profId);
+  }
+
+  deleteProfession(profId: number): Observable<any> {
+    
+    return this.http.delete<any>(`${this.urlBase}` + '/deleteProfession/' + profId);
+  }
+
+  activateActivity(prefId: number): Observable<any> {
+    
+    return this.http.get<any>(`${this.urlBase2}` + '/activate/' + prefId);
   }
 
   getQuestionsForUser():Observable<Array<PreferenceQuestionResult>> {
@@ -53,6 +78,10 @@ export class ProfessionService {
 
   submitActivity(activity : Preference) : Observable<any>{
     return this.http.post<Preference>(`${this.urlBase2}`+'/create', activity);
+  }
+
+  editProfession(profession : Profession) : Observable<any>{
+    return this.http.put<Profession>(`${this.urlBase}`+'/updateProfession', profession);
   }
 
   getRecommendedProfessionsByTraits() : Observable<ProfessionsSuitabilityList>{

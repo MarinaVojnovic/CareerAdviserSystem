@@ -9,6 +9,7 @@
         </div>
     
         <div *ngIf="loggedUser != null">
+            <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="deletedProfessions()">Deleted professions</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="report()">Report</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="employmentScoreForm()">Employment score</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="personalityQuestions()">Personality questions</button>

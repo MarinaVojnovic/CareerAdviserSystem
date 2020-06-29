@@ -119,18 +119,23 @@ public class ProfessionController {
 	public ResponseEntity<ProfessionDto> getProfession(@PathVariable Long profId){
 		System.out.println("GET ONE PROFESSION CALLED");
 		ProfessionDto profession = professionService.findOneDto(profId);
-		
 		return new ResponseEntity<>(profession, HttpStatus.OK);
-		
 	}
 	
-	@PutMapping(value = "/updateProfession/{profId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MessageDto> updateProfession(@PathVariable Long profId, @RequestBody ProfessionDto professionDto){
+	@GetMapping(value = "/getAllDeleted")
+	public ResponseEntity<List<ProfessionDto>> getAllDeleted(){
+		System.out.println("GET ALL DELETED PROFESSIONS CALLED");
+		List<ProfessionDto> professions = professionService.getAllDeleted();
+		return new ResponseEntity<>(professions, HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "/updateProfession", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MessageDto> updateProfession(@RequestBody ProfessionDto professionDto){
 		System.out.println("Uslo u update profession");
 		System.out.println("Id of profession : "+professionDto.getId());
-		Profession profession = professionService.findById(profId);
+		Profession profession = professionService.findById(professionDto.getId());
 		if (profession!=null) {
-			professionService.update(profId, professionDto);
+			professionService.update(professionDto);
 			return new ResponseEntity<>(new MessageDto("Success", "Profession successfully updated."), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found", "Profession does not exist."), HttpStatus.NOT_FOUND);
@@ -143,6 +148,17 @@ public class ProfessionController {
 		if (profession!=null) {
 			professionService.delete(profession);
 			return new ResponseEntity<>(new MessageDto("Success", "Profession successfully deleted."), HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(new MessageDto("Not found", "Profession does not exist."), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping(value = "/activateProfession/{profId}")
+	public ResponseEntity<MessageDto> activateProfession(@PathVariable Long profId){
+		Profession profession = professionService.findById(profId);
+		if (profession!=null) {
+			professionService.activate(profession);
+			return new ResponseEntity<>(new MessageDto("Success", "Profession successfully activated."), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(new MessageDto("Not found", "Profession does not exist."), HttpStatus.NOT_FOUND);
 		}

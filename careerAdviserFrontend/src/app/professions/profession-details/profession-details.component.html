@@ -19,7 +19,9 @@
             </span></p>
         </div>
     </div>
-    
+    <button (click) = "activateProfession()" style="float: left; margin: 10px" *ngIf="editAllowed==true && profession.isActive==false" mat-button color="primary">Activate</button>
+    <button (click) = "deleteProfession()" style="float: left; margin: 10px" *ngIf="editAllowed==true && profession.isActive == true" mat-button color="accent">Delete</button>
     <button style="float: right; margin: 10px" mat-stroked-button color="primary" (click)="activeModal.close('Close click')">Close</button>
-</div>
+    <button (click) = "editProfession()" *ngIf="editAllowed==true" style="float: right; margin: 10px" mat-stroked-button color="warn">Edit</button>
+  </div>
 

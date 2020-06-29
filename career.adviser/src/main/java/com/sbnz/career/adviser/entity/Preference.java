@@ -40,17 +40,26 @@ public class Preference {
 		super();
 		this.id = id;
 		this.description = description;
-		this.isActive = isActive;
+		this.isActive=isActive;
 		this.field=field;
 	}
 	
 	public Preference(PreferenceDto prefDto) {
 		this.id=prefDto.getId();
 		this.description=prefDto.getDescription();
-		this.isActive=prefDto.getIsActive();
 		this.field=prefDto.getField();
+		this.isActive=prefDto.getIsActive();
 	}
 	
+
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	public Long getId() {
 		return id;
@@ -68,14 +77,6 @@ public class Preference {
 		this.description = description;
 	}
 
-
-	public Boolean getIsActive() {
-		return isActive;
-	}
-
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	public ProfessionalField getField() {
 		return field;

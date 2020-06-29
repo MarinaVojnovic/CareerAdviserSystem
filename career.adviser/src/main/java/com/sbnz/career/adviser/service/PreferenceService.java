@@ -15,6 +15,7 @@ public interface PreferenceService {
 	List<Preference> getAll();
 	void create(PreferenceDto prefDto);
 	void delete(Preference preference);
+	void activate(Preference preference);
 	void update(Long prefId, PreferenceDto prefDto);
 	List<Preference> findByField(ProfessionalField field);
 	

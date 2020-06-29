@@ -314,7 +314,7 @@ public class PreferencesTest {
 		Profession profession3 = new Profession(3l, "Prof C", null, null, null, true, 10000, 5, "", 0.5);
 		profession3.setTraits(traits);
 		Preference pref9 = new Preference(9l, "Preference 9", true, field);
-		Preference pref10 = new Preference(10l, "Preference 10", true, field);
+		Preference pref10 = new Preference(10l, "Preference 10",true, field);
 		Set<Preference> preferences3 = new HashSet<Preference>();
 		preferences.add(pref9);
 		preferences.add(pref10);
@@ -354,10 +354,10 @@ public class PreferencesTest {
 		profession2.setTraits(traits);
 		ProfessionalField field2 = new ProfessionalField(1l, "Engineering");
 		Preference pref4 = new Preference(4l, "Preference 4", true, field2);
-		Preference pref5 = new Preference(5l, "Preference 5", true, field2);
+		Preference pref5 = new Preference(5l, "Preference 5",true, field2);
 		Preference pref6 = new Preference(6l, "Preference 6", true, field2);
 		Preference pref7 = new Preference(7l, "Preference 7", true, field2);
-		Preference pref8 = new Preference(8l, "Preference 8", true, field2);
+		Preference pref8 = new Preference(8l, "Preference 8", true,field2);
 		Set<Preference> preferences2 = new HashSet<Preference>();
 		preferences2.add(pref4);
 		preferences2.add(pref5);
@@ -376,7 +376,7 @@ public class PreferencesTest {
 		Preference pref9 = new Preference(9l, "Preference 9", true, field);
 		Preference pref10 = new Preference(10l, "Preference 10", true, field);
 		Preference pref11 = new Preference(11l, "Preference 11", true, field);
-		Preference pref12 = new Preference(12l, "Preference 12", true, field);
+		Preference pref12 = new Preference(12l, "Preference 12",true,  field);
 		Set<Preference> preferences3 = new HashSet<Preference>();
 		preferences3.add(pref9);
 		preferences3.add(pref10);

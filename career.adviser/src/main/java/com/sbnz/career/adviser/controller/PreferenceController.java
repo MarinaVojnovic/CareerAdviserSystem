@@ -91,14 +91,29 @@ public class PreferenceController {
 	
 	@DeleteMapping(value = "/delete/{prefId}")
 	public ResponseEntity<MessageDto> delete(@PathVariable Long prefId){
+		System.out.println("Uslo u delete activity");
 		Preference preference = preferenceService.findById(prefId);
 		if (preference!=null) {
+			System.out.println("Nije null");
 			preferenceService.delete(preference);
 			return new ResponseEntity<>(new MessageDto("Success", "Preference successfully deleted."), HttpStatus.OK);
 		}else {
+			System.out.println("Null je");
 			return new ResponseEntity<>(new MessageDto("Not found", "Preference does not exist."), HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	  @GetMapping(value = "/activate/{prefId}") public ResponseEntity<MessageDto>
+	  activate(@PathVariable Long prefId){
+	  System.out.println("Uslo u acitvate activity"); Preference preference =
+	  preferenceService.findById(prefId); if (preference!=null) {
+	  System.out.println("Nije null"); preferenceService.activate(preference);
+	  return new ResponseEntity<>(new MessageDto("Success",
+	  "Preference successfully activated."), HttpStatus.OK); }else {
+	  System.out.println("Null je"); return new ResponseEntity<>(new
+	  MessageDto("Not found", "Preference does not exist."), HttpStatus.NOT_FOUND);
+	  } }
+	 
 	
 	@PutMapping(value = "/update/{prefId}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageDto> updateTraitQuestion(@PathVariable Long prefId, @RequestBody PreferenceDto preferenceDto){

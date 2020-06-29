@@ -99,10 +99,10 @@ public class MatchingTest {
 		ProfessionalField field = new ProfessionalField(1l, "Economics");
 		Set<Preference> preferences = new HashSet<Preference>();
 		Preference pref1 = new Preference(1l, "Preference 1", true, field);
-		Preference pref2 = new Preference(2l, "Preference 2", true, field);
-		Preference pref3 = new Preference(3l, "Preference 3", true, field);
+		Preference pref2 = new Preference(2l, "Preference 2", true,  field);
+		Preference pref3 = new Preference(3l, "Preference 3", true,  field);
 		Preference pref4 = new Preference(4l, "Preference 4", true, field);
-		Preference pref5 = new Preference(5l, "Preference 5", true, field);
+		Preference pref5 = new Preference(5l, "Preference 5",true,  field);
 		preferences.add(pref1);
 		preferences.add(pref2);
 		preferences.add(pref3);
