@@ -22,6 +22,21 @@ public class Matching {
 		this.preferences = preferences;
 	}
 
+	public void addMatchingPref(List<Object> matchingPreferences) {
+		for (Object o : matchingPreferences){
+    		Preference activity = (Preference) o;
+    		this.preferences.add(activity);
+    	}
+	}
+	
+	public void addMatchingTraits(List<Object> matchingTraits) {
+		for (Object o : matchingTraits){
+    		Trait trait = (Trait) o;
+    		this.traits.add(trait);
+    	}
+	}
+	
+	
 	public List<Trait> getTraits() {
 		return traits;
 	}
