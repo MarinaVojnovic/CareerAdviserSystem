@@ -6,6 +6,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.career.adviser.entity.Trait;
@@ -48,7 +49,9 @@ public class TraitServiceImpl implements TraitService{
 	
 	@Override
 	public Boolean newTest() {
-		User user = userRepository.getOne(2l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		NewPersonalityTestEvent newTest = new NewPersonalityTestEvent(user);
 		kieSession.insert(newTest);
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();

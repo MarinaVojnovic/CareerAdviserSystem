@@ -10,6 +10,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.career.adviser.entity.TraitsResult;
@@ -43,7 +44,9 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 	
 	@Override
 	public TraitsResult getTraitResult() {
-		User user = userRepository.getOne(1l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		TraitsResult traitsResult = traitsResRepo.findByUser(user);
 		return traitsResult;
 	}
@@ -59,7 +62,9 @@ public class TraitsResultServiceImpl implements TraitsResultService{
 		KieBase kbase = kieContainer.newKieBase(kbconf);
 		KieSession kieSession = kbase.newKieSession();
 		
-		User user = userRepository.getOne(1l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		for (TraitQuestionResult tr: traitQuestionResults) {
 			kieSession.insert(tr);
 			

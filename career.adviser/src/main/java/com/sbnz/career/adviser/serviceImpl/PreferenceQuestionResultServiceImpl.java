@@ -10,6 +10,7 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.career.adviser.entity.PreferenceQuestionResult;
@@ -42,7 +43,10 @@ public class PreferenceQuestionResultServiceImpl implements PreferenceQuestionRe
 	@Override
 	public void submitPreferenceQuestionResults(List<PreferenceQuestionResult> prefQuestResults) {
 		System.out.println("Submit preference question results service called");
-		User user = userRepository.getOne(1l);
+		//User user = userRepository.getOne(1l);
+		User user = userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		for (PreferenceQuestionResult prefQuestRes: prefQuestResults) {
 			prefQuestRes.setUser(user);
 			prefQuesResRep.save(prefQuestRes);

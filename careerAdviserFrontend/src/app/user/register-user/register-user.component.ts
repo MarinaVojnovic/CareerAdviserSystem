@@ -47,8 +47,13 @@ export class RegisterUserComponent implements OnInit {
     this.userService.registerUser(this.userDto).subscribe(
       (response => {
         if (response !== null) {
-         alert("Successfully registered admin.");
-         this.activeModal.close();
+          if (response==true){
+            alert("Successfully registered user.");
+            this.activeModal.close();
+          }else {
+            alert("User with given email address already exists.");
+          }
+         
         }
       }),
       (error => {

@@ -55,8 +55,13 @@ export class RegisterAdminComponent implements OnInit {
     this.userService.registerAdmin(this.userDto).subscribe(
       (response => {
         if (response !== null) {
-         alert("Successfully registered admin.");
-         this.activeModal.close();
+          if (response==true){
+            alert("Successfully registered admin.");
+            this.activeModal.close();
+          }else {
+            alert("Username taken. Choose another one.");
+          }
+        
         }
       }),
       (error => {

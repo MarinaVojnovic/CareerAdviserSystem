@@ -7,18 +7,45 @@ import java.util.*;
 
 agenda-group "results"
 
+
+
+
 rule "Finding results"
 	no-loop
-	salience $score
+	lock-on-active
+	
     when
-        $possibleProfession : PossibleProfession($score : score)
-        $results : RecommendedProfessions($professions : professions, $professions.size() < 3);
-
+        $l : List( size > 0) from collect (PossibleProfession())
+        $results : RecommendedProfessions($professions : professions);
     then
-     	System.out.println("Professions size: "+$professions.size());
-     	$professions.add($possibleProfession);
-        update($results);
+        System.out.println("All possible professions collected : "+$l.size());
+        Collections.sort($l, new Comparator<PossibleProfession>(){
+        
+		   @Override
+		   public int compare(PossibleProfession p1,PossibleProfession p2) {
+			   	if (p1.getScore() < p2.getScore()){
+			   		return 1;
+			   	}
+			   	else if(p1.getScore() == p2.getScore()){
+			   		return 0;
+			   	}else{
+			   		return -1;
+			   	}
+		   		
+		   	}
+        });
+        
+        Integer granica = $l.size();
+        if (granica > 3){
+        
+        	granica = 3;
+        }
+        
+       for (Integer i = 0; i < granica; i++){
+       	PossibleProfession prof = (PossibleProfession) $l.get(i);
+       	System.out.println(prof.getScore());
+       	$professions.add(prof);
+       }
+
 end
-
-
 

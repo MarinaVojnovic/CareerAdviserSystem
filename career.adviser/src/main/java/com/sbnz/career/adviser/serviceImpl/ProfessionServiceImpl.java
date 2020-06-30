@@ -20,6 +20,7 @@ import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
 import com.sbnz.career.adviser.model.Criteriums;
 import com.sbnz.career.adviser.model.Matching;
+import com.sbnz.career.adviser.model.PossibleProfession;
 import com.sbnz.career.adviser.model.ProfessionsSuitabilityList;
 import com.sbnz.career.adviser.model.RecommendedProfessions;
 import com.sbnz.career.adviser.repository.PreferenceQuestionResultRepository;
@@ -94,8 +96,11 @@ public class ProfessionServiceImpl implements ProfessionService{
 			}
 			profession.setActivities(preferences);
 		}
-		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
-		User user = userRepository.getOne(1l);
+		
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		TraitsResult traitsResult = traitsResultRepository.findByUser(user);
+		
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
 		
 
@@ -117,25 +122,25 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.insert(recommendedProfessions);
 		kieSession.insert(criteriums);
 		if (criteriums.getPersonality()==true) {
-			System.out.println("personality");
+			System.out.println("**PERSONALITY***");
 			kieSession.getAgenda().getAgendaGroup("personalityTest").setFocus();
 			kieSession.fireAllRules();
 			kieSession.getAgenda().getAgendaGroup("traitsTest").setFocus();
 			kieSession.fireAllRules();
 		}
 		if (criteriums.getPreferences()==true) {
-			System.out.println("preferences");
+			System.out.println("***PREFERENCES***");
 			kieSession.getAgenda().getAgendaGroup("preferencesTest").setFocus();
 			kieSession.fireAllRules();
 		}
 		if (criteriums.getPayment() == true) {
-			System.out.println("payment");
+			System.out.println("***PAYMENT***");
 			kieSession.getAgenda().getAgendaGroup("paymentTest").setFocus();
 			kieSession.fireAllRules();
 			
 		}
 		if (criteriums.getEmployment()==true) {
-			System.out.println("employment");
+			System.out.println("***EMPLOYMENT***");
 			kieSession.getAgenda().getAgendaGroup("employmentTest").setFocus();
 			kieSession.fireAllRules();
 		}
@@ -143,6 +148,10 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kieSession.getAgenda().getAgendaGroup("results").setFocus();
 		kieSession.fireAllRules();
 		System.out.println("Recommended professions size: "+recommendedProfessions.getProfessions().size());
+		System.out.println("THE RESULTS!!!!!");
+		for (PossibleProfession prof : recommendedProfessions.getProfessions()) {
+			System.out.println("Profession name: "+prof.getProfession().getName()+" and its score: "+prof.getScore());
+		}
 	
 		return recommendedProfessions;
 		
@@ -160,9 +169,12 @@ public class ProfessionServiceImpl implements ProfessionService{
 		KieBase kbase = kieContainer.newKieBase(kbconf);
 		KieSession kieSession = kbase.newKieSession();
 		kieSession.insert(profession);
-		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
+		
+		User user = userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		TraitsResult traitsResult = traitsResultRepository.findByUser(user);
 		kieSession.insert(traitsResult);
-		User user = userRepository.getOne(1l);
+		
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
 		for (PreferenceQuestionResult q : prefQuesRes) {
 			kieSession.insert(q);
@@ -187,7 +199,9 @@ public class ProfessionServiceImpl implements ProfessionService{
 		kbconf.setOption(EventProcessingOption.STREAM);
 		KieBase kbase = kieContainer.newKieBase(kbconf);
 		KieSession kieSession = kbase.newKieSession();
-		TraitsResult traitsResult = traitsResultRepository.getOne(1l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		TraitsResult traitsResult = traitsResultRepository.findByUser(user);
 		kieSession.insert(traitsResult);
 		List<Profession> allProfessions = professionRepository.getAllActive();
 		for (Profession profession : allProfessions) {
@@ -214,7 +228,9 @@ public class ProfessionServiceImpl implements ProfessionService{
 		for (Profession profession : allProfessions) {
 			kieSession.insert(profession);
 		}
-		User user = userRepository.getOne(1l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		List<PreferenceQuestionResult> prefQuestResults = prefQustResultRepository.findByUser(user);
 		for (PreferenceQuestionResult q : prefQuestResults) {
 			kieSession.insert(q);
@@ -420,7 +436,9 @@ public class ProfessionServiceImpl implements ProfessionService{
 	@Override
 	public Boolean isTestDone() {
 		System.out.println("Uslo u is test done in profession service impl");
-		User user = userRepository.getOne(1l);
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
 		List<PreferenceQuestionResult> prefQuesRes = prefQustResultRepository.findByUser(user);
 		if (prefQuesRes.size()==0) {
 			System.out.println("Null je");
