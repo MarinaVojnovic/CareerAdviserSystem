@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sbnz.career.adviser.WebSecurityConfig;
 import com.sbnz.career.adviser.dto.MessageDto;
+import com.sbnz.career.adviser.dto.UserDto;
+import com.sbnz.career.adviser.enums.Role;
 import com.sbnz.career.adviser.model.UserTokenState;
 import com.sbnz.career.adviser.security.JwtAuthenticationRequest;
 import com.sbnz.career.adviser.security.TokenHelper;
@@ -38,48 +40,49 @@ public class AuthenticationController {
 	
 	private WebSecurityConfig webSecurityConfig;
 
+	private UserService userService;
 	
 	
 	
 	
 	
-	public AuthenticationController(TokenHelper tokenUtils, WebSecurityConfig webSecurityConfig) {
+	public AuthenticationController(TokenHelper tokenUtils, WebSecurityConfig webSecurityConfig, UserService userService) {
 		super();
 		this.tokenUtils = tokenUtils;
 		this.webSecurityConfig = webSecurityConfig;
+		this.userService=userService;
 	
 	
 	}
 	
 
-/*
 	@PostMapping(value = "/registerAdmin")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> registerAdmin(@RequestBody UserDto user) {
-
+		System.out.println("Uslo u register admin u kontroleru");
 		try{
-			this.userService.registerAdmin(user);
+			this.userService.registerUser(user, Role.ROLE_ADMIN);
 			return new ResponseEntity<>(new MessageDto("Admin successfully registrated.", "Success"), HttpStatus.OK);
 		}catch(Exception e){
 			return new ResponseEntity<>(new MessageDto(e.getMessage(), "Error"), HttpStatus.CONFLICT);
 		}
 	}
-	*/
 
 
-	/*
-	@PostMapping(value = "/registerLibrarian")
+
+	@PostMapping(value = "/registerUser")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ResponseEntity<?> registerLibrarian(@RequestBody UserDto user) {
+	public ResponseEntity<?> registerUser(@RequestBody UserDto user) {
+		System.out.println("Uslo u register user u kontroleru");
 
 		try{
-			this.userService.registerLibrarian(user);
-			return new ResponseEntity<>(true, HttpStatus.OK);
+			boolean result = this.userService.registerUser(user,Role.ROLE_USER);
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}catch(Exception e){
 			return new ResponseEntity<>(new MessageDto(e.getMessage(), "Error"), HttpStatus.CONFLICT);
 		}
 	}
-	*/
+
 
 
 	@PostMapping(value = "/login")

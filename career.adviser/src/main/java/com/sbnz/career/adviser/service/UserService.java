@@ -4,7 +4,9 @@ package com.sbnz.career.adviser.service;
 import java.util.List;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.sbnz.career.adviser.dto.UserDto;
 import com.sbnz.career.adviser.entity.User;
+import com.sbnz.career.adviser.enums.Role;
 
 
 public interface UserService extends UserDetailsService {
@@ -23,6 +25,7 @@ public interface UserService extends UserDetailsService {
 	
 	void save(User user);
 
+	boolean registerUser(UserDto user, Role userRole);
 	
 
 }

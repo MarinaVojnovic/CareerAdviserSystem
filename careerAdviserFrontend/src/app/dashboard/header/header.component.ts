@@ -19,6 +19,8 @@ import { applySourceSpanToExpressionIfNeeded } from '@angular/compiler/src/outpu
 import { EmploymentScoreFormComponent } from 'src/app/professions/employment-score-form/employment-score-form.component';
 import { ReportComponent } from 'src/app/professions/report/report.component';
 import { DeletedProfessionsComponent } from 'src/app/professions/deleted-professions/deleted-professions.component';
+import { RegisterUserComponent } from 'src/app/user/register-user/register-user.component';
+import { RegisterAdminComponent } from 'src/app/user/register-admin/register-admin.component';
 
 @Component({
   selector: 'app-header',
@@ -150,5 +152,12 @@ export class HeaderComponent implements OnInit {
 
   deletedProfessions(){
     const modalRef = this.modalService.open(DeletedProfessionsComponent);
+  }
+
+  registerUser(){
+    const modalRef = this.modalService.open(RegisterUserComponent);
+  }
+  registerAdmin(){
+    const modalRef = this.modalService.open(RegisterAdminComponent);
   }
 }

@@ -9,11 +9,13 @@
         </div>
     
         <div *ngIf="loggedUser != null">
+            <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="registerAdmin()">Register admin</button>
+            <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="registerUser()">Register user</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="deletedProfessions()">Deleted professions</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="report()">Report</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="employmentScoreForm()">Employment score</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="personalityQuestions()">Personality questions</button>
-            <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="addPersonalityTrait()">Add personality trait</button>
+            <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="addPersonalityTrait()">Add trait</button>
             <button *ngIf = "loggedUser.userRoleName === 'ROLE_ADMIN'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="addProfession()">Add profession</button>
             <button *ngIf = "professionTestDone && personalityTestDone && loggedUser.userRoleName === 'ROLE_USER'"style="margin-left: 10px;" mat-stroked-button color="warn" (click)="candidateProfessions()">Candidate professions</button>
             <button *ngIf = "professionTestDone==false && loggedUser.userRoleName === 'ROLE_USER'" style="margin-left: 10px;" mat-stroked-button color="warn" (click)="professionTest()">Profession test</button>

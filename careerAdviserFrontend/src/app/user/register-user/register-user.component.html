@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4  style="margin: 0 auto; color: #ff0066" class="modal-title">Register admin</h4>
+    
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+   
+    <form [formGroup]="form"  id="loginForm" novalidate>
+        <div class="form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <input type="text" id="name" class="form-control" [(ngModel)]="userDto.name" placeholder="Name"
+                        required autofocus formControlName="name" maxlength="64">
+                        <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="nameCtrl.errors.required">
+                              Name is required.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <input type="text" id="surname" class="form-control" [(ngModel)]="userDto.surname" placeholder="Surname"
+                        required autofocus formControlName="surname" maxlength="64">
+                        <div *ngIf="surnameCtrl.invalid && (surnameCtrl.dirty || surnameCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="surnameCtrl.errors.required">
+                              Surname is required.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <input type="email" id="email" class="form-control" [(ngModel)]="userDto.email" placeholder="Email"
+                        required autofocus formControlName="email" maxlength="64">
+                        <div *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)"
+                               class="alert alert-danger">
+                            <div *ngIf="emailCtrl.errors.required">
+                              Email is required.
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+  <div class="modal-footer">
+    <button mat-raised-button color="primary" (click)="register()" style="margin-right: 10px;">Register</button>
+    <button mat-stroked-button color="accent" (click)="activeModal.close('Close click')">Close</button>
+    <!-- <button type="button" class="btn btn-danger" (click)="activeModal.close('Close click')">Close</button> -->
+  </div>
