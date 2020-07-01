@@ -43,7 +43,7 @@ export class PersonalityTestComponent implements OnInit {
     this.personalityTestService.submitTraitQuestion(this.traitQuestionResults).subscribe(
       (response => {
         if (response !== null) {
-         alert("successfully submited");
+         alert("Test successfully submited!");
          this.activeModal.close();
          location.reload();
         }

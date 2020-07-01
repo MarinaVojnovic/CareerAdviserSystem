@@ -56,11 +56,34 @@ export class EmploymentScoreFormComponent implements OnInit {
   }
 
   addScore(){
-    let score = new EmploymentScoreTemplate(this.employmentScoreTemplate.minPerc, this.employmentScoreTemplate.maxPerc, this.employmentScoreTemplate.score);
-    this.scores.push(score);
-    this.employmentScoreTemplate.minPerc=this.employmentScoreTemplate.maxPerc;
-    this.employmentScoreTemplate.maxPerc=100;
-    this.employmentScoreTemplate.score=0;
+    let allowed  = true;
+    if (this.employmentScoreTemplate.minPerc== undefined || this.employmentScoreTemplate.minPerc <= 0 || this.employmentScoreTemplate.minPerc >= 100){
+      alert('Minimum percentage must be positive number and less then 100.');
+      allowed = false;
+    }
+    if (this.employmentScoreTemplate.maxPerc== undefined || this.employmentScoreTemplate.maxPerc <= 0 || this.employmentScoreTemplate.minPerc > 100){
+      alert('Maximum percentage must be positive number and less then 100.');
+      allowed = false;
+    }
+
+    if (this.employmentScoreTemplate.minPerc >= this.employmentScoreTemplate.maxPerc){
+      alert('Minimum percentage must be less than maximum percentage!');
+      allowed = false;
+    }
+
+    if (this.employmentScoreTemplate.score<=0){
+      alert('Score must be positive number!');
+      allowed = false;
+    }
+
+    if (allowed == true){
+      let score = new EmploymentScoreTemplate(this.employmentScoreTemplate.minPerc, this.employmentScoreTemplate.maxPerc, this.employmentScoreTemplate.score);
+      this.scores.push(score);
+      this.employmentScoreTemplate.minPerc=this.employmentScoreTemplate.maxPerc;
+      this.employmentScoreTemplate.maxPerc=100;
+      this.employmentScoreTemplate.score=0;
+    }
+    
   }
 
 }

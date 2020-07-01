@@ -46,22 +46,23 @@ export class PersonalityTraitFormComponent implements OnInit {
   }
 
   submit(){
+    if (this.trait1.personalityField=='' || this.trait1.target=='' || this.trait2.target=='' || this.trait2.personalityField==''){
+      alert('All fields must be filled!');
+    }else {
+
+    
     this.trait2.personalityField=this.trait1.personalityField;
-    alert(this.trait2.target);
     this.personalityService.createTrait(this.trait1).subscribe(
       (response => {
         if (response !== null) {
-         alert("successfully submited 1");
          
          this.personalityService.createTrait(this.trait2).subscribe(
           (response => {
             if (response !== null) {
-             alert("successfully submited 2");
              this.activeModal.close();
             }
           }),
           (error => {
-            console.log('some error happend :)');
             alert(error.error.message);
           })
         );
@@ -69,10 +70,11 @@ export class PersonalityTraitFormComponent implements OnInit {
         }
       }),
       (error => {
-        console.log('some error happend :)');
+ 
         alert(error.error.message);
       })
     );
   }
+}
 
 }

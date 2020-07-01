@@ -19,12 +19,12 @@ export class PersonalityQuestionFormComponent implements OnInit {
   public traits : Array<Trait>=[];
 
   public id : number = -1;
-  public target : string;
+  public target : string = '';
   public chooseTarget : Boolean;
-  personalityField : string;
+  personalityField : string='';
   public targetOne : String;
   public targetTwo : String;
-  public text : string;
+  public text : string='';
   public personalityFieldCtrl: FormControl;
   public textCtrl : FormControl;
 
@@ -102,24 +102,13 @@ export class PersonalityQuestionFormComponent implements OnInit {
   }
 
   submit(){
-    alert('submit called');
-    console.log(this.personalityField);
-    console.log(this.target);
-    console.log(this.text);
 
-    /*
-    let traitQuestionDto : TraitQuestionDto = new TraitQuestionDto();
-    traitQuestionDto.personalityField=this.personalityField;
-    traitQuestionDto.target=this.target;
-    traitQuestionDto.text=this.text;
-    traitQuestionDto.isActive=true;
-    traitQuestionDto.id=-1;
-    */
+    if (this.text=='' || this.personalityField==''||this.target==''){
+      alert('All fields must be filled!');
+    }else {
 
-
-
-    let traitQuestion : TraitQuestion = new TraitQuestion();
     
+    let traitQuestion : TraitQuestion = new TraitQuestion();
     traitQuestion.text =this.text;
     traitQuestion.isActive=true;
     let trait : Trait = new Trait();
@@ -131,7 +120,6 @@ export class PersonalityQuestionFormComponent implements OnInit {
     this.personalityService.createTraitQuestion(traitQuestion).subscribe(
       (response => {
         if (response !== null) {
-          alert('Question successfully submitted!');
           
          this.activeModal.close();
           
@@ -143,4 +131,5 @@ export class PersonalityQuestionFormComponent implements OnInit {
     );
   }
 
+  }
 }

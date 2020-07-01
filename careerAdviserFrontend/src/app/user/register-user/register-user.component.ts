@@ -43,6 +43,11 @@ export class RegisterUserComponent implements OnInit {
   }
 
   register(){
+    if (this.userDto.name==''||this.userDto.surname==''||this.userDto.email==''){
+      alert('All fields must be filled!');
+    }else {
+
+    
     this.userDto.username=this.userDto.email;
     this.userService.registerUser(this.userDto).subscribe(
       (response => {
@@ -62,5 +67,7 @@ export class RegisterUserComponent implements OnInit {
       })
     );
   }
+
+}
 
 }

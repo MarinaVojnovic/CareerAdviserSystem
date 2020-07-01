@@ -28,7 +28,6 @@ export class PersonalityQuestionsComponent implements OnInit {
       (response => {
         if (response !== null) {
           this.traitQuestions = response;
-          alert(this.traitQuestions.length);
         }
       }),
       (error => {
@@ -89,7 +88,6 @@ export class PersonalityQuestionsComponent implements OnInit {
     this.personalityService.deleteTraitQuestion(quest.id).subscribe(
       (response => {
         if (response !== null) {
-          alert('question successfully deleted');
           this.getTraitQuestions();
         }
       }),
@@ -103,7 +101,6 @@ export class PersonalityQuestionsComponent implements OnInit {
     this.personalityService.activateTraitQuestion(quest.id).subscribe(
       (response => {
         if (response !== null) {
-          alert('question successfully activated');
           this.getTraitQuestions();
         }
       }),

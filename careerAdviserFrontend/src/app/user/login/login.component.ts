@@ -41,6 +41,9 @@ export class LoginComponent implements OnInit {
     console.log(this.authRequest.username);
     console.log(this.authRequest.password);
 
+   if (this.authRequest.username=='' || this.authRequest.password==''){
+    alert('Username and password are not allowed to be null!');
+   }else {
     this.authenticationService.login(this.authRequest.username, this.authRequest.password).subscribe(
       (loggedIn) => {
         console.log("logged in");
@@ -56,5 +59,8 @@ export class LoginComponent implements OnInit {
         alert('Access forbidden, try again in 3 minutes');
       }
     });
+   }
+
+  
   }
 }

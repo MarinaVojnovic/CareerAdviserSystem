@@ -52,6 +52,14 @@ export class RegisterAdminComponent implements OnInit {
   }
 
   register(){
+
+ 
+
+    if (this.userDto.name==''||this.userDto.surname==''||this.userDto.username==''||this.userDto.email==''||this.userDto.password==''){
+      alert('All fields must be filled!');
+    }else{
+
+    
     this.userService.registerAdmin(this.userDto).subscribe(
       (response => {
         if (response !== null) {
@@ -71,4 +79,5 @@ export class RegisterAdminComponent implements OnInit {
     );
   }
 
+}
 }

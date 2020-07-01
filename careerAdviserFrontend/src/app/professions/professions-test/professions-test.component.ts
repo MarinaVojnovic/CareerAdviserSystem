@@ -40,7 +40,7 @@ export class ProfessionsTestComponent implements OnInit {
     this.professionServices.submitQuestions(this.preferenceQuestionResults).subscribe(
       (response => {
         if (response !== null) {
-         alert("successfully submited");
+         alert("Test successfully submited!");
          this.activeModal.close();
          location.reload();
         }

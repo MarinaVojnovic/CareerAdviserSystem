@@ -217,6 +217,15 @@ export class ProfessionFormComponent implements OnInit {
   }
 
   public submit(){
+
+
+    if (this.profession.name=='' || this.profession.activities.length==0 || this.profession.traits.length==0 
+    || this.profession.description == '' || this.profession.payment==0 || this.profession.employment==0 || this.profession.image==''
+    ){
+        alert('All fields must be filled!');
+    }else {
+
+    
     
     for (let st of this.selectedTraits){
       for (let trait of this.traitsList){
@@ -260,6 +269,7 @@ export class ProfessionFormComponent implements OnInit {
           })
         );
       }
+    }
     
     }
 
