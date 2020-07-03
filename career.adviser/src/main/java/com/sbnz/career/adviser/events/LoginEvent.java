@@ -21,6 +21,10 @@ public class LoginEvent implements Serializable{
 	private Date executionTime;
     private User user;
     private Boolean successfull;
+ 
+    
+    private static int counter=0;
+    
     
     public LoginEvent() {
         super();
@@ -31,7 +35,11 @@ public class LoginEvent implements Serializable{
         this.executionTime = new Date();
         this.user = user;
         this.successfull = successfull;
+      
     }
+    
+
+	
 
 	public Date getExecutionTime() {
 		return executionTime;

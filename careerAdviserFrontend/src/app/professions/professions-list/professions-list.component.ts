@@ -3,6 +3,7 @@ import { Profession } from 'src/app/model/profession';
 import { ProfessionService } from 'src/app/service/profession.service';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProfessionDetailsComponent } from '../profession-details/profession-details.component';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 
 @Component({
@@ -50,7 +51,10 @@ export class ProfessionsListComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

@@ -5,6 +5,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonalityQuestionFormComponent } from '../personality-question-form/personality-question-form.component';
 import { PersonalityQuestionEditComponent } from '../personality-question-edit/personality-question-edit.component';
 import { Trait } from 'src/app/model/trait';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-personality-questions',
@@ -31,7 +32,10 @@ export class PersonalityQuestionsComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
 
@@ -79,7 +83,10 @@ export class PersonalityQuestionsComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -92,7 +99,10 @@ export class PersonalityQuestionsComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -105,7 +115,10 @@ export class PersonalityQuestionsComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

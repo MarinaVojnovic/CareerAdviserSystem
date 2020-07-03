@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import { MessageBoxComponent } from './message-box/message-box.component';
 
 @NgModule({
-  declarations: [LoginComponent, RegisterAdminComponent, RegisterUserComponent],
+  declarations: [LoginComponent, RegisterAdminComponent, RegisterUserComponent, MessageBoxComponent],
   imports: [
     CommonModule,
     MatButtonModule,

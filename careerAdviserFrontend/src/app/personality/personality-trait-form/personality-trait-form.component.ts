@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { PersonalityService } from 'src/app/service/personality.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Trait } from 'src/app/model/trait';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-personality-trait-form',
@@ -29,7 +30,7 @@ export class PersonalityTraitFormComponent implements OnInit {
   
   public form: FormGroup;
 
-  constructor(private fb: FormBuilder, private personalityService : PersonalityService, public activeModal : NgbActiveModal) {
+  constructor(private modalService : NgbModal, private fb: FormBuilder, private personalityService : PersonalityService, public activeModal : NgbActiveModal) {
     this.personalityFieldCtrl = this.fb.control([this.trait1.personalityField, Validators.required]);
     this.targetCtrl1= this.fb.control([this.trait1.target, Validators.required]);
     this.targetCtrl2= this.fb.control([this.trait1.target, Validators.required]);
@@ -46,8 +47,12 @@ export class PersonalityTraitFormComponent implements OnInit {
   }
 
   submit(){
-    if (this.trait1.personalityField=='' || this.trait1.target=='' || this.trait2.target=='' || this.trait2.personalityField==''){
-      alert('All fields must be filled!');
+    if (this.trait1.personalityField=='' || this.trait1.target=='' || this.trait2.target==''){
+    //  alert('All fields must be filled!');
+      const modalRef = this.modalService.open(MessageBoxComponent);
+      modalRef.componentInstance.success= false;
+      modalRef.componentInstance.message='All fields must be filled!';
+      
     }else {
 
     
@@ -59,11 +64,18 @@ export class PersonalityTraitFormComponent implements OnInit {
          this.personalityService.createTrait(this.trait2).subscribe(
           (response => {
             if (response !== null) {
+              const modalRef = this.modalService.open(MessageBoxComponent);
+              modalRef.componentInstance.success= true;
+              modalRef.componentInstance.message='Personality trait successfully created.';
              this.activeModal.close();
             }
           }),
           (error => {
-            alert(error.error.message);
+           // alert(error.error.message);
+            const modalRef = this.modalService.open(MessageBoxComponent);
+            modalRef.componentInstance.success= false;
+            modalRef.componentInstance.message=''+error.error.message;
+
           })
         );
       
@@ -71,7 +83,10 @@ export class PersonalityTraitFormComponent implements OnInit {
       }),
       (error => {
  
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

@@ -1,0 +1,10 @@
+<div style="text-align: center;">
+    <br>
+    <br>
+    <p  *ngIf = "success==false" style="margin: 0 auto; color: #ff0066" class="modal-title"><b>{{message}}</b></p>
+    <p *ngIf = "success==true" style="margin: 0 auto; color: #29B05C" class="modal-title"><b>{{message}}</b></p>
+    <br>
+    <br>
+    <br>
+    <button style="float: cemter; margin: 10px" mat-stroked-button color="primary" (click)="activeModal.close('Close click')">Close</button>
+</div>

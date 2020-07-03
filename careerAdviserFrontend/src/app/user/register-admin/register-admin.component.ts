@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UserDto } from 'src/app/model/userDto';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/security/authentication-service.service';
 import { UserService } from 'src/app/service/user.service';
+import { MessageBoxComponent } from '../message-box/message-box.component';
 
 @Component({
   selector: 'app-register-admin',
@@ -29,7 +30,7 @@ export class RegisterAdminComponent implements OnInit {
 
   public form: FormGroup;
 
-  constructor( private router: Router, private fb: FormBuilder, public activeModal : NgbActiveModal, public userService : UserService) {
+  constructor( private modalService : NgbModal, private router: Router, private fb: FormBuilder, public activeModal : NgbActiveModal, public userService : UserService) {
 
     this.nameCtrl = this.fb.control([this.userDto.name, Validators.required]);
     this.surnameCtrl = this.fb.control([this.userDto.surname, Validators.required]);
@@ -56,7 +57,10 @@ export class RegisterAdminComponent implements OnInit {
  
 
     if (this.userDto.name==''||this.userDto.surname==''||this.userDto.username==''||this.userDto.email==''||this.userDto.password==''){
-      alert('All fields must be filled!');
+      //alert('All fields must be filled!');
+      const modalRef = this.modalService.open(MessageBoxComponent);
+      modalRef.componentInstance.success= false;
+      modalRef.componentInstance.message='All fields must be filled!';
     }else{
 
     
@@ -64,17 +68,27 @@ export class RegisterAdminComponent implements OnInit {
       (response => {
         if (response !== null) {
           if (response==true){
-            alert("Successfully registered admin.");
+           // alert("Successfully registered admin.");
+            const modalRef = this.modalService.open(MessageBoxComponent);
+            modalRef.componentInstance.success= true;
+            modalRef.componentInstance.message="Successfully registered admin."
             this.activeModal.close();
+
           }else {
-            alert("Username taken. Choose another one.");
+            //alert("Username taken. Choose another one.");
+            const modalRef = this.modalService.open(MessageBoxComponent);
+            modalRef.componentInstance.success= false;
+            modalRef.componentInstance.message="Username taken. Choose another one."
           }
         
         }
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=""+error.eror.message;
       })
     );
   }

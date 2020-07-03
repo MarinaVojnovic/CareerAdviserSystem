@@ -11,6 +11,7 @@ import { Preference } from 'src/app/model/preference';
 import { CheckedPreference } from 'src/app/model/checkedPreference';
 import { OwnedTraits } from 'src/app/model/ownedTraits';
 import { ProfessionFormComponent } from '../profession-form/profession-form.component';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-profession-details',
@@ -55,14 +56,20 @@ export class ProfessionDetailsComponent implements OnInit {
     this.professionService.activateProfession(this.profession.id).subscribe(
       (response => {
         if (response !== null) {
-        alert("Successfully activated profession.");
+       // alert("Successfully activated profession.");
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= true;
+        modalRef.componentInstance.message='Profession successfully activated.';
         this.activeModal.close();
         location.reload();
         }
       }),
       (error => {
    
-        alert(error.error.message);
+       // alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -89,14 +96,22 @@ export class ProfessionDetailsComponent implements OnInit {
     this.professionService.deleteProfession(this.profession.id).subscribe(
       (response => {
         if (response !== null) {
-        alert("Successfully deleted profession.");
+        //alert("Successfully deleted profession.");
+        //this.activeModal.close();
+        //location.reload();
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= true;
+        modalRef.componentInstance.message='Profession successfully deleted.';
         this.activeModal.close();
         location.reload();
         }
       }),
       (error => {
    
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -117,7 +132,10 @@ export class ProfessionDetailsComponent implements OnInit {
       }),
       (error => {
 
-        alert('error');
+        //alert('error');
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message='Error happend.';
        
       })
     );
@@ -180,7 +198,10 @@ export class ProfessionDetailsComponent implements OnInit {
             }),
             (error => {
       
-              alert('error');
+              //alert('error');
+              const modalRef = this.modalService.open(MessageBoxComponent);
+              modalRef.componentInstance.success= false;
+              modalRef.componentInstance.message='Error happened.';
              
             })
           );
@@ -189,7 +210,10 @@ export class ProfessionDetailsComponent implements OnInit {
       }),
       (error => {
 
-        alert('error');
+        //alert('error');
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       
       })
     );

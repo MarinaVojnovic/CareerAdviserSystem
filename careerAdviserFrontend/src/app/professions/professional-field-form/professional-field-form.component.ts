@@ -3,6 +3,7 @@ import { ProfessionalField } from 'src/app/model/professional-field';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProfessionService } from 'src/app/service/profession.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-professional-field-form',
@@ -18,7 +19,7 @@ export class ProfessionalFieldFormComponent implements OnInit {
 
   nameCtrl: FormControl;
   public form: FormGroup;
-  constructor( private fb: FormBuilder, private professionService : ProfessionService, public activeModal : NgbActiveModal) { 
+  constructor( private modalService :NgbModal, private fb: FormBuilder, private professionService : ProfessionService, public activeModal : NgbActiveModal) { 
     this.nameCtrl = this.fb.control([this.professionalField.name, Validators.required]);
 
     this.form = this.fb.group({
@@ -35,13 +36,19 @@ export class ProfessionalFieldFormComponent implements OnInit {
     this.professionService.addingProfessionalField(this.professionalField).subscribe(
       (response => {
         if (response !== null) {
-         alert("successfully submited");
-         this.activeModal.close();
+        // alert("successfully submited");
+         //this.activeModal.close();
+         const modalRef = this.modalService.open(MessageBoxComponent);
+         modalRef.componentInstance.success= true;
+         modalRef.componentInstance.message='Professional field successfully added.';
         }
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

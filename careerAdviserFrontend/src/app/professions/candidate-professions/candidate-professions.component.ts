@@ -5,6 +5,7 @@ import { ProfessionService } from 'src/app/service/profession.service';
 import { ProfessionsSuitabilityList } from 'src/app/model/professions-suitability-list';
 import { ProfessionDetailsComponent } from '../profession-details/profession-details.component';
 import { Profession } from 'src/app/model/profession';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-candidate-professions',
@@ -32,7 +33,10 @@ export class CandidateProfessionsComponent implements OnInit {
       }),
       (error => {
         console.log('some error happend in getting recommended professions by trait:)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
 
@@ -48,7 +52,10 @@ export class CandidateProfessionsComponent implements OnInit {
       }),
       (error => {
         console.log('some error happend in getting recommended professions by trait:)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -75,7 +82,10 @@ export class CandidateProfessionsComponent implements OnInit {
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

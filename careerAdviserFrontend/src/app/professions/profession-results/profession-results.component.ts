@@ -5,6 +5,7 @@ import { Criteriums } from 'src/app/model/criteriums';
 import { RecommendedProfessions } from 'src/app/model/recommended-professions';
 import { ProfessionDetailsComponent } from '../profession-details/profession-details.component';
 import { Profession } from 'src/app/model/profession';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-profession-results',
@@ -52,8 +53,12 @@ export class ProfessionResultsComponent implements OnInit {
       }),
       (error => {
         console.log('ERROR HAPPENED');
-        alert(error.error.message);
+       // alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
+
     );
 
   }
@@ -73,7 +78,10 @@ export class ProfessionResultsComponent implements OnInit {
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
    

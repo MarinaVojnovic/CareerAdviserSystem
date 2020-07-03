@@ -13,6 +13,7 @@ import { PersonalityTestService } from 'src/app/service/personality-test.service
 import { TraitSelected } from 'src/app/model/trait-selected';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { PersonalityTraitFormComponent } from 'src/app/personality/personality-trait-form/personality-trait-form.component';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-profession-form',
@@ -110,14 +111,17 @@ export class ProfessionFormComponent implements OnInit {
       }),
       (error => {
    
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
 
   deleteActivity(activity){
 
-    alert(activity.id);
+   
     this.professionService.deleteActivity(activity.id).subscribe(
       (response => {
         if (response !== null) {
@@ -126,7 +130,10 @@ export class ProfessionFormComponent implements OnInit {
       }),
       (error => {
    
-        alert(error.error.message);
+       // alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -167,7 +174,10 @@ export class ProfessionFormComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -183,7 +193,10 @@ export class ProfessionFormComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+       // alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -219,10 +232,21 @@ export class ProfessionFormComponent implements OnInit {
   public submit(){
 
 
-    if (this.profession.name=='' || this.profession.activities.length==0 || this.profession.traits.length==0 
-    || this.profession.description == '' || this.profession.payment==0 || this.profession.employment==0 || this.profession.image==''
+    if (this.profession.name=='' || this.profession.activities.length==0 || this.selectedTraits.length==0 
+    || this.profession.description == '' || this.profession.payment==0 || this.profession.employment==0 || this.selectedFiles.length==0
     ){
-        alert('All fields must be filled!');
+      console.log(this.profession.name);
+      console.log(this.profession.activities.length);
+      console.log('selected traits'+this.selectedTraits.length);
+      console.log(this.profession.description);
+      console.log(this.profession.payment);
+      console.log(this.profession.employment);
+      console.log(this.profession.image);
+
+        //alert('All fields must be filled!');
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message='All fields must be filled!';
     }else {
 
     
@@ -240,13 +264,20 @@ export class ProfessionFormComponent implements OnInit {
       this.professionService.createProfession(this.profession).subscribe(
         (response => {
           if (response !== null) {
-          alert("successfully submited");
-          this.activeModal.close();
+          //alert("successfully submited");
+         // this.activeModal.close();
+         const modalRef = this.modalService.open(MessageBoxComponent);
+         modalRef.componentInstance.success= true;
+         modalRef.componentInstance.message='Profession successfully created.';
+         this.activeModal.close();
           }
         }),
         (error => {
           console.log('some error happend :)');
-          alert(error.error.message);
+          //alert(error.error.message);
+          const modalRef = this.modalService.open(MessageBoxComponent);
+          modalRef.componentInstance.success= false;
+          modalRef.componentInstance.message=''+error.error.message;
         })
       );
     
@@ -259,13 +290,20 @@ export class ProfessionFormComponent implements OnInit {
         this.professionService.editProfession(this.profession).subscribe(
           (response => {
             if (response !== null) {
-            alert("Successfully edited profession.");
+            //alert("Successfully edited profession.");
+            //this.activeModal.close();
+            const modalRef = this.modalService.open(MessageBoxComponent);
+            modalRef.componentInstance.success= true;
+            modalRef.componentInstance.message='Profession successfully edited.';
             this.activeModal.close();
             }
           }),
           (error => {
        
-            alert(error.error.message);
+            //alert(error.error.message);
+            const modalRef = this.modalService.open(MessageBoxComponent);
+            modalRef.componentInstance.success= false;
+            modalRef.componentInstance.message=''+error.error.message;
           })
         );
       }
@@ -311,7 +349,10 @@ export class ProfessionFormComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -331,7 +372,7 @@ export class ProfessionFormComponent implements OnInit {
     if (event.type === HttpEventType.UploadProgress) {
     this.progress.percentage = Math.round(100 * event.loaded / event.total);
     } else if (event instanceof HttpResponse) {
-    alert('File Successfully Uploaded');
+    //alert('File Successfully Uploaded');
     }
     this.selectedFiles = undefined;
     }

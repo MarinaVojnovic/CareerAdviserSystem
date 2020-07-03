@@ -61,8 +61,9 @@ public class AuthenticationController {
 	public ResponseEntity<?> registerAdmin(@RequestBody UserDto user) {
 		System.out.println("Uslo u register admin u kontroleru");
 		try{
-			this.userService.registerUser(user, Role.ROLE_ADMIN);
-			return new ResponseEntity<>(new MessageDto("Admin successfully registrated.", "Success"), HttpStatus.OK);
+			boolean result = this.userService.registerUser(user, Role.ROLE_ADMIN);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		}catch(Exception e){
 			return new ResponseEntity<>(new MessageDto(e.getMessage(), "Error"), HttpStatus.CONFLICT);
 		}
@@ -77,6 +78,7 @@ public class AuthenticationController {
 
 		try{
 			boolean result = this.userService.registerUser(user,Role.ROLE_USER);
+			
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}catch(Exception e){
 			return new ResponseEntity<>(new MessageDto(e.getMessage(), "Error"), HttpStatus.CONFLICT);

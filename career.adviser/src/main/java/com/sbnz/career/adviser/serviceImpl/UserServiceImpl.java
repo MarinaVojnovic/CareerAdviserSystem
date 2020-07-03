@@ -123,7 +123,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean registerUser(UserDto user, Role userRole) {
 		System.out.println("USlo u register user u servisu");
+		System.out.println(user.getUsername());
 		if (this.usernameTaken(user.getUsername())) {
+			System.out.println("USLO U USERNAME TAKEN");
 			return false;
 		}
 		

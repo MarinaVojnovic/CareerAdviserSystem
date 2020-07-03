@@ -7,6 +7,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { PersonalityService } from 'src/app/service/personality.service';
 import { TraitQuestionDto } from 'src/app/model/trait-question-dto';
 import { PersonalityTraitFormComponent } from '../personality-trait-form/personality-trait-form.component';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-personality-question-form',
@@ -30,7 +31,7 @@ export class PersonalityQuestionFormComponent implements OnInit {
 
   public form: FormGroup;
 
-  constructor(private personalityService : PersonalityService, private fb: FormBuilder, private professionService : ProfessionService, public activeModal : NgbActiveModal, public modalService : NgbModal) {
+  constructor( private personalityService : PersonalityService, private fb: FormBuilder, private professionService : ProfessionService, public activeModal : NgbActiveModal, public modalService : NgbModal) {
     this.personalityFieldCtrl = this.fb.control([this.personalityField, Validators.required]),
     this.textCtrl = this.fb.control([this.text, Validators.required])
 
@@ -64,7 +65,10 @@ export class PersonalityQuestionFormComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=error.error.message+'';
       })
     );
   }
@@ -104,7 +108,10 @@ export class PersonalityQuestionFormComponent implements OnInit {
   submit(){
 
     if (this.text=='' || this.personalityField==''||this.target==''){
-      alert('All fields must be filled!');
+      //alert('All fields must be filled!');
+      const modalRef = this.modalService.open(MessageBoxComponent);
+      modalRef.componentInstance.success= false;
+      modalRef.componentInstance.message='All fields must be filled!';
     }else {
 
     
@@ -120,13 +127,18 @@ export class PersonalityQuestionFormComponent implements OnInit {
     this.personalityService.createTraitQuestion(traitQuestion).subscribe(
       (response => {
         if (response !== null) {
-          
-         this.activeModal.close();
+          const modalRef = this.modalService.open(MessageBoxComponent);
+          modalRef.componentInstance.success= true;
+          modalRef.componentInstance.message="Successfully added new personality question.";
+          this.activeModal.close();
           
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

@@ -107,9 +107,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			if (user!=null){
 				authentication = authenticationManagerBean().authenticate(new UsernamePasswordAuthenticationToken(
 						authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-			}
+			
 			//ovde je user uspesno uneo i ime i lozinku
 			//moze se desiti da je vec forbidden, to proveramo pomocu getAllowed - ali sve u svemu je success
+			
+			
 			LoginEvent loggingEvent = new LoginEvent(user,true);
 			kieSession.insert(loggingEvent);
 			kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
@@ -117,6 +119,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			userService.save(user);
 			System.out.println("Allowed after successfull action: "+user.getAllowed());
 			System.out.println("ID: "+loggingEvent.getUser().getAllowed());
+			}
 			
 			success=true;
 		} catch (Exception e) {
@@ -133,9 +136,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				success = false;
 				
 			}
+			//ako je null ne ubacujes u sesiju
 			
 			
 			
+		}
+		if (user == null) {
+			return null;
 		}
 		if (success == true && user.getAllowed()) { //uspesno se prijavio i ime i lozinka i nije forbidden
 			user = (User) authentication.getPrincipal();

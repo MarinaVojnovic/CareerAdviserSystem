@@ -51,7 +51,7 @@
                             </div>
                         </div>
 
-                        <label for="type"><p>Employment:</p> </label>
+                        <label for="type"><p><b>Employment:</b></p> </label>
                         <input type="number" id="employment" class="form-control" [(ngModel)]="profession.employment" placeholder="Employment (percentage)"
                         required autofocus [pattern]="'^[0-9 ]+$'" formControlName="employment" maxlength="64">
                         <div *ngIf="employmentCtrl.invalid && (employmentCtrl.dirty || employmentCtrl.touched)"

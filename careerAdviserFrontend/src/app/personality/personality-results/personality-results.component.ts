@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TraitsResult } from 'src/app/model/traits-result';
 import { TraitsResultService } from 'src/app/service/traits-result.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-personality-results',
@@ -29,7 +30,10 @@ export class PersonalityResultsComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

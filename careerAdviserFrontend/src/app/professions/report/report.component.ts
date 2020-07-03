@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TestsDoneInDayDto } from 'src/app/model/testsDoneInDayDto';
 import { ProfessionService } from 'src/app/service/profession.service';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-report',
@@ -11,7 +12,7 @@ import { ProfessionService } from 'src/app/service/profession.service';
 export class ReportComponent implements OnInit {
 
   reports : TestsDoneInDayDto[];
-  constructor(private professionService : ProfessionService, public activeModal : NgbActiveModal) { }
+  constructor(private modalService : NgbModal, private professionService : ProfessionService, public activeModal : NgbActiveModal) { }
 
   ngOnInit(): void {
     this.getReports();
@@ -27,7 +28,10 @@ export class ReportComponent implements OnInit {
         }
       }),
       (error => {
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

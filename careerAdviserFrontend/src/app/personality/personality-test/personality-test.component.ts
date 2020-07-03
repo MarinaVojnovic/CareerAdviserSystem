@@ -3,7 +3,8 @@ import { TraitsResult } from 'src/app/model/traits-result';
 import { TraitsResultService } from 'src/app/service/traits-result.service';
 import { TraitQuestionResult } from 'src/app/model/trait-question-result';
 import { PersonalityTestService } from 'src/app/service/personality-test.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-personality-test',
@@ -17,7 +18,7 @@ export class PersonalityTestComponent implements OnInit {
 
   isChecked : boolean;
 
-  constructor(public activeModal: NgbActiveModal, private personalityTestService : PersonalityTestService) { }
+  constructor(private modalService : NgbModal, public activeModal: NgbActiveModal, private personalityTestService : PersonalityTestService) { }
 
   ngOnInit(): void {
     this.getQuestionsForUser();
@@ -33,7 +34,10 @@ export class PersonalityTestComponent implements OnInit {
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }
@@ -43,14 +47,20 @@ export class PersonalityTestComponent implements OnInit {
     this.personalityTestService.submitTraitQuestion(this.traitQuestionResults).subscribe(
       (response => {
         if (response !== null) {
-         alert("Test successfully submited!");
-         this.activeModal.close();
-         location.reload();
+        // alert("Test successfully submited!");
+         const modalRef = this.modalService.open(MessageBoxComponent);
+         modalRef.componentInstance.success= true;
+         modalRef.componentInstance.message="Test successfully submited!";
+         //this.activeModal.close();
+         //location.reload();
         }
       }),
       (error => {
         console.log('some error happend :)');
-        alert(error.error.message);
+       // alert(error.error.message);
+       const modalRef = this.modalService.open(MessageBoxComponent);
+       modalRef.componentInstance.success= false;
+       modalRef.componentInstance.message=''+error.error.message;
       })
     );
   }

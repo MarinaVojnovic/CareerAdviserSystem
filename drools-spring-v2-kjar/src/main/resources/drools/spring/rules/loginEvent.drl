@@ -7,58 +7,41 @@ import com.sbnz.career.adviser.events.*;
 
 agenda-group "loginEvents"
 
+
 rule "More than 3 logging in unsuccessfully in 1 minutes from one user"
-	lock-on-active
+	
     when
         $e1: LoginEvent($userId: user.id, $user : user)
-        Number(intValue >= 2) from accumulate(
+        Number(intValue >= 3) from accumulate(
             $e2: LoginEvent($successfull : successfull, $thisUser : user,
                 this != $e1, 
                 $successfull == false,
-                $thisUser.id == $userId, 
-                this meets[1m] $e1
-            ),
-            count($e2)
-        )
-        not (SuspiciousEvent(user.id == $userId, reason == "Maximum number of atempts reached"))
+                $thisUser.id == $userId)
+                over window:time(1m), count($e2)
+            )
+           
+        
     then
     	System.out.println("Maximum number of atempts reached");
     	$user.setAllowed(false);
-        insert(new SuspiciousEvent($user, "Maximum number of atempts reached"));
+      
         
 end
  
 
 
-rule "Suspicious login event and new new unsuccessfull login - new suspcious login event inserted."
-	lock-on-active
-	when
-        $e1: LoginEvent($user: user, $successfull : successfull, $successfull==false)
-		$curSuspEvent : SuspiciousEvent($susUserId : user.id, $susUserId == $user.id, reason == "Maximum number of atempts reached")
-		
-	then
-		System.out.println("New maximum number of atempts reached.");
-		delete($curSuspEvent);
-		insert(new SuspiciousEvent($user, "Maximum number of atempts reached"));
-end
 
 
-rule "Suspicious login event and new successfull login - stays not allowed."
-	lock-on-active
-	when
-        $e1: LoginEvent($user: user, $successfull : successfull, $successfull==true)
-		$curSuspEvent : SuspiciousEvent($susUserId : user.id, $susUserId == $user.id, reason == "Maximum number of atempts reached")
-		
-	then
-		System.out.println("Stays not allowed.");
-		
-end
 
 rule "No suspicious login event, successfull login"
-	lock-on-active
+	
 	when
-        $e1: LoginEvent($user: user, $successfull : successfull, $successfull==true)
-		not ($curSuspEvent : SuspiciousEvent($susUserId : user.id, $susUserId == $user.id, reason == "Maximum number of atempts reached"))
+        $e1: LoginEvent( $user: user, successfull==true)
+        Number(intValue < 3 ) from accumulate(
+			$l: LoginEvent(user.id == $user.id, successfull == false)
+			over window:time(1m), count($l)
+		)
+       
 		
 	then
 		$user.setAllowed(true);
