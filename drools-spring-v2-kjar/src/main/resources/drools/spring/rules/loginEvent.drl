@@ -19,13 +19,9 @@ rule "More than 3 logging in unsuccessfully in 1 minutes from one user"
                 $thisUser.id == $userId)
                 over window:time(1m), count($e2)
             )
-           
-        
     then
     	System.out.println("Maximum number of atempts reached");
-    	$user.setAllowed(false);
-      
-        
+    	$user.setAllowed(false);     
 end
  
 

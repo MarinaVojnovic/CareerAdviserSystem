@@ -11,7 +11,7 @@ import { MessageBoxComponent } from 'src/app/user/message-box/message-box.compon
 })
 export class ProfessionsTestComponent implements OnInit {
 
-  preferenceQuestionResults : PreferenceQuestionResult[];
+  preferenceQuestionResults : PreferenceQuestionResult[]=[];
 
   isChecked : boolean;
 
@@ -41,6 +41,7 @@ export class ProfessionsTestComponent implements OnInit {
 
   submitQuestions(){
     console.log('submit questions called');
+    
     this.professionServices.submitQuestions(this.preferenceQuestionResults).subscribe(
       (response => {
         if (response !== null) {

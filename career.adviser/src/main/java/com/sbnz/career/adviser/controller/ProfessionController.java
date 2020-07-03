@@ -50,6 +50,18 @@ public class ProfessionController {
 		this.employmentScoreTemplateService=employmentScoreTemplateService;
 	}
 	
+	@GetMapping(value = "/newTest")
+	public ResponseEntity<Boolean> newTest(){
+		System.out.println("New profession test called.");
+		
+		Boolean permision  = professionService.newTest();
+		
+			return new ResponseEntity<>(permision, HttpStatus.OK);
+		
+		
+		
+	}
+	
 	@PostMapping(value = "/newEmploymentScoreTemplates",  consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MessageDto> newEmploymentScoreTemplates(@RequestBody List<EmploymentScoreTemplate> templates){
 		System.out.println("New employment score templates called");

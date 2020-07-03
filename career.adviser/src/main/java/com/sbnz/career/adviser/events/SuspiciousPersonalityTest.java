@@ -6,7 +6,7 @@ import org.kie.api.definition.type.Role;
 import com.sbnz.career.adviser.entity.User;
 
 @Role(Role.Type.EVENT)
-@Expires("1h")
+@Expires("1m")
 public class SuspiciousPersonalityTest {
 
 	private User user;

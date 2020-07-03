@@ -44,6 +44,16 @@ public class LoginKieSessionConfig {
 		return kieSession;
 	}
 	
+	@Bean(name="newProfTestSession")
+	public KieSession newProfTest() {
+		KieServices ks = KieServices.Factory.get();
+		KieBaseConfiguration kbconf = ks.newKieBaseConfiguration();
+		kbconf.setOption(EventProcessingOption.STREAM);
+		KieBase kbase = kieContainer.newKieBase(kbconf);
+		KieSession kieSession = kbase.newKieSession();
+		return kieSession;
+	}
+	
 	@Bean(name="reportSession")
 	public KieSession reportSession() {
 		KieServices ks = KieServices.Factory.get();

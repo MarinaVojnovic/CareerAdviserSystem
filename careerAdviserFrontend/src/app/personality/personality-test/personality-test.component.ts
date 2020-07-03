@@ -5,6 +5,7 @@ import { TraitQuestionResult } from 'src/app/model/trait-question-result';
 import { PersonalityTestService } from 'src/app/service/personality-test.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
+import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-personality-test',
@@ -44,6 +45,14 @@ export class PersonalityTestComponent implements OnInit {
  
   submitQuestions(){
     console.log('submit questions called');
+    if (this.traitQuestionResults.length==0){
+
+      const modalRef = this.modalService.open(MessageBoxComponent);
+      modalRef.componentInstance.success= false;
+      modalRef.componentInstance.message="At least one statement has to be checked!";
+    }else {
+
+    
     this.personalityTestService.submitTraitQuestion(this.traitQuestionResults).subscribe(
       (response => {
         if (response !== null) {
@@ -51,8 +60,8 @@ export class PersonalityTestComponent implements OnInit {
          const modalRef = this.modalService.open(MessageBoxComponent);
          modalRef.componentInstance.success= true;
          modalRef.componentInstance.message="Test successfully submited!";
-         //this.activeModal.close();
-         //location.reload();
+         this.activeModal.close();
+         location.reload();
         }
       }),
       (error => {
@@ -63,6 +72,7 @@ export class PersonalityTestComponent implements OnInit {
        modalRef.componentInstance.message=''+error.error.message;
       })
     );
+    }
   }
 
 }

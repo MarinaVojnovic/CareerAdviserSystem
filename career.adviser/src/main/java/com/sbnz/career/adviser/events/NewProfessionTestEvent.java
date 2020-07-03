@@ -11,12 +11,12 @@ import com.sbnz.career.adviser.entity.User;
 @Role(Role.Type.EVENT)
 @Timestamp("executionTime")
 @Expires("2m")
-public class NewPersonalityTestEvent {
+public class NewProfessionTestEvent {
 
 	private User user;
 	private Date executionTime;
 	
-	public NewPersonalityTestEvent(User user) {
+	public NewProfessionTestEvent(User user) {
 		this.executionTime=new Date();
 		this.user = user;
 	

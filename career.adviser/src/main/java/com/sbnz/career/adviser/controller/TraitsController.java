@@ -47,15 +47,18 @@ public class TraitsController {
 	}
 	
 	@GetMapping(value = "/newTest")
-	public ResponseEntity<MessageDto> newTest(){
+	public ResponseEntity<Boolean> newTest(){
 		System.out.println("New test called.");
 		
 		Boolean permision  = traitService.newTest();
+		return new ResponseEntity<>(permision, HttpStatus.OK);
+		/*
 		if (permision == true) {
 			return new ResponseEntity<>(new MessageDto("Success", "You can now retake the test."), HttpStatus.OK);
 		}else {
 			return new ResponseEntity<>(new MessageDto("Forbidden", "Access forbidden for three minutes"), HttpStatus.FORBIDDEN);
 		}
+		*/
 		
 		
 	}

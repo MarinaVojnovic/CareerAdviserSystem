@@ -10,11 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sbnz.career.adviser.entity.Trait;
+import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
 import com.sbnz.career.adviser.events.LoginEvent;
 import com.sbnz.career.adviser.events.NewPersonalityTestEvent;
 import com.sbnz.career.adviser.repository.TraitQuestionRepository;
 import com.sbnz.career.adviser.repository.TraitRepository;
+import com.sbnz.career.adviser.repository.TraitsResultRepository;
 import com.sbnz.career.adviser.repository.UserRepository;
 import com.sbnz.career.adviser.service.TraitService;
 
@@ -24,12 +26,13 @@ public class TraitServiceImpl implements TraitService{
 	private final TraitRepository traitRepository;
 	private KieSession kieSession;
 	private UserRepository userRepository;
+	private TraitsResultRepository traitsResultRepository;
 	
-	
-	public TraitServiceImpl(UserRepository userRepository, @Qualifier("newPersTestSession") KieSession kieSession, TraitRepository traitRepository) {
+	public TraitServiceImpl(UserRepository userRepository, @Qualifier("newPersTestSession") KieSession kieSession, TraitRepository traitRepository, TraitsResultRepository traitsResultRepository) {
 		this.traitRepository = traitRepository;
 		this.kieSession=kieSession;
 		this.userRepository=userRepository;
+		this.traitsResultRepository=traitsResultRepository;
 		
 	}
 	@Override
@@ -57,6 +60,10 @@ public class TraitServiceImpl implements TraitService{
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
 		kieSession.fireAllRules();
 		userRepository.save(user);
+		if (user.getNewPersTest()==true) {
+			TraitsResult traitsResult = traitsResultRepository.findByUser(user);
+			traitsResultRepository.delete(traitsResult);
+		}
 		return user.getNewPersTest();
 		
 	}

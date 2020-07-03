@@ -31,6 +31,8 @@ import com.sbnz.career.adviser.entity.Profession;
 import com.sbnz.career.adviser.entity.Trait;
 import com.sbnz.career.adviser.entity.TraitsResult;
 import com.sbnz.career.adviser.entity.User;
+import com.sbnz.career.adviser.events.NewPersonalityTestEvent;
+import com.sbnz.career.adviser.events.NewProfessionTestEvent;
 import com.sbnz.career.adviser.model.Criteriums;
 import com.sbnz.career.adviser.model.Matching;
 import com.sbnz.career.adviser.model.PossibleProfession;
@@ -70,7 +72,9 @@ public class ProfessionServiceImpl implements ProfessionService{
 	
 	private final EmploymentScoreTemplateServiceImpl employmentScoreTemplateServiceImpl;
 	
-	public ProfessionServiceImpl(EmploymentScoreTemplateServiceImpl emplScoreService, PreferenceRespository preferenceRepository, ProfessionalFieldRepository profFieldRepository, TraitRepository traitRepository, UserRepository userRepository, TraitsResultRepository traitsResultRepository, PreferenceQuestionResultRepository prefQustResultRepository, ProfessionRepository professionRepository, KieContainer kieContainer) {
+	private final KieSession kieSession;
+	
+	public ProfessionServiceImpl(@Qualifier("newProfTestSession") KieSession kieSession, EmploymentScoreTemplateServiceImpl emplScoreService, PreferenceRespository preferenceRepository, ProfessionalFieldRepository profFieldRepository, TraitRepository traitRepository, UserRepository userRepository, TraitsResultRepository traitsResultRepository, PreferenceQuestionResultRepository prefQustResultRepository, ProfessionRepository professionRepository, KieContainer kieContainer) {
 		this.employmentScoreTemplateServiceImpl=emplScoreService;
 		this.professionRepository=professionRepository;
 		this.kieContainer = kieContainer;
@@ -80,6 +84,7 @@ public class ProfessionServiceImpl implements ProfessionService{
 		this.traitRepository=traitRepository;
 		this.profFieldRepository=profFieldRepository;
 		this.preferenceRepository=preferenceRepository;
+		this.kieSession=kieSession;
 	}
 	
 	public RecommendedProfessions getResults(Criteriums criteriums) {
@@ -155,8 +160,28 @@ public class ProfessionServiceImpl implements ProfessionService{
 	
 		return recommendedProfessions;
 		
-	
 		
+	}
+	
+	@Override
+	public Boolean newTest() {
+		User user =  userRepository
+				.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+		
+		NewProfessionTestEvent newTest = new NewProfessionTestEvent(user);
+		kieSession.insert(newTest);
+		kieSession.getAgenda().getAgendaGroup("newProfessionTest").setFocus();
+		kieSession.fireAllRules();
+		userRepository.save(user);
+		if (user.getNewProfTest()==true) {
+			
+			List<PreferenceQuestionResult> prefQuesResults = prefQustResultRepository.findByUser(user);
+			for (PreferenceQuestionResult pq : prefQuesResults) {
+				prefQustResultRepository.delete(pq);
+			}
+			
+		}
+		return user.getNewProfTest();
 		
 	}
 	

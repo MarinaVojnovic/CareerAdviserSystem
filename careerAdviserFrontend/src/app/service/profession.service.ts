@@ -27,6 +27,10 @@ export class ProfessionService {
   private readonly urlBase6 = 'http://localhost:8080/report';
   constructor(private http: HttpClient) { }
 
+  newProfessionTest() : Observable<any>{
+    return this.http.get<any>(`${this.urlBase}`+'/newTest');
+  }
+
   allProfessions():Observable<Array<Profession>> {
     console.log('pozvana servisna metoda get professions');
     return this.http.get<Array<Profession>>(`${this.urlBase}`);

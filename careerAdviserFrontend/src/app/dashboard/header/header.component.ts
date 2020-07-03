@@ -21,6 +21,7 @@ import { ReportComponent } from 'src/app/professions/report/report.component';
 import { DeletedProfessionsComponent } from 'src/app/professions/deleted-professions/deleted-professions.component';
 import { RegisterUserComponent } from 'src/app/user/register-user/register-user.component';
 import { RegisterAdminComponent } from 'src/app/user/register-admin/register-admin.component';
+import { MessageBoxComponent } from 'src/app/user/message-box/message-box.component';
 
 @Component({
   selector: 'app-header',
@@ -49,16 +50,52 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  newPersonalityTest(){
-    this.personalityService.newPersonalityTest().subscribe(
+  newProfessionTest(){
+    this.professionService.newProfessionTest().subscribe(
       (response => {
         if (response !== null) {
-         alert('new test is allowed');
+         //alert('new test is allowed');
+         if (response==false){
+          const modalRef = this.modalService.open(MessageBoxComponent);
+          modalRef.componentInstance.success= false;
+          modalRef.componentInstance.message="Muximum number reached. Try again in 3 minutes.";
+         }else {
+          location.reload();
+         }
+         
         }
       }),
       (error => {
 
-        alert('new test cannot be done');
+        //alert('new test cannot be done');
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message="Muximum number reached. Try again in 3 minutes.";
+      })
+    );
+  }
+
+  newPersonalityTest(){
+    this.personalityService.newPersonalityTest().subscribe(
+      (response => {
+        if (response !== null) {
+          //alert('new test is allowed');
+          if (response==false){
+           const modalRef = this.modalService.open(MessageBoxComponent);
+           modalRef.componentInstance.success= false;
+           modalRef.componentInstance.message="Muximum number reached. Try again in 3 minutes.";
+          }else {
+           location.reload();
+          }
+          
+         }
+      }),
+      (error => {
+
+        //alert('new test cannot be done');
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message="Muximum number reached. Try again in 3 minutes.";
       })
     );
   }
