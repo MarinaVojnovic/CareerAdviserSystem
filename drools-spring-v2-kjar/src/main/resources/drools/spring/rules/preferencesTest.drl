@@ -29,7 +29,9 @@ rule "Calculating number of matching activities"
 			)
 	
 	then
+		System.out.println("NUMBER OF PREFRENCES SET");
 		modify($possibleProfession) {setNumPref((Long) $num);}
+		System.out.println($num);
 end
 
 
@@ -60,13 +62,14 @@ rule "If there are not possible profession, find and insert them"
     	 PossibleProfession possibleProfession = new PossibleProfession($profession);
     	 possibleProfession.setNumPref((Long) $num);
  	  	 insert(possibleProfession);
- 	  	 delete($profession);
+ 	  	 System.out.println("Num of pref: "+$num);
+ 	  	// delete($profession);
  	  	 
 end
 
 //Maximum satisfied
 rule "Rule 0 - preferences test"
-	salience 100
+	salience 1
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
@@ -85,7 +88,7 @@ end
 
 //Calculating score for professions where all personality traits are satisfied
 rule "Rule 1 - preferences test"
-	salience 100
+	salience 1
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
@@ -105,7 +108,7 @@ end
 
 //Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
 rule "Rule 2 - preferences test"
-	salience 100
+	salience 1
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
@@ -125,7 +128,7 @@ end
 
 
 rule "Rule 3 - preferences test"
-	salience 100
+	salience 1
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))
@@ -142,8 +145,21 @@ rule "Rule 3 - preferences test"
 		 $possibleProfession.increaseScore((double) $numPref/$activities.size());
 end
 
+rule "Rule 5 - preferences test"
+	salience 1
+	no-loop
+	when
+		not (PossibleProfession(numPref == profession.activities.size()))
+		
+		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), $name : profession.name, $numPref : numPref, $activities : profession.activities)
+	
+	then
+		 System.out.println("Rule 5 preferences test " + $name);
+		 $possibleProfession.increaseScore((double) $numPref/$activities.size());
+end
+
 rule "Rule 4 - preferences test"
-	salience 100
+	salience 1
 	no-loop
 	when
 		$l : List( size > 0) from collect (PossibleProfession(numPref == profession.activities.size()))

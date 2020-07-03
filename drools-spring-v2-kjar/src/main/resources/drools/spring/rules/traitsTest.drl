@@ -138,6 +138,18 @@ rule "Rule 4 - traits test"
 		 $possibleProfession.increaseScore(1.0);
 end
 
+rule "Rule 5 - traits test"
+	no-loop
+	when
+		not (PossibleProfession(numTraits == profession.traits.size()))
+		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
+		
+	then
+		 System.out.println("Rule 5" + $name);
+		 System.out.println((double)$numTraits/$profTraits);
+		 $possibleProfession.increaseScore((double)$numTraits/$profTraits);
+end
+
 
 
 

@@ -7,9 +7,40 @@ import java.util.*;
 
 agenda-group "results"
 
+/*
+rule "Finding results"
+	
+    when
+        $possibleProfession : PossibleProfession($score: score)
+        $results : RecommendedProfessions($professions : professions);
+
+    then
+    	System.out.println("Profession score: "+$score);
+     	System.out.println("Professions size: "+$professions.size());
+     	$professions.add($possibleProfession);
+        //update($results);
+end
+salience ($possibleProfession.getLongScore())
+*/
+
+rule "Finding results"
+
+	no-loop
+    when
+        $possibleProfession : PossibleProfession($score : score)
+        $results : RecommendedProfessions($professions : professions,  $possibleProfession not memberOf $professions)
+
+    then
+    	//System.out.println("Profession score: "+$possibleProfession.getLongScore());
+     	System.out.println("Professions size: "+$professions.size());
+     	//$professions.add($possibleProfession);
+       // update($results);
+       delete($possibleProfession);
+       modify($results) { addPossibleProfession($possibleProfession) }
+end
 
 
-
+/*
 rule "Finding results"
 	no-loop
 	lock-on-active
@@ -19,6 +50,11 @@ rule "Finding results"
         $results : RecommendedProfessions($professions : professions);
     then
         System.out.println("All possible professions collected : "+$l.size());
+        for (Object o : $l){
+        	PossibleProfession pp = (PossibleProfession) o;
+        	System.out.println(pp.getScore());
+        	
+        }
         Collections.sort($l, new Comparator<PossibleProfession>(){
         
 		   @Override
@@ -48,4 +84,5 @@ rule "Finding results"
        }
 
 end
+*/
 

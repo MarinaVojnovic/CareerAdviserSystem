@@ -18,6 +18,10 @@ public class RecommendedProfessions {
 		this.professions = professions;
 	}
 	
+	public void addPossibleProfession(PossibleProfession possProf) {
+		this.professions.add(possProf);
+	}
+	
 	public RecommendedProfessions() {
 		this.professions =  new LinkedHashSet<PossibleProfession>();
 	}

@@ -157,8 +157,19 @@ public class ProfessionServiceImpl implements ProfessionService{
 		for (PossibleProfession prof : recommendedProfessions.getProfessions()) {
 			System.out.println("Profession name: "+prof.getProfession().getName()+" and its score: "+prof.getScore());
 		}
+		kieSession.dispose();
+		kieSession = kbase.newKieSession();
+		for (PossibleProfession prof : recommendedProfessions.getProfessions()) {
+			kieSession.insert(prof);
+		}
+		
+		RecommendedProfessions topThree = new RecommendedProfessions();
+		kieSession.insert(topThree);
+		System.out.println("TOP THREE");
+		kieSession.getAgenda().getAgendaGroup("topThree").setFocus();
+		kieSession.fireAllRules();
 	
-		return recommendedProfessions;
+		return topThree;
 		
 		
 	}

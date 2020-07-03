@@ -5,7 +5,7 @@ import com.sbnz.career.adviser.entity.Profession;
 public class PossibleProfession {
 
 	Profession profession;
-	Double score;
+	public Double score;
 	Long numTraits;
 	Long numPref;
 	
@@ -39,6 +39,10 @@ public class PossibleProfession {
 	
 	public void increaseScore(Double number) {
 		this.score+=number;
+	}
+	
+	public Long getLongScore() {
+		return (Long) Math.round(this.score*100);
 	}
 
 

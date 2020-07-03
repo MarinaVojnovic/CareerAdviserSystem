@@ -1,0 +1,22 @@
+import java.util.*;
+
+
+agenda-group "topThree"
+
+rule "Top three possible professions"
+	
+	salience ($score*10000)
+	no-loop
+    when
+        $possibleProfession : PossibleProfession($score : score)
+        $results : RecommendedProfessions($professions : professions,  $professions.size() < 3, $possibleProfession not memberOf $professions)
+
+    then
+    	
+    	System.out.println("Profession score: "+$possibleProfession.getScore());
+     	System.out.println("Professions size: "+$professions.size());
+     	//$professions.add($possibleProfession);
+       // update($results);
+       delete($possibleProfession);
+       modify($results) { addPossibleProfession($possibleProfession) }
+end
