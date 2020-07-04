@@ -53,13 +53,15 @@ public class ProfessionController {
 	@GetMapping(value = "/newTest")
 	public ResponseEntity<Boolean> newTest(){
 		System.out.println("New profession test called.");
-		
 		Boolean permision  = professionService.newTest();
-		
-			return new ResponseEntity<>(permision, HttpStatus.OK);
-		
-		
-		
+		return new ResponseEntity<>(permision, HttpStatus.OK);	
+	}
+	
+	@GetMapping(value = "/getEmploymentScores")
+	public ResponseEntity<List<EmploymentScoreTemplate>> getEmploymentScores(){
+		System.out.println("Uslo u get employments scores current");
+		List<EmploymentScoreTemplate> templates = employmentScoreTemplateService.getAll();
+		return new ResponseEntity<>(templates, HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/newEmploymentScoreTemplates",  consumes = MediaType.APPLICATION_JSON_VALUE)

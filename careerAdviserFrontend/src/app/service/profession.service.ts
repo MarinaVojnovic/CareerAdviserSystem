@@ -41,6 +41,11 @@ export class ProfessionService {
     return this.http.get<Array<Profession>>(`${this.urlBase}/getAllDeleted`);
   }
 
+  getCurrentScores():Observable<Array<EmploymentScoreTemplate>> {
+    console.log('pozvana servisna metoda get current employment score tempaltes');
+    return this.http.get<Array<EmploymentScoreTemplate>>(`${this.urlBase}/getEmploymentScores`);
+  }
+
   showResults(criteriums) : Observable<RecommendedProfessions> {
     console.log('show results from service called');
     return this.http.post<RecommendedProfessions>(`${this.urlBase}/getResults`, criteriums);

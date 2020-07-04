@@ -13,6 +13,7 @@ import { MessageBoxComponent } from 'src/app/user/message-box/message-box.compon
 export class EmploymentScoreFormComponent implements OnInit {
 
   scores: EmploymentScoreTemplate[]=[];
+  currentScores: EmploymentScoreTemplate[]=[];
   public employmentScoreTemplate : EmploymentScoreTemplate = {
     minPerc: 1,
     maxPerc: 100,
@@ -38,8 +39,26 @@ export class EmploymentScoreFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCurrentScores();
   }
 
+  getCurrentScores(){
+    this.professionService.getCurrentScores().subscribe(
+      (response => {
+        if (response !== null) {
+       
+        this.currentScores=response;
+        }
+      }),
+      (error => {
+        console.log('some error happend :)');
+        //alert(error.error.message);
+        const modalRef = this.modalService.open(MessageBoxComponent);
+        modalRef.componentInstance.success= false;
+        modalRef.componentInstance.message=""+error.error.message;
+      })
+    );
+  }
   submit(){
 
     if (this.scores.length==0){

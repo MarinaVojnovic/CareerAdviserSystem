@@ -11,4 +11,5 @@ public interface EmploymentScoreTemplateService {
 
 	public void loadTemplates();
 	public void newTemplates(List<EmploymentScoreTemplate> templates);
+	public List<EmploymentScoreTemplate> getAll();
 }

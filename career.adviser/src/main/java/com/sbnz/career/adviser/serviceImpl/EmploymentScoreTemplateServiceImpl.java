@@ -29,6 +29,11 @@ public class EmploymentScoreTemplateServiceImpl implements EmploymentScoreTempla
 	}
 	
 	@Override
+	public List<EmploymentScoreTemplate> getAll(){
+		return employmentScoreRepository.findAll();
+	}
+	
+	@Override
 	public void loadTemplates() {
 		List<EmploymentScoreTemplate> templates = employmentScoreRepository.findAll();
 		InputStream template = EmploymentScoreTemplateServiceImpl.class.getResourceAsStream("/templates/employmentScore.drt");
