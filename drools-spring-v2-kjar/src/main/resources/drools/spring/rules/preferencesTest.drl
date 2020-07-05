@@ -29,15 +29,16 @@ rule "Calculating number of matching activities"
 			)
 	
 	then
-		System.out.println("NUMBER OF PREFRENCES SET");
+		System.out.println("Calculating number of matching activities.");
 		modify($possibleProfession) {setNumPref((Long) $num);}
 		System.out.println($num);
 end
 
 
 		
-		
+	//Ovo pravilo je bilo okinuto pre prethondih pravila u oovom fajlu koje sam objasnila	
 rule "If there are not possible profession, find and insert them"
+	salience 100
 	no-loop
 	lock-on-active
     when
@@ -63,11 +64,14 @@ rule "If there are not possible profession, find and insert them"
     	 possibleProfession.setNumPref((Long) $num);
  	  	 insert(possibleProfession);
  	  	 System.out.println("Num of pref: "+$num);
- 	  	// delete($profession);
+ 	  	 delete($profession);
  	  	 
 end
 
-//Maximum satisfied
+
+/*
+	Profesija koja ima naveden najveci broj aktivnosti i sve su odabrane – dodaje se score 1.5
+*/
 rule "Rule 0 - preferences test"
 	salience 1
 	no-loop
@@ -82,11 +86,13 @@ rule "Rule 0 - preferences test"
 		
 		$possibleProfession : PossibleProfession( numPref == $max, $name : profession.name ) from $l
 	then
-		 System.out.println("Rule 0 : 1.0 "+$name);
-		 $possibleProfession.increaseScore(1.5);
+		System.out.println("Rule 0 : score 1.5 - **All activities selected, but and it is the highest number of activities.** - Profession "+$name);
+		$possibleProfession.increaseScore(1.5);
 end
 
-//Calculating score for professions where all personality traits are satisfied
+/*
+Profesija koja ima odabrane sve aktivnosti, ali nije to maksimalan broj gde su sve odabrane – dodaje se score 1.0.
+*/
 rule "Rule 1 - preferences test"
 	salience 1
 	no-loop
@@ -100,13 +106,16 @@ rule "Rule 1 - preferences test"
 			)
 		$possibleProfession : PossibleProfession(numPref == profession.activities.size(),numPref != $max, $name : profession.name)
 	then
-		System.out.println("Rule 1 preferences test, everything satisfied, score : 1.0 "+$name);
+		System.out.println("Rule 1 : score 1.0 - **All activities selected, but it is not the highest number of activities.** - Profession "+$name);
 		$possibleProfession.increaseScore(1.0);
 end
 
 
+/*
+Profesija koja nema odabrane sve aktivnosti ali je taj broj veci od profesije koja ima najveci broj odabranih svih aktivnosti – dodaje se score 1.25.
 
-//Calculating score for professions where not all personality traits are satisfied and are bigger than max satisfied
+Primer: Profesija A ima 3 aktivnosti i korisnik je odabrao sve i to je maksimalan broj aktivnosti gde su sve odabrane. Profesija B ima navedenih 5 aktivnosti a korisnik je odabrao 4.
+*/
 rule "Rule 2 - preferences test"
 	salience 1
 	no-loop
@@ -122,11 +131,14 @@ rule "Rule 2 - preferences test"
 	
 			
 	then
-		System.out.println("Rule 2 preferences test, not everything satisfied 1.25" + $name);
+		//System.out.println("Rule 2 preferences test, not everything satisfied 1.25" + $name);
+		System.out.println("Rule 2 : score 1.25 - **Not all activities selected, but it is larger number than the highest number of maximum all selected.** - Profession "+$name);
 		$possibleProfession.increaseScore(1.25);
 end
 
-
+/*
+Profesija nema odabrane sve aktivnosti i taj broj je manji od minimalnog broja odabranih svih aktivnosti neke profesije– dodaje se score 1.0.
+*/
 rule "Rule 3 - preferences test"
 	salience 1
 	no-loop
@@ -141,23 +153,15 @@ rule "Rule 3 - preferences test"
 		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref <= $min, $name : profession.name, $numPref : numPref, $activities : profession.activities)
 	
 	then
-		 System.out.println("Rule 3 preferences test " + $name);
-		 $possibleProfession.increaseScore((double) $numPref/$activities.size());
+		System.out.println("Rule 3 : score "+(double) $numPref/$activities.size() + " - **Not all activities selected, and it is smaller number than min number of all selected.** - Profession "+$name);
+		//System.out.println("Rule 3 preferences test " + $name);
+		$possibleProfession.increaseScore((double) $numPref/$activities.size());
 end
 
-rule "Rule 5 - preferences test"
-	salience 1
-	no-loop
-	when
-		not (PossibleProfession(numPref == profession.activities.size()))
-		
-		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), $name : profession.name, $numPref : numPref, $activities : profession.activities)
-	
-	then
-		 System.out.println("Rule 5 preferences test " + $name);
-		 $possibleProfession.increaseScore((double) $numPref/$activities.size());
-end
 
+/*
+Profesija nema odabrane sve aktivnosti, ali je taj broj veci od minimalnog broja odabranih svih aktivnosti – dodaje se score 1.0.
+*/
 rule "Rule 4 - preferences test"
 	salience 1
 	no-loop
@@ -173,8 +177,24 @@ rule "Rule 4 - preferences test"
 		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), numPref > $min, numPref <= $max, $name : profession.name)
 		
 	then
-		 System.out.println("Rule 4 : 1.0" + $name);
-		 $possibleProfession.increaseScore(1.0);
+		System.out.println("Rule 4 : score 1.0 - **Not all activities selected, but it is larger number than the minimum of all selected.** - Profession "+$name);
+		$possibleProfession.increaseScore(1.0);
+end
+
+/*
+Profesija nema odabrane sve aktivnosti i ne postoji profesija kod koje su odbrane sve aktivnosti.
+*/
+rule "Rule 5 - preferences test"
+	salience 1
+	no-loop
+	when
+		not (PossibleProfession(numPref == profession.activities.size()))
+		
+		$possibleProfession : PossibleProfession(numPref < profession.activities.size(), $name : profession.name, $numPref : numPref, $activities : profession.activities)
+	
+	then
+		System.out.println("Rule 5 : score "+(double) $numPref/$activities.size() + " - **Not all activities selected and there is no profession where all activities are selected.** - Profession "+$name);
+		$possibleProfession.increaseScore((double) $numPref/$activities.size());
 end
 
 

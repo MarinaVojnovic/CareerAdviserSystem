@@ -7,27 +7,7 @@ import com.sbnz.career.adviser.events.*;
 
 agenda-group "newPersonalityTest"
 
-/*
-rule "More than 1 attempt for redoing personality test in 1h"
-	lock-on-active
-    when
-        $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
-        Number(intValue >= 2) from accumulate(
-            $e2: NewPersonalityTestEvent($thisUser : user,
-                this != $e1, 
-                $thisUser.id == $userId, 
-                this meets[1m] $e1
-            ),
-            count($e2)
-        )
-        not (SuspiciousPersonalityTest(user.id == $userId, reason == "Maximum number of tests in two minutes reached."))
-    then
-    	System.out.println("Maximum number of tests in two minutes reached.");
-    	$user.setNewPersTest(false);
-        insert(new SuspiciousPersonalityTest($user, "Maximum number of tests in two minutes reached."));
-        
-end
-*/
+
 
 
 
@@ -61,56 +41,4 @@ rule "Allowed to do new personality test"
 		
 end
 
-/*
-
-
- 
-rule "Suspicious event already exists, client is punished if forcing another test."
-	lock-on-active
-	when
-        $e1: NewPersonalityTestEvent($user: user)
-		$curSuspEvent : SuspiciousPersonalityTest($susUserId : user.id, $susUserId == $user.id, reason == "Maximum number of tests in two minutes reached.")
-		
-	then
-		System.out.println("New maximum number of tests in two minutes reached.");
-		delete($curSuspEvent);
-		insert(new SuspiciousPersonalityTest($user, "Maximum number of tests in two minutes reached."));
-end
-
-
-
-rule "No suspicious event, new test allowed"
-	lock-on-active
-	when
-		 $e1: NewPersonalityTestEvent($user: user)
-		not ($curSuspEvent : SuspiciousPersonalityTest($susUserId : user.id, $susUserId == $user.id))
-		
-	then
-		$user.setNewPersTest(true);
-		System.out.println("Allowed to redo a test.");
-		
-end
-
-
-rule "Less than 3 attempts in one hour from one user"
-	lock-on-active
-    when
-        $e1: NewPersonalityTestEvent($userId: user.id, $user : user)
-        Number(intValue < 2) from accumulate(
-            $e2: NewPersonalityTestEvent(
-                this != $e1, 
-                user.id == $userId,
-                this meets[1m] $e1
-            ),
-            count($e2)
-        )
-        $sp: SuspiciousPersonalityTest(user.id == $userId)
-    then
-    	System.out.println("Suspicious event deleted");
-    	$user.setNewPersTest(true);
-        delete($sp);
-        
-end
-
-*/
 

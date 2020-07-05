@@ -47,9 +47,11 @@ public class LoginTest {
 		LoginEvent e1 = new LoginEvent(user, false);
 		LoginEvent e2 = new LoginEvent(user, false);
 		LoginEvent e3 = new LoginEvent(user, false);
+		LoginEvent e4 = new LoginEvent(user, false);
 		kieSession.insert(e1);
 		kieSession.insert(e2);
 		kieSession.insert(e3);
+		kieSession.insert(e4);
 		
 		kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
 		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 3 logging in unsuccessfully in 1 minutes from one user"));
@@ -57,33 +59,7 @@ public class LoginTest {
 		assertEquals(false, user.getAllowed());
 	}
 	
-	@Test
-	public void suspciousUserEventExistUnsuccessfullLogin() {
-		User user = new User();
-		user.setId(1l);
-		user.setAllowed(true);
-		LoginEvent e1 = new LoginEvent(user, false);
-		kieSession.insert(e1);
-		SuspiciousEvent se = new SuspiciousEvent(user, "Maximum number of atempts reached");
-		kieSession.insert(se);
-		kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
-		Integer fired = kieSession.fireAllRules();
-		assertEquals((Integer)1, fired);
-	}
-	
-	@Test
-	public void suspciousUserEventExistSuccessfullLogin() {
-		User user = new User();
-		user.setId(1l);
-		user.setAllowed(true);
-		LoginEvent e1 = new LoginEvent(user, true);
-		kieSession.insert(e1);
-		SuspiciousEvent se = new SuspiciousEvent(user, "Maximum number of atempts reached");
-		kieSession.insert(se);
-		kieSession.getAgenda().getAgendaGroup("loginEvents").setFocus();
-		Integer fired = kieSession.fireAllRules();
-		assertEquals((Integer)1, fired);
-	}
+
 	
 	@Test
 	public void successfullLogin() {

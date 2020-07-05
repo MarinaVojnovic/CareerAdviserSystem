@@ -15,7 +15,7 @@ rule "Traits result - target extroverted, isChecked == true"
         $traitsResult : TraitsResult()
     then
        modify($traitsResult) {incrementExtraverted();}
-       System.out.println("Target extraverted, isChecked == true");
+       System.out.println("TARGET EXTRAVERTED, IS CHECKED == TRUE");
 end
 
 rule "Traits result - target extroverted, isChecked == false"
@@ -243,7 +243,7 @@ rule "Creating trait mind-extraverted"
 	then
 		Trait trait = new Trait("mind", "extraverted");
 		insert(trait);
-		System.out.println("Extroverted inserted");
+		System.out.println("EXTRAVERTED INSERTED");
 	
 end
 

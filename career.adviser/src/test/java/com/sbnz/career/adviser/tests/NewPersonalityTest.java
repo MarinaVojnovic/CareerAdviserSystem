@@ -48,40 +48,18 @@ public class NewPersonalityTest {
 		NewPersonalityTestEvent e1= new NewPersonalityTestEvent(user);
 		NewPersonalityTestEvent e2= new NewPersonalityTestEvent(user);
 		NewPersonalityTestEvent e3= new NewPersonalityTestEvent(user);
+		NewPersonalityTestEvent e4= new NewPersonalityTestEvent(user);
 		kieSession.insert(e1);
 		kieSession.insert(e2);
 		kieSession.insert(e3);
+		kieSession.insert(e4);
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 1 attempt for redoing personality test in 1h"));
+		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("More than 1 attempt for redoing personality test in 1m"));
 		assertEquals(false, user.getNewPersTest());
 	}
 	
-	@Test
-	public void suspciousUserEventExistUnsuccessfull() {
-		User user = new User();
-		user.setId(1l);
-		user.setNewPersTest(false);
-		NewPersonalityTestEvent e1= new NewPersonalityTestEvent(user);
-		kieSession.insert(e1);
-		SuspiciousPersonalityTest se = new SuspiciousPersonalityTest(user, "Maximum number of tests in two minutes reached.");
-		kieSession.insert(se);
-		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		Integer fired = kieSession.fireAllRules();
-		assertEquals((Integer)1, fired);
-	}
-	
-	@Test
-	public void noSuspciousUserEventExistSuccessfull() {
-		User user = new User();
-		user.setId(1l);
-		user.setNewPersTest(false);
-		NewPersonalityTestEvent e1= new NewPersonalityTestEvent(user);
-		kieSession.insert(e1);
-		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		Integer fired = kieSession.fireAllRules();
-		assertEquals((Integer)1, fired);
-		assertEquals(true, user.getNewPersTest());
-	}
+
+
 	
 	@Test
 	public void suspciousUserEventExistButLessThenThreeAtemptsSuccessfull() {
@@ -90,10 +68,9 @@ public class NewPersonalityTest {
 		user.setNewPersTest(false);
 		NewPersonalityTestEvent e1= new NewPersonalityTestEvent(user);
 		kieSession.insert(e1);
-		SuspiciousPersonalityTest se = new SuspiciousPersonalityTest(user, "Maximum number of tests in two minutes reached.");
-		kieSession.insert(se);
+	;
 		kieSession.getAgenda().getAgendaGroup("newPersonalityTest").setFocus();
-		Integer fired = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Less than 3 attempts in one hour from one user"));
+		Integer fired = kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Allowed to do new personality test"));
 		assertEquals((Integer)1, fired);
 		assertEquals(true, user.getNewPersTest());
 	}

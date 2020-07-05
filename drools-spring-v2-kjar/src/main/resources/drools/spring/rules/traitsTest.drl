@@ -59,7 +59,9 @@ rule "Rule 0 - traits test"
 		
 		$possibleProfession : PossibleProfession( numTraits == $max, $name : profession.name ) from $l
 	then
-		 System.out.println("Rule 0 : 1.0 "+$name);
+		
+		 System.out.println("Rule 0 : score 1.5 - **All traits satisfied, but and it is the highest number of traits required.** - Profession "+$name);
+		
 		 $possibleProfession.increaseScore(1.5);
 end
 
@@ -78,7 +80,7 @@ rule "Rule 1 - traits test"
 			)
 		$possibleProfession : PossibleProfession(numTraits == profession.traits.size(), numTraits != $max, $name : profession.name)
 	then
-		 System.out.println("Rule 1 : 1.0 "+$name);
+		 System.out.println("Rule 1 : score 1.0 - **All traits satified, but it is not the highest number of traits required.** - Profession "+$name);
 		 $possibleProfession.increaseScore(1.0);
 end
 
@@ -97,7 +99,7 @@ rule "Rule 2 - traits test"
 		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits > $max, $name : profession.name)
 		
 	then
-		 System.out.println("Rule 2 : 1.25" + $name);
+		 System.out.println("Rule 2 : score 1.25 - **Not all traits satisfied, but it is larger number than the highest number of maximum all satisfied.** - Profession "+$name);
 		 $possibleProfession.increaseScore(1.25);
 end
 
@@ -115,8 +117,8 @@ rule "Rule 3 - traits test"
 		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits <= $min, $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
 		
 	then
-		 System.out.println("Rule 3" + $name);
-		 System.out.println((double)$numTraits/$profTraits);
+		 System.out.println("Rule 3 : score "+(double)$numTraits/$profTraits + " - **Not all traits satisfied, and it is smaller number than min number of all required.** - Profession "+$name);
+		// System.out.println((double)$numTraits/$profTraits);
 		 $possibleProfession.increaseScore((double)$numTraits/$profTraits);
 end
 
@@ -134,8 +136,8 @@ rule "Rule 4 - traits test"
 		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), numTraits > $min, numTraits <= $max, $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
 		
 	then
-		 System.out.println("Rule 4 : 1.0" + $name);
-		 $possibleProfession.increaseScore(1.0);
+		 System.out.println("Rule 4 : score 1.0 - **Not all traits satisfied, but it is larger number than the minimum all required.** - Profession "+$name);
+		$possibleProfession.increaseScore(1.0);
 end
 
 rule "Rule 5 - traits test"
@@ -145,8 +147,8 @@ rule "Rule 5 - traits test"
 		$possibleProfession : PossibleProfession(numTraits < profession.traits.size(), $name : profession.name, $numTraits : numTraits, $profTraits : profession.traits.size())
 		
 	then
-		 System.out.println("Rule 5" + $name);
-		 System.out.println((double)$numTraits/$profTraits);
+		System.out.println("Rule 5 : score "+(double)$numTraits/$profTraits + " - **Not all traits satisfied and there is no profession where all traits are satisfied.** - Profession "+$name);
+		System.out.println((double)$numTraits/$profTraits);
 		 $possibleProfession.increaseScore((double)$numTraits/$profTraits);
 end
 

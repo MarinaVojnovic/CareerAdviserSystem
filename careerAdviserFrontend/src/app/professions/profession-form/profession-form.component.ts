@@ -233,7 +233,7 @@ export class ProfessionFormComponent implements OnInit {
 
 
     if (this.profession.name=='' || this.profession.activities.length==0 || this.selectedTraits.length==0 
-    || this.profession.description == '' || this.profession.payment==0 || this.profession.employment==0 || this.selectedFiles.length==0
+    || this.profession.description == '' || this.profession.payment==0 || this.profession.employment==0 
     ){
       console.log(this.profession.name);
       console.log(this.profession.activities.length);
