@@ -302,6 +302,55 @@ public class TraitsTest {
 		
 	}
 	
+	
+	@Test
+	public void ruleFve() {
+		Profession profession = new Profession(1l, "Prof A", null, null, null, true, 10000, 5, "", 0.5);
+		Set<Trait> traits = new HashSet<Trait>();
+		Trait t1 = new Trait("mind", "extraverted");
+		Trait t2 = new Trait("identity", "assertive");
+		Trait t3 = new Trait("nature", "thinking");
+		Trait t4 = new Trait("energy", "realist");
+		Trait t5 = new Trait("tactics", "judging");
+		
+		traits.add(t1);
+		traits.add(t2);
+		traits.add(t3);
+		traits.add(t4);
+		traits.add(t5);
+		profession.setTraits(traits);
+		
+		Set<Preference> preferences = new HashSet<Preference>();
+		profession.setActivities(preferences);
+		
+		PossibleProfession possibleProfession = new PossibleProfession();
+		possibleProfession.setProfession(profession);
+		possibleProfession.setNumTraits(1l);
+		kieSession.insert(possibleProfession);
+		
+	
+		
+		
+		Profession profession3 = new Profession(2l, "Prof C", null, null, null, true, 10000, 5, "", 0.5);
+		Set<Trait> traits3 = new HashSet<Trait>();
+		traits3.add(t1);
+		traits3.add(t2);
+		traits3.add(t3);
+		profession3.setTraits(traits3);
+		profession3.setActivities(preferences);
+
+		PossibleProfession possibleProfession3 = new PossibleProfession();
+		possibleProfession3.setProfession(profession3);
+		possibleProfession3.setNumTraits(2l);
+		kieSession.insert(possibleProfession3);
+		
+		kieSession.getAgenda().getAgendaGroup("traitsTest").setFocus();
+		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Rule 5 - traits test"));
+		
+		assertEquals((Double) (1.0*1/5), possibleProfession.getScore());
+		
+	}
+	
 	@Test
 	public void calculatingNumberOfMatchingTraits() {
 		Profession profession = new Profession(1l, "Prof A", null, null, null, true, 10000, 5, "", 0.5);

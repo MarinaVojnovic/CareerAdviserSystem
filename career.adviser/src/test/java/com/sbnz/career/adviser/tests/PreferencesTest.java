@@ -398,6 +398,57 @@ public class PreferencesTest {
 		
 	}
 	
+	@Test
+	public void ruleFive() {
+		Profession profession = new Profession(1l, "Prof A", null, null, null, true, 10000, 5, "", 0.5);
+		Set<Trait> traits = new HashSet<Trait>();
+		profession.setTraits(traits);
+		ProfessionalField field = new ProfessionalField(1l, "Economy");
+		Preference pref1 = new Preference(1l, "Preference 1", true, field);
+		Preference pref2 = new Preference(2l, "Preference 2", true, field);
+		Set<Preference> preferences = new HashSet<Preference>();
+		preferences.add(pref1);
+		preferences.add(pref2);
+		profession.setActivities(preferences);
+		
+
+		PossibleProfession possibleProfession = new PossibleProfession();
+		possibleProfession.setProfession(profession);
+		possibleProfession.setNumPref(1l);
+		kieSession.insert(possibleProfession);
+		
+		
+		Profession profession2 = new Profession(2l, "Prof B", null, null, null, true, 10000, 5, "", 0.5);
+		profession2.setTraits(traits);
+		ProfessionalField field2 = new ProfessionalField(1l, "Engineering");
+		Preference pref4 = new Preference(4l, "Preference 4", true, field2);
+		Preference pref5 = new Preference(5l, "Preference 5",true, field2);
+		Preference pref6 = new Preference(6l, "Preference 6", true, field2);
+		Preference pref7 = new Preference(7l, "Preference 7", true, field2);
+		Preference pref8 = new Preference(8l, "Preference 8", true,field2);
+		Set<Preference> preferences2 = new HashSet<Preference>();
+		preferences2.add(pref4);
+		preferences2.add(pref5);
+		preferences2.add(pref6);
+		preferences2.add(pref7);
+		preferences2.add(pref8);
+		profession2.setActivities(preferences2);
+		PossibleProfession possibleProfession2 = new PossibleProfession();
+		possibleProfession2.setProfession(profession2);
+		possibleProfession2.setNumPref(3l);
+		
+		kieSession.insert(possibleProfession2);
+		
+	
+		
+		kieSession.getAgenda().getAgendaGroup("preferencesTest").setFocus();
+		kieSession.fireAllRules(new RuleNameEqualsAgendaFilter("Rule 5 - preferences test"));
+		
+		
+		assertEquals((Double) 0.5, possibleProfession.getScore());
+		
+	}
+	
 	@After
     public void disposeOfSession() {
 		this.kieSession.dispose();
